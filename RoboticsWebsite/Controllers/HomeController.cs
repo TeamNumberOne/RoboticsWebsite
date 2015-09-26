@@ -10,21 +10,21 @@ namespace RoboticsWebsite.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return Redirect("~/Account/Login");
         }
 
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
 
-            return View();
+            return Redirect("~/Account/Login");
         }
 
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
 
-            return View();
+            return Redirect("~/Account/Login");
         }
     }
 }
