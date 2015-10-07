@@ -9,15 +9,13 @@ namespace RoboticsWebsite.Data
     public class CalendarData
     {
         // Used for Admins because they can see all events
-        public List<EventModel> GetEvents()
+        public List<EventModel> TestGetEvents(List<EventModel> eventList)
         {
-            List<EventModel> eventList = new List<EventModel>();
-
             EventModel event1 = new EventModel();
             event1.Type = "Class";
             event1.Description = "Robotics Class";
             event1.StartTime = new DateTime(2015, 10, 6, 7, 0, 0);
-            event1.StartTime = new DateTime(2015, 10, 6, 8, 0, 0);
+            event1.EndTime = new DateTime(2015, 10, 6, 8, 0, 0);
             eventList.Add(event1);
 
             EventModel event2 = new EventModel();
@@ -36,6 +34,8 @@ namespace RoboticsWebsite.Data
 
             return eventList;
         }
+
+        // TODO GetEvents - real; works with database
 
         /*
          * TODO
