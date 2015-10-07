@@ -21,14 +21,20 @@ namespace RoboticsWebsite.Controllers
         {
             ViewBag.Message = "Your application description page.";
 
-            return Redirect("~/Account/Login");
+            if (Session["Valid"] != null && (bool)Session["Valid"])
+                return View("About");
+            else
+                return Redirect("~/Account/Login");
         }
 
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
 
-            return Redirect("~/Account/Login");
+            if (Session["Valid"] != null && (bool)Session["Valid"])
+                return View("Contact");
+            else
+                return Redirect("~/Account/Login");
         }
     }
 }

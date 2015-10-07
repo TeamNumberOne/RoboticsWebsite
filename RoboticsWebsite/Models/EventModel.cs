@@ -7,7 +7,8 @@ namespace RoboticsWebsite.Models
 {
     public class EventModel
     {
-        public string Title { get; set; }
+        // Type could be "Class", "Competition", etc.
+        public string Type { get; set; }
         public string Description { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
