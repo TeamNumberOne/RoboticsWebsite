@@ -14,21 +14,17 @@ namespace RoboticsWebsite.Controllers
         public ActionResult Month()
         {
             CalendarViewModel calViewModel = new CalendarViewModel();
-            //calViewModel.GetEvents();
+            calViewModel.GetEvents();
+
             return View(calViewModel);
         }
 
         [HttpPost]
         public ActionResult Month(CalendarViewModel calViewModel)
         {
-            //calViewModel.Events.Add(calViewModel.NewEvent);
-            return View(calViewModel);
-        }
+            calViewModel.AddTestEvent();
 
-        [HttpGet]
-        public ActionResult FullDay()
-        {
-            return View();
+            return View(calViewModel);
         }
     }
 }

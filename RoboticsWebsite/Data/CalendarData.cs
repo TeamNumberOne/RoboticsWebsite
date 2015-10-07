@@ -22,14 +22,14 @@ namespace RoboticsWebsite.Data
             event2.Type = "Competition";
             event2.Description = "Robotics Competition";
             event2.StartTime = new DateTime(2015, 10, 7, 9, 0, 0);
-            event2.StartTime = new DateTime(2015, 10, 7, 10, 0, 0);
+            event2.EndTime = new DateTime(2015, 10, 7, 10, 0, 0);
             eventList.Add(event2);
 
             EventModel event3 = new EventModel();
             event3.Type = "Competition";
             event3.Description = "Robotics Competition";
             event3.StartTime = new DateTime(2015, 10, 8, 9, 0, 0);
-            event3.StartTime = new DateTime(2015, 10, 8, 10, 0, 0);
+            event3.EndTime = new DateTime(2015, 10, 8, 10, 0, 0);
             eventList.Add(event3);
 
             return eventList;
