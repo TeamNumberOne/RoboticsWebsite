@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using RoboticsWebsite.Models;
 
 namespace RoboticsWebsite.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(LoginViewModel model)
         {
-            return Redirect("~/Account/Login");
+            if (Session["Valid"] != null && (bool)Session["Valid"])
+                return View("Index");
+            else
+                return Redirect("~/Account/Login");
         }
 
         public ActionResult About()

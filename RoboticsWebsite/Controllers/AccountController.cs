@@ -74,7 +74,8 @@ namespace RoboticsWebsite.Controllers
             }
 
             if (model.Email.Equals("test@gmail.com") && model.Password.Equals("test"))
-            {
+            { 
+                Session["Valid"] = true;
                 return View("~/Views/Home/Index.cshtml");
             }
 
