@@ -1,0 +1,64 @@
+﻿@using RoboticsWebsite.Models
+
+@model CalendarViewModel
+
+@{
+    ViewBag.Title = "CalendarMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (null == Session["CurrentMonth"])
+    {
+        Session["CurrentMonth"] = DateTime.Now.Month;
+    }
+}
+
+<h2>CalendarMaster</h2>
+
+<div>
+    @Html.LabelFor(m => m.CurrentMonth)
+</div>
+
+<table class="table">
+    <tr>
+
+        @for (int i = 0; i < Model.NumDays; i++)
+        {
+            if (i % 6 == 0)
+            {
+                @Html.Raw("</tr>");
+                @Html.Raw("<tr>");
+            }
+
+            @Html.Partial("Day");
+        }
+    </tr>                
+</table>
+                
+
+@*    if(month == 1)
+    {
+        monthName = "January";
+        monthLength = 31;
+    }
+    else if(month == 2)
+    {
+        monthName = "February";
+        monthLength = 28;
+    }
+    else if (month == 3)
+    {
+        monthName = "March";
+        monthLength = 31;
+    }
+    else if (month == 4)
+    {
+        monthName = "April";
+        monthLength = 30;
+    }
+    else if (month == 5)
+    {
+        monthName = 
+        monthLength =
+            }*@
+
+
