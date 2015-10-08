@@ -2,5 +2,16 @@
 
 <div>
     <div class="pull-right-top">@Model.CurrentDay</div>
+    <div class="pull-left-top">
+        <a href="#" class="myButton">Add Event</a>
+    </div>
     <span title="thisTitle"></span>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.myButton').click(function () {
+            window.open("@(Url.Action("NewEvent", "Calendar"))")
+        })
+    });
+</script>

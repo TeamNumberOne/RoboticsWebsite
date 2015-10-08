@@ -15,7 +15,18 @@
 
 <h2>@Model.CurrentMonth</h2>
 
+<table class="table-days-header">
+    <tr>
+    @{ 
+        string[] days = System.Globalization.DateTimeFormatInfo.CurrentInfo.DayNames;
+        foreach(var day in days)
+        {
+            <td>@day</td>
+        }
+    }
+    </tr>
 
+</table>
 <table class="table-bordered table-size-1">
     <tr>         
         @for (int i = 0; i < Model.NumDays + (int)Model.StartDay; i++)
@@ -30,7 +41,7 @@
                 @Html.Raw("</tr>");
                 @Html.Raw("<tr>");
             }
-            <td class="" id="@Model.CurrentDay" style="width:auto; ">
+            <td class="pull-top-cell" id="@Model.CurrentDay" style="width:auto; ">
                 @{
                     Model.CurrentDay = (i + 1) - ((int)Model.StartDay);
                 }
