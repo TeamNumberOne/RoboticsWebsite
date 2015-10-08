@@ -1,13 +1,16 @@
 ﻿@model RoboticsWebsite.Models.CalendarViewModel
 
 <div>
-    <table class="table">
+    <table class="calendar-table">
         <tr>
             <td>
                 <div class="pull-right-top">@Model.CurrentDay</div>
                 <div class="pull-left-top">
                     @*<div class="myButton">+</div>*@
-                    <button class="myButton" id="@Model.CurrentDay" value="+" onclick="createEvent();">+</button>
+                        @if (null != Session["IsGuest"] && !(bool)Session["IsGuest"])
+                        {
+                            <button class="myButton" id="@Model.CurrentDay" value="+" onclick="createEvent();">+</button>
+                        }                                 
                 </div>
             </td>
         </tr>
@@ -15,9 +18,9 @@
         {
             var date = e.StartTime;
             var day = date.Day;
-            if (day == Model.CurrentDay)
+            if (e.Day == Model.CurrentDay)
             {
-                <tr>
+                <tr class="calendar-table-events">
                     <td title="@e.StartTimeString - @e.EndTimeString">
                         @e.Title
                     </td>

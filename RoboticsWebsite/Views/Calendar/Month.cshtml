@@ -39,15 +39,15 @@
                 <td><input type="text" name="NewEvent.EndTimeString" class="form-control" /></td>
             </tr>
             <tr>
-                <td><input type="hidden" name="CurrentDay" id="formCurrentDay" /></td>
+                <td><input type="hidden" name="NewEvent.Day" id="formCurrentDay" /></td>
                 <td><input type="number" name="CurrentMonthNum" value="@Model.CurrentMonthNum" hidden /></td>
             </tr>
             <tr>
                 <td>
-                    <input type="submit" id="submit" value="Submit" class="btn btn-default" />
+                    <input type="submit" id="submit" value="Submit" class="btn btn-sm" />
                 </td>
                 <td>
-                    <button type="button" class="btn btn-default" id="cancel" style="float: right">Cancel</button>
+                    <button type="button" class="btn btn-sm" id="cancel" style="float: right">Cancel</button>
                 </td>
             </tr>
         </table>
@@ -72,7 +72,7 @@
 
 </table>
 <table class="table-bordered table-size-1">
-    <tr>
+    <tr class="table-size-row-1">
         @for (int i = 0; i < Model.NumDays + (int)Model.StartDay; i++)
         {
             while (i < (int)Model.StartDay)
@@ -83,7 +83,7 @@
             if (i % 7 == 0 && i != 0)
             {
                 @Html.Raw("</tr>");
-                @Html.Raw("<tr>");
+                @Html.Raw("<tr class=\"table-size-row-1\">");
             }
             <td class="pull-top-cell">
                 @{
@@ -108,7 +108,7 @@
 
         $(".myButton").click(function () {
             var cDay = this.id;
-            $('#formCurrentDay').val = cDay;
+            $('#formCurrentDay').val(cDay);
             $('#newEvent').prop("hidden", false);
         });
     });

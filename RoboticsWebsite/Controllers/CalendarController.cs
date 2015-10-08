@@ -24,7 +24,7 @@ namespace RoboticsWebsite.Controllers
         {
             calViewModel.GetEvents();
             calViewModel.AddTestEvent();
-
+            
             return View(calViewModel);
         }
 

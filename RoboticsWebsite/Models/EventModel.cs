@@ -15,6 +15,7 @@ namespace RoboticsWebsite.Models
         public DateTime EndTime { get; set; }
         public string StartTimeString { get; set; }
         public string EndTimeString { get; set; }
+        public int Day { get; set; }
 
         public EventModel()
         {

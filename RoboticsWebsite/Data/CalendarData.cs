@@ -19,6 +19,7 @@ namespace RoboticsWebsite.Data
             event1.EndTime = new DateTime(2015, 10, 6, 8, 0, 0);
             event1.StartTimeString = "7:00";
             event1.EndTimeString = "8:00";
+            event1.Day = 6;
             eventList.Add(event1);
 
             EventModel event2 = new EventModel();
@@ -29,6 +30,7 @@ namespace RoboticsWebsite.Data
             event2.EndTime = new DateTime(2015, 10, 7, 10, 0, 0);
             event2.StartTimeString = "9:00";
             event2.EndTimeString = "10:00";
+            event2.Day = 7;
             eventList.Add(event2);
 
             EventModel event3 = new EventModel();
@@ -39,6 +41,7 @@ namespace RoboticsWebsite.Data
             event3.EndTime = new DateTime(2015, 10, 8, 10, 0, 0);
             event3.StartTimeString = "9:00";
             event3.EndTimeString = "10:00";
+            event3.Day = 8;
             eventList.Add(event3);
 
             return eventList;
