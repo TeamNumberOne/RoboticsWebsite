@@ -12,6 +12,7 @@ namespace RoboticsWebsite.Models
         public EventModel NewEvent { get; set; }
         
         public int CurrentMonthNum { get; set; }
+        public int CurrentDay { get; set; }
         public string CurrentMonth
         {
             get { return System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(CurrentMonthNum); }

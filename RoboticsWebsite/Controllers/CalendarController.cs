@@ -15,7 +15,7 @@ namespace RoboticsWebsite.Controllers
         {
             CalendarViewModel calViewModel = new CalendarViewModel();
             calViewModel.GetEvents();
-
+            
             return View(calViewModel);
         }
 

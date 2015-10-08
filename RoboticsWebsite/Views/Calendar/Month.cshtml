@@ -10,26 +10,28 @@
     {
         Session["CurrentMonth"] = DateTime.Now.Month;
     }
+    Model.CurrentMonthNum = (int)Session["CurrentMonth"];
 }
 
-<h2>CalendarMaster</h2>
+<h2>@Model.CurrentMonth</h2>
 
-<div>
-    @Html.LabelFor(m => m.CurrentMonth)
-</div>
 
 <table class="table">
     <tr>
 
         @for (int i = 0; i < Model.NumDays; i++)
         {
-            if (i % 6 == 0)
+            if (i % 6 == 0 && i != 0)
             {
                 @Html.Raw("</tr>");
                 @Html.Raw("<tr>");
             }
-
-            @Html.Partial("Day");
+            <td class="" id="@Model.CurrentDay">
+                @{
+                    Model.CurrentDay = i + 1;
+                }
+                @Html.Partial("Day")
+            </td>
         }
     </tr>                
 </table>
