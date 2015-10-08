@@ -58,6 +58,7 @@ namespace RoboticsWebsite.Models
 
         public void AddTestEvent()
         {
+            DateTime start = new DateTime(2015, CurrentMonthNum, CurrentDay);
             Events.Add(NewEvent);
             Events = Events.OrderBy(x => x.StartTime).ToList();
             NewEvent = new EventModel();

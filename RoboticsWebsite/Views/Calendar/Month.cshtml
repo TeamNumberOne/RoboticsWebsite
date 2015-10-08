@@ -13,7 +13,47 @@
     Model.CurrentMonthNum = (int)Session["CurrentMonth"];
 }
 
-@Model.NewEvent.Title = "HEYO!";
+@using (Html.BeginForm())
+{
+    <div class="form-container" id="newEvent">
+        <h5 class="form-header">Create New Event</h5>
+        <table class="form-table">
+            <tr>
+                <td>Type: </td>
+                <td><input type="text" name="NewEvent.Type" class="form-control" value=""/></td>
+            </tr>
+            <tr>
+                <td>Description: </td>
+                <td><input type="text" name="NewEvent.Description" class="form-control" value=""/> </td>
+            </tr>
+            <tr>
+                <td>Title: </td>
+                <td><input type = "text" name = "NewEvent.Title" id="NewEvent.Title" class="form-control" value = "" /></td>
+            </tr>
+            <tr>
+                <td>Start Time: </td>
+                <td><input type="text" name="NewEvent.StartTimeString" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td>End Time: </td>
+                <td><input type="text" name="NewEvent.EndTimeString" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td><input type="hidden" name="CurrentDay" id="formCurrentDay" /></td>
+                <td><input type="number" name="CurrentMonthNum" value="@Model.CurrentMonthNum" hidden /></td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" id="submit" value="Submit" class="btn btn-default" />
+                </td>
+                <td>
+                    <button type="button" class="btn btn-default" id="cancel" style="float: right">Cancel</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+
 
 <h2>@Model.CurrentMonth</h2>
 
@@ -33,19 +73,19 @@
 </table>
 <table class="table-bordered table-size-1">
     <tr>
-       @for (int i = 0; i < Model.NumDays + (int)Model.StartDay; i++)
-       {
-           while (i < (int)Model.StartDay)
-           {
-            <td style="width:auto"></td>
-               i++;
-           }
-           if (i % 7 == 0 && i != 0)
-           {
+        @for (int i = 0; i < Model.NumDays + (int)Model.StartDay; i++)
+        {
+            while (i < (int)Model.StartDay)
+            {
+                <td></td>
+                i++;
+            }
+            if (i % 7 == 0 && i != 0)
+            {
                 @Html.Raw("</tr>");
                 @Html.Raw("<tr>");
-           }
-            <td class="pull-top-cell" id="@Model.CurrentDay" style="width:auto; ">
+            }
+            <td class="pull-top-cell">
                 @{
                     Model.CurrentDay = (i + 1) - ((int)Model.StartDay);
                 }
@@ -55,67 +95,25 @@
         }
     </tr>
 </table>
+<div id="curDay" value="" hidden></div>
 
 <script type='text/javascript'>
     $(document).ready(function () {
+
+        $('#newEvent').prop("hidden", true);
+
+        $('#cancel').click(function () {
+            $('#newEvent').prop("hidden", true);
+        });
+
         $(".myButton").click(function () {
-            $("#submit").click();
-            //$("#newEvent").prop("visible", true);
-            //window.open("(Url.Action("NewEventDialog", "Calendar"))", "Test")
+            var cDay = this.id;
+            $('#formCurrentDay').val = cDay;
+            $('#newEvent').prop("hidden", false);
         });
     });
-    @*$(function () {
-        $('#dialog').dialog({
-            autoOpen: false,
-            width: 400,
-            resizable: false,
-            title: 'hi there',
-            modal: true,
-            open: function (event, ui) {
-                //Load the CreateAlbumPartial action which will return
-                // the partial view _CreateAlbumPartial
-                $(this).load("@Url.Action("CreateAlbumPartial")");
-            },
-            buttons: {
-                "Close": function () {
-                    $(this).dialog("close");
-                }
-            }
-        });
 
-        $('.myButton').click(function () {
-            $('#dialog').dialog('open');
-        });
-    });*@
 </script>
 
-
-
-
-    @*    if(month == 1)
-        {
-            monthName = "January";
-            monthLength = 31;
-        }
-        else if(month == 2)
-        {
-            monthName = "February";
-            monthLength = 28;
-        }
-        else if (month == 3)
-        {
-            monthName = "March";
-            monthLength = 31;
-        }
-        else if (month == 4)
-        {
-            monthName = "April";
-            monthLength = 30;
-        }
-        else if (month == 5)
-        {
-            monthName =
-            monthLength =
-                }*@
 
 

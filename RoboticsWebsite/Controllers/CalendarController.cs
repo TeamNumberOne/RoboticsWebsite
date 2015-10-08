@@ -22,6 +22,7 @@ namespace RoboticsWebsite.Controllers
         [HttpPost]
         public ActionResult Month(CalendarViewModel calViewModel)
         {
+            calViewModel.GetEvents();
             calViewModel.AddTestEvent();
 
             return View(calViewModel);

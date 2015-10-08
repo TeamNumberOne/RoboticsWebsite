@@ -1,11 +1,31 @@
 ﻿@model RoboticsWebsite.Models.CalendarViewModel
 
 <div>
-    <div class="pull-right-top">@Model.CurrentDay</div>
-    <div class="pull-left-top">
-        @*<div class="myButton">+</div>*@
-        <button class="myButton" value="+" onclick="createEvent();">+</button>
-    </div>
+    <table class="table">
+        <tr>
+            <td>
+                <div class="pull-right-top">@Model.CurrentDay</div>
+                <div class="pull-left-top">
+                    @*<div class="myButton">+</div>*@
+                    <button class="myButton" id="@Model.CurrentDay" value="+" onclick="createEvent();">+</button>
+                </div>
+            </td>
+        </tr>
+        @foreach (var e in Model.Events)
+        {
+            var date = e.StartTime;
+            var day = date.Day;
+            if (day == Model.CurrentDay)
+            {
+                <tr>
+                    <td title="@e.StartTimeString - @e.EndTimeString">
+                        @e.Title
+                    </td>
+                </tr>
+            }
+        }
+
+    </table>
     <span title="thisTitle"></span>
 </div>
 

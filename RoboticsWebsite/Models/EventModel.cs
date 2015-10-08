@@ -13,6 +13,8 @@ namespace RoboticsWebsite.Models
         public string Description { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+        public string StartTimeString { get; set; }
+        public string EndTimeString { get; set; }
 
         public EventModel()
         {
