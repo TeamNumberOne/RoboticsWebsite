@@ -8,6 +8,7 @@ namespace RoboticsWebsite.Models
 {
     public class CalendarViewModel
     {
+        public CalendarData cd;
         public List<EventModel> Events { get; set; }
         public List<EventModel> CurrentMonthEvents
         {
@@ -42,24 +43,28 @@ namespace RoboticsWebsite.Models
         /*{
             set { NumDays = DateTime.ParseExact(CurrentMonth, "MMMM", System.Globalization.CultureInfo.InvariantCulture).Month; }
         }*/
-
         public CalendarViewModel()
         {
+            cd = new CalendarData();
             Events = new List<EventModel>();
             NewEvent = new EventModel();
+            Events = cd.TestGetEvents(Events);
         }
 
         public void GetEvents()
         {
-            CalendarData cd = new CalendarData();
-            Events = cd.TestGetEvents(Events);
+            //CalendarData cd = new CalendarData();
+            Events = cd.getEvents();
+            //Events = cd.TestGetEvents(Events);
             Events = Events.OrderBy(x => x.StartTime).ToList();
         }
 
         public void AddTestEvent()
         {
             DateTime start = new DateTime(2015, CurrentMonthNum, NewEvent.Day);
-            Events.Add(NewEvent);
+            //Events.Add(NewEvent);
+            cd.addEvent(NewEvent);
+            Events = cd.getEvents();
             Events = Events.OrderBy(x => x.StartTime).ToList();
             NewEvent = new EventModel();
         }

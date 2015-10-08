@@ -232,6 +232,7 @@
     <Content Include="Views\Calendar\Day.cshtml" />
     <Content Include="Views\Calendar\FullDay.cshtml" />
     <Content Include="Views\Calendar\NewEventDialog.cshtml" />
+    <Content Include="Views\Calendar\ViewEvent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

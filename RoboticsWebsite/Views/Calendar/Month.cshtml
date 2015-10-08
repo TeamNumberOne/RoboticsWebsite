@@ -15,6 +15,9 @@
 
 @using (Html.BeginForm())
 {
+    <div class="view-event-container" id="viewEvent">
+        @Html.Partial("ViewEvent")
+    </div>
     <div class="form-container" id="newEvent">
         <h5 class="form-header">Create New Event</h5>
         <table class="form-table">
@@ -85,9 +88,10 @@
                 @Html.Raw("</tr>");
                 @Html.Raw("<tr class=\"table-size-row-1\">");
             }
-            <td class="pull-top-cell">
+            <td class="pull-top-cell" id="">
                 @{
                     Model.CurrentDay = (i + 1) - ((int)Model.StartDay);
+
                 }
 
                 @Html.Partial("Day")
@@ -95,12 +99,35 @@
         }
     </tr>
 </table>
-<div id="curDay" value="" hidden></div>
+<div id="selectedDay" value="" hidden></div>
 
 <script type='text/javascript'>
     $(document).ready(function () {
 
         $('#newEvent').prop("hidden", true);
+
+        $('#viewEvent').prop("hidden", true);
+
+        $(".pull-top-cell").hover(
+            function () {
+                $(this).addClass("cell-hover");
+            },
+            function () {
+                $(this).removeClass("cell-hover");
+            }
+            );
+
+        /*$(".pull-top-cell").click(function () {
+            //var day = this.val('id');
+            //$('#selectedDay').val(day);
+            
+            if ($('#newEvent').hidden == false) {
+
+            }
+            else {
+                $('#viewEvent').prop("hidden", false);
+            }
+        })*/
 
         $('#cancel').click(function () {
             $('#newEvent').prop("hidden", true);
@@ -109,7 +136,9 @@
         $(".myButton").click(function () {
             var cDay = this.id;
             $('#formCurrentDay').val(cDay);
+            $('#viewEvent').prop("hidden", true);
             $('#newEvent').prop("hidden", false);
+
         });
     });
 

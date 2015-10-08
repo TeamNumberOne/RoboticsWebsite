@@ -8,7 +8,13 @@ namespace RoboticsWebsite.Data
 {
     public class CalendarData
     {
+        public static List<EventModel> Events { get; set; }
         // Used for Admins because they can see all events
+        public CalendarData()
+        {
+            Events = new List<EventModel>();
+        }
+
         public List<EventModel> TestGetEvents(List<EventModel> eventList)
         {
             EventModel event1 = new EventModel();
@@ -44,9 +50,19 @@ namespace RoboticsWebsite.Data
             event3.Day = 8;
             eventList.Add(event3);
 
+            Events.AddRange(eventList);
             return eventList;
         }
 
+        public List<EventModel> getEvents()
+        {
+            return Events;
+        }
+
+        public void addEvent(EventModel calendarEvent)
+        {
+            Events.Add(calendarEvent);
+        }
         // TODO GetEvents - real; works with database
 
         /*

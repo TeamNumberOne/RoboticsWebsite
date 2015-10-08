@@ -1,0 +1,32 @@
+﻿@model RoboticsWebsite.Models.CalendarViewModel
+
+<div>
+    <table class="view-event-table">
+    @for(int i = 0; i < 24; i ++)
+    {
+       
+            string time;
+            if(i == 0)
+            {
+                time = "12:00 AM";
+            }
+            else if(i < 13)
+            {
+                time = i + ":00 AM";
+            }
+            else
+            {
+                time = (i - 12) + ":00 PM";
+            }
+        
+        <tr>
+            <td>
+                @time
+            </td>
+            <td>
+
+            </td>
+        </tr>
+    }
+    </table>
+</div>
