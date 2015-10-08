@@ -9,14 +9,31 @@ namespace RoboticsWebsite.Models
     public class CalendarViewModel
     {
         public List<EventModel> Events { get; set; }
+        public List<EventModel> CurrentMonthEvents
+        {
+            get
+            {
+                return Events.Where(x => (x.StartTime >= new DateTime(2015, CurrentMonthNum, 1, 0, 0, 0)) && 
+                                         (x.EndTime <= new DateTime(2015, CurrentMonthNum, DateTime.DaysInMonth(2015, CurrentMonthNum), 0, 0, 0))).ToList();
+            }
+
+            set { }
+        }
         public EventModel NewEvent { get; set; }
         
         public int CurrentMonthNum { get; set; }
         public int CurrentDay { get; set; }
+
+        public DayOfWeek StartDay
+        {
+            get { return new DateTime(2015, CurrentMonthNum, 1).DayOfWeek; }
+        }
+
         public string CurrentMonth
         {
             get { return System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(CurrentMonthNum); }
         }
+
         public int NumDays
         {
             get { return DateTime.DaysInMonth(DateTime.Now.Year, CurrentMonthNum); }
