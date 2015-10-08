@@ -13,6 +13,7 @@ namespace RoboticsWebsite.Data
         {
             EventModel event1 = new EventModel();
             event1.Type = "Class";
+            event1.Title = "Robotics";
             event1.Description = "Robotics Class";
             event1.StartTime = new DateTime(2015, 10, 6, 7, 0, 0);
             event1.EndTime = new DateTime(2015, 10, 6, 8, 0, 0);
@@ -20,6 +21,7 @@ namespace RoboticsWebsite.Data
 
             EventModel event2 = new EventModel();
             event2.Type = "Competition";
+            event2.Title = "Robotics";
             event2.Description = "Robotics Competition";
             event2.StartTime = new DateTime(2015, 10, 7, 9, 0, 0);
             event2.EndTime = new DateTime(2015, 10, 7, 10, 0, 0);
@@ -27,6 +29,7 @@ namespace RoboticsWebsite.Data
 
             EventModel event3 = new EventModel();
             event3.Type = "Competition";
+            event3.Title = "Robotics";
             event3.Description = "Robotics Competition";
             event3.StartTime = new DateTime(2015, 10, 8, 9, 0, 0);
             event3.EndTime = new DateTime(2015, 10, 8, 10, 0, 0);
