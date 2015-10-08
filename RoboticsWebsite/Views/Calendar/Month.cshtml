@@ -15,68 +15,103 @@
 
 <h2>@Model.CurrentMonth</h2>
 
+
+
 <table class="table-days-header">
     <tr>
-    @{ 
-        string[] days = System.Globalization.DateTimeFormatInfo.CurrentInfo.DayNames;
-        foreach(var day in days)
-        {
-            <td>@day</td>
+        @{
+            string[] days = System.Globalization.DateTimeFormatInfo.CurrentInfo.DayNames;
+            foreach (var day in days)
+            {
+                <td>@day</td>
+            }
         }
-    }
     </tr>
 
 </table>
 <table class="table-bordered table-size-1">
-    <tr>         
-        @for (int i = 0; i < Model.NumDays + (int)Model.StartDay; i++)
-        {
-            while(i < (int)Model.StartDay)
-            {
-                <td style="width:auto"></td>
-                i++;
-            }
-            if (i % 7 == 0 && i != 0)
-            {
+    <tr>
+       @for (int i = 0; i < Model.NumDays + (int)Model.StartDay; i++)
+       {
+           while (i < (int)Model.StartDay)
+           {
+            <td style="width:auto"></td>
+               i++;
+           }
+           if (i % 7 == 0 && i != 0)
+           {
                 @Html.Raw("</tr>");
                 @Html.Raw("<tr>");
-            }
+           }
             <td class="pull-top-cell" id="@Model.CurrentDay" style="width:auto; ">
                 @{
                     Model.CurrentDay = (i + 1) - ((int)Model.StartDay);
                 }
-                
+
                 @Html.Partial("Day")
             </td>
         }
-    </tr>                
+    </tr>
 </table>
-                
 
-@*    if(month == 1)
-    {
-        monthName = "January";
-        monthLength = 31;
-    }
-    else if(month == 2)
-    {
-        monthName = "February";
-        monthLength = 28;
-    }
-    else if (month == 3)
-    {
-        monthName = "March";
-        monthLength = 31;
-    }
-    else if (month == 4)
-    {
-        monthName = "April";
-        monthLength = 30;
-    }
-    else if (month == 5)
-    {
-        monthName = 
-        monthLength =
-            }*@
+<script type='text/javascript'>
+    $(document).ready(function () {
+        $(".myButton").click(function () {
+            window.open("@(Url.Action("NewEventDialog", "Calendar"))", "Test")
+        });
+    });
+    @*$(function () {
+        $('#dialog').dialog({
+            autoOpen: false,
+            width: 400,
+            resizable: false,
+            title: 'hi there',
+            modal: true,
+            open: function (event, ui) {
+                //Load the CreateAlbumPartial action which will return
+                // the partial view _CreateAlbumPartial
+                $(this).load("@Url.Action("CreateAlbumPartial")");
+            },
+            buttons: {
+                "Close": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        $('.myButton').click(function () {
+            $('#dialog').dialog('open');
+        });
+    });*@
+</script>
+
+
+
+
+    @*    if(month == 1)
+        {
+            monthName = "January";
+            monthLength = 31;
+        }
+        else if(month == 2)
+        {
+            monthName = "February";
+            monthLength = 28;
+        }
+        else if (month == 3)
+        {
+            monthName = "March";
+            monthLength = 31;
+        }
+        else if (month == 4)
+        {
+            monthName = "April";
+            monthLength = 30;
+        }
+        else if (month == 5)
+        {
+            monthName =
+            monthLength =
+                }*@
 
 

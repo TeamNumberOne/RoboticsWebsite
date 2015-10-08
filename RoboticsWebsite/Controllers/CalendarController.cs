@@ -26,5 +26,16 @@ namespace RoboticsWebsite.Controllers
 
             return View(calViewModel);
         }
+
+        [HttpPost]
+        public ActionResult AddEvent()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult NewEventDialog()
+        {
+            return View();
+        }
     }
 }
