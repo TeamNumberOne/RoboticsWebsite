@@ -14,7 +14,8 @@ namespace RoboticsWebsite.Models
             get
             {
                 return Events.Where(x => (x.StartTime >= new DateTime(2015, CurrentMonthNum, 1, 0, 0, 0)) && 
-                                         (x.EndTime <= new DateTime(2015, CurrentMonthNum, DateTime.DaysInMonth(2015, CurrentMonthNum), 0, 0, 0))).ToList();
+                                         (x.EndTime <= new DateTime(2015, CurrentMonthNum, DateTime.DaysInMonth(2015, CurrentMonthNum), 0, 0, 0)))
+                             .OrderBy(x => x.StartTime).ToList();
             }
 
             set { }
@@ -52,11 +53,13 @@ namespace RoboticsWebsite.Models
         {
             CalendarData cd = new CalendarData();
             Events = cd.TestGetEvents(Events);
+            Events = Events.OrderBy(x => x.StartTime).ToList();
         }
 
         public void AddTestEvent()
         {
             Events.Add(NewEvent);
+            Events = Events.OrderBy(x => x.StartTime).ToList();
             NewEvent = new EventModel();
         }
     }
