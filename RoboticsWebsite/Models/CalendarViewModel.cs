@@ -14,7 +14,7 @@ namespace RoboticsWebsite.Models
             get
             {
                 return Events.Where(x => (x.StartTime >= new DateTime(2015, CurrentMonthNum, 1, 0, 0, 0)) && 
-                                         (x.EndTime <= new DateTime(2015, CurrentMonthNum, DateTime.DaysInMonth(2015, CurrentMonthNum), 0, 0, 0)))
+                                         (x.EndTime <= new DateTime(2015, CurrentMonthNum, DateTime.DaysInMonth(2015, CurrentMonthNum), 23, 59, 59)))
                              .OrderBy(x => x.StartTime).ToList();
             }
 
