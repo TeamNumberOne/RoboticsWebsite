@@ -13,9 +13,11 @@
     Model.CurrentMonthNum = (int)Session["CurrentMonth"];
 }
 
+@Model.NewEvent.Title = "HEYO!";
+
 <h2>@Model.CurrentMonth</h2>
 
-
+<div id="newEvent">@Html.Partial("NewEventDialog")</div>
 
 <table class="table-days-header">
     <tr>
@@ -57,7 +59,9 @@
 <script type='text/javascript'>
     $(document).ready(function () {
         $(".myButton").click(function () {
-            window.open("@(Url.Action("NewEventDialog", "Calendar"))", "Test")
+            $("#submit").click();
+            //$("#newEvent").prop("visible", true);
+            //window.open("(Url.Action("NewEventDialog", "Calendar"))", "Test")
         });
     });
     @*$(function () {
