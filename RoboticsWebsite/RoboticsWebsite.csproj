@@ -49,8 +49,23 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="SQLite.Designer">
+      <HintPath>Externals\SQLite.Designer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Externals\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Externals\System.Data.SQLite.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Externals\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -169,10 +184,12 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
+    <Compile Include="Controllers\dbController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Data\AdminData.cs" />
     <Compile Include="Data\CalendarData.cs" />
+    <Compile Include="Enums\Enum.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -187,12 +204,40 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Externals\Installer.exe" />
+    <Content Include="Externals\Installer.pdb" />
+    <Content Include="Externals\SQLite.Designer.dll" />
+    <Content Include="Externals\SQLite.Designer.pdb" />
+    <Content Include="Externals\SQLite.Designer.xml" />
+    <Content Include="Externals\SQLite.Interop.dll" />
+    <Content Include="Externals\SQLite.Interop.pdb" />
+    <Content Include="Externals\System.Data.SQLite.dll" />
+    <Content Include="Externals\System.Data.SQLite.EF6.dll" />
+    <Content Include="Externals\System.Data.SQLite.EF6.pdb" />
+    <Content Include="Externals\System.Data.SQLite.EF6.xml" />
+    <Content Include="Externals\System.Data.SQLite.Linq.dll" />
+    <Content Include="Externals\System.Data.SQLite.Linq.pdb" />
+    <Content Include="Externals\System.Data.SQLite.Linq.xml" />
+    <Content Include="Externals\System.Data.SQLite.pdb" />
+    <Content Include="Externals\System.Data.SQLite.xml" />
+    <Content Include="Externals\test.exe" />
+    <Content Include="Externals\test.pdb" />
+    <Content Include="Externals\testef6.exe" />
+    <Content Include="Externals\testef6.pdb" />
+    <Content Include="Externals\testlinq.exe" />
+    <Content Include="Externals\testlinq.pdb" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Data\RoboticsDb.sqlite" />
+    <Content Include="Externals\northwindEF.db" />
+    <Content Include="Externals\System.Data.SQLite.dll.config" />
+    <Content Include="Externals\test.exe.config" />
+    <Content Include="Externals\testef6.exe.config" />
+    <Content Include="Externals\testlinq.exe.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\custom-javascript.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -236,6 +281,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\db\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

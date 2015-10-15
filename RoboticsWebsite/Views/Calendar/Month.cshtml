@@ -23,7 +23,7 @@
         <table class="form-table">
             <tr>
                 <td>Type: </td>
-                <td><input type="text" name="NewEvent.Type" class="form-control" value=""/></td>
+                <td>@Html.DropDownListFor(x => x.NewEvent.Type, Model.EventTypeSelectList, new { @class = "form-control" } )</td>
             </tr>
             <tr>
                 <td>Description: </td>
@@ -103,7 +103,7 @@
 
 <script type='text/javascript'>
     $(document).ready(function () {
-
+        
         $('#newEvent').prop("hidden", true);
 
         $('#viewEvent').prop("hidden", true);
@@ -140,6 +140,12 @@
             $('#newEvent').prop("hidden", false);
 
         });
+
+        $("#startTimeDate").val("b");
+
+        $('#startTimeTextBox').datetimepicker();
+
+        $("#startTimeDate").val("a");
     });
 
 </script>

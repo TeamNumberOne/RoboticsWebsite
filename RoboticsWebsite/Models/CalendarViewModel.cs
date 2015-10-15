@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using RoboticsWebsite.Data;
+using System.Web.Mvc;
+using RoboticsWebsite.Enums;
 
 namespace RoboticsWebsite.Models
 {
     public class CalendarViewModel
     {
+        public SelectList EventTypeSelectList { get; set; }
         public CalendarData cd;
         public List<EventModel> Events { get; set; }
         public List<EventModel> CurrentMonthEvents
@@ -43,12 +46,15 @@ namespace RoboticsWebsite.Models
         /*{
             set { NumDays = DateTime.ParseExact(CurrentMonth, "MMMM", System.Globalization.CultureInfo.InvariantCulture).Month; }
         }*/
+
         public CalendarViewModel()
         {
             cd = new CalendarData();
             Events = new List<EventModel>();
             NewEvent = new EventModel();
-            Events = cd.TestGetEvents(Events);
+
+            // We shouldn't need this call anymore
+            //Events = cd.TestGetEvents(Events);
         }
 
         public void GetEvents()
@@ -57,6 +63,22 @@ namespace RoboticsWebsite.Models
             Events = cd.getEvents();
             //Events = cd.TestGetEvents(Events);
             Events = Events.OrderBy(x => x.StartTime).ToList();
+        }
+
+        public void PopulateEventTypes()
+        {
+            IEnumerable<EventType> eventTypeIEnumerable;
+            List<SelectListItem> eventTypeItems = new List<SelectListItem>();
+            // Get the event types into the SelectList
+            eventTypeIEnumerable = Enum.GetValues(typeof(EventType)).Cast<EventType>();
+
+            // For each event type create a new select list item and add it to the List of SelectListItems
+            foreach(EventType eventType in eventTypeIEnumerable)
+            {
+                eventTypeItems.Add(new SelectListItem() { Value = eventType.ToString(), Text = eventType.ToString() });
+            }
+
+            EventTypeSelectList = new SelectList(eventTypeItems, "Value", "Text");
         }
 
         public void AddTestEvent()

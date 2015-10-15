@@ -2,23 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.SQLite;
 using RoboticsWebsite.Models;
+using System.Data;
+using RoboticsWebsite.Enums;
 
 namespace RoboticsWebsite.Data
 {
     public class CalendarData
     {
+        public SQLiteConnection dbConn;
         public static List<EventModel> Events { get; set; }
         // Used for Admins because they can see all events
         public CalendarData()
         {
+            dbConn = new SQLiteConnection("Data Source=C:\\Users\\Paul\\Documents\\Visual Studio 2015\\Projects\\RoboticsWebsite\\RoboticsWebsite\\Data\\RoboticsDb.sqlite;Version=3;", true);
             Events = new List<EventModel>();
         }
 
         public List<EventModel> TestGetEvents(List<EventModel> eventList)
         {
             EventModel event1 = new EventModel();
-            event1.Type = "Class";
+            event1.Type = EventType.Class;
             event1.Title = "Robotics";
             event1.Description = "Robotics Class";
             event1.StartTime = new DateTime(2015, 10, 6, 7, 0, 0);
@@ -29,7 +34,7 @@ namespace RoboticsWebsite.Data
             eventList.Add(event1);
 
             EventModel event2 = new EventModel();
-            event2.Type = "Competition";
+            event2.Type = EventType.Competition;
             event2.Title = "Robotics2";
             event2.Description = "Robotics Competition";
             event2.StartTime = new DateTime(2015, 10, 7, 9, 0, 0);
@@ -40,7 +45,7 @@ namespace RoboticsWebsite.Data
             eventList.Add(event2);
 
             EventModel event3 = new EventModel();
-            event3.Type = "Competition";
+            event3.Type = EventType.Competition;
             event3.Title = "Robotics3";
             event3.Description = "Robotics Competition";
             event3.StartTime = new DateTime(2015, 10, 8, 9, 0, 0);
@@ -56,14 +61,84 @@ namespace RoboticsWebsite.Data
 
         public List<EventModel> getEvents()
         {
+            //SQLiteConnection.CreateFile("../../../Users/Paul/Documents/Visual Studio 2015/Projects/RoboticsWebsite/RoboticsWebsite/Data/RoboticsDb.sqlite");
+
+            string query;
+            SQLiteCommand cmd;
+            EventModel eventModel;
+
+            try
+            {
+                dbConn.Open();
+
+                query = "select * from events";
+                DataTable dt = new DataTable();
+                using (cmd = new SQLiteCommand(query, dbConn))
+                {
+                    using (SQLiteDataReader dr = cmd.ExecuteReader())
+                    {
+                        // Load the reader data into the DataTable
+                        dt.Load(dr);
+                        
+                        // While there are rows in the returned data create EventModels and add them to the EventModel list
+                        for (int i = 0; i < dt.Rows.Count; i ++)
+                        {
+                            eventModel = new EventModel(dt.Rows[i]);
+                            Events.Add(eventModel);
+                        }
+                    }
+                }
+
+                dbConn.Close();
+            }
+            catch (SQLiteException ex)
+            {
+                Console.Write(ex.ToString());
+                dbConn.Close();
+            }
+
             return Events;
         }
 
         public void addEvent(EventModel calendarEvent)
         {
-            Events.Add(calendarEvent);
+            string query = "select max(event_id) from events";
+            DataTable dt1 = new DataTable();
+            SQLiteCommand cmd;
+
+            try
+            {
+                dbConn.Open();
+                using (cmd = new SQLiteCommand(query, dbConn))
+                {
+                    using (SQLiteDataReader dr = cmd.ExecuteReader())
+                    {
+                        dt1.Load(dr);
+                        // Calculate new event_id
+                        calendarEvent.EventId = Convert.ToInt32(dt1.Rows[0].ItemArray[0].ToString()) + 1;
+                    }
+                }
+
+                query = "insert into events values (" + calendarEvent.EventId + ", '" + calendarEvent.Type.ToString() + 
+                    "', '" + calendarEvent.Title + "', '" + calendarEvent.Description + "', '" + Convert.ToString(calendarEvent.StartTime) + 
+                    "', '" + Convert.ToString(calendarEvent.EndTime) + "', " + calendarEvent.Day + ")";
+
+                cmd = new SQLiteCommand(query, dbConn);
+                cmd.ExecuteNonQuery();
+
+                dbConn.Close();
+            }
+            catch (SQLiteException ex)
+            {
+                Console.Write(ex.ToString());
+                dbConn.Close();
+            }
+
+            // Keep these for reference
+            //query = "drop table events";
+            //query = "create table events (event_id integer(1), type varchar(20), title varchar(50), description varchar(500), start_time datetime, end_time datetime, day integer(1), primary key (event_id))";
+            //query = "insert into events values (" + newId + ", 'Competition', 'Robotics Comp', 'A comp for robotics', '2015-01-01 02:30:00', '2015-01-01 03:30:00', 6)";
         }
-        // TODO GetEvents - real; works with database
 
         /*
          * TODO
