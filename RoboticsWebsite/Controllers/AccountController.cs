@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using RoboticsWebsite.Models;
+using RoboticsWebsite.Data;
+using RoboticsWebsite.Enums;
 
 namespace RoboticsWebsite.Controllers
 {
@@ -58,6 +60,7 @@ namespace RoboticsWebsite.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            ViewData["ErrorMessage"] = "";
             return View();
         }
 
@@ -85,6 +88,32 @@ namespace RoboticsWebsite.Controllers
                 Session["IsGuest"] = true;
                 return View("~/Views/Home/Index.cshtml");
             }
+
+            // Get userType from db
+            UserType userType = new UserData().VerifyUser(model.Email, model.Password);
+            if (userType == UserType.Unknown)
+            {
+                ViewData["ErrorMessage"] = "Invalid Email or Password";
+                return View();
+            }
+            else if (userType == UserType.Pending)
+            {
+                ViewData["ErrorMessage"] = "Account has yet to be approved by an administrator";
+                return View();
+            }
+            else if (userType == UserType.Rejected)
+            {
+                ViewData["ErrorMessage"] = "Account has been rejected by an administrator";
+                return View();
+            }
+            else
+            {
+                // Set the Session variable UserType to the userType returned and return to the homepage
+                Session["Valid"] = true;
+                Session["UserType"] = userType.ToString();
+                return View("~/Views/Home/Index.cshtml");
+            }
+
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
@@ -152,6 +181,7 @@ namespace RoboticsWebsite.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewData["StatusMessage"] = "";
             return View();
         }
 
@@ -162,6 +192,17 @@ namespace RoboticsWebsite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            UserModel userModel = new UserModel(model.Email, model.Password);
+            string status = userModel.AddUser();
+            ViewData["StatusMessage"] = status;
+
+            return View();
+
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };

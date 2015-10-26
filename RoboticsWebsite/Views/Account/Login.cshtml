@@ -13,6 +13,7 @@
                 @Html.AntiForgeryToken()
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <span class="text-danger">@ViewData["ErrorMessage"]</span>
                 <div class="form-group">
                     @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">

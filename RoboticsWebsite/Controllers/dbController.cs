@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.SQLite;
+using RoboticsWebsite.Utilities;
 
 namespace RoboticsWebsite.Controllers
 {
@@ -16,13 +17,30 @@ namespace RoboticsWebsite.Controllers
             string query;
             string countBefore, countAfter;
             SQLiteCommand cmd;
-            SQLiteConnection dbConn = new SQLiteConnection("Data Source=C:\\Users\\Paul\\Documents\\Visual Studio 2015\\Projects\\RoboticsWebsite\\RoboticsWebsite\\Data\\RoboticsDb.sqlite;Version=3;", true);
+            //SQLiteConnection dbConn = new SQLiteConnection("Data Source=C:\\Users\\Paul\\Documents\\Visual Studio 2015\\Projects\\RoboticsWebsite\\RoboticsWebsite\\Data\\RoboticsDb.sqlite;Version=3;", true);
+            SQLiteConnection dbConn = new SQLiteConnection(ConnectionManager.GetConnectionString(), true);
 
             try
             {
                 dbConn.Open();
 
-                query = "delete from events where event_id = 3";
+                // Keep these for reference
+                // Delete table
+                //query = "drop table events";
+
+                // Create table
+                //query = "create table events (event_id integer(1), type varchar(20), title varchar(50), description varchar(500), start_time datetime, end_time datetime, day integer(1), primary key (event_id))";
+                
+                // Insert values
+                //query = "insert into events values (" + newId + ", 'Competition', 'Robotics Comp', 'A comp for robotics', '2015-01-01 02:30:00', '2015-01-01 03:30:00', 6)";
+                
+                // Add column
+                //query = "alter table users add status varchar(20)";
+
+                // Use this query to add your info to the users table
+                //query = "insert into users values(1, 'Admin', 'bradley.paul@uwlax.edu', '" + Cryptography.Encrypt("password") + "', 'Approved')";
+
+                query = "";
 
                 cmd = new SQLiteCommand(query, dbConn);
                 cmd.ExecuteNonQuery();
@@ -32,8 +50,9 @@ namespace RoboticsWebsite.Controllers
             catch (SQLiteException ex)
             {
                 Console.Write(ex.ToString());
+                string dataSource = dbConn.ConnectionString;
                 dbConn.Close();
-                return "failed\n" + ex.ToString();
+                return "failed<br />" + ex.ToString() + "<br /> <br />" + dataSource + "lk";
             }
 
             return "success";

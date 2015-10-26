@@ -6,6 +6,7 @@ using System.Data.SQLite;
 using RoboticsWebsite.Models;
 using System.Data;
 using RoboticsWebsite.Enums;
+using RoboticsWebsite.Utilities;
 
 namespace RoboticsWebsite.Data
 {
@@ -16,7 +17,7 @@ namespace RoboticsWebsite.Data
         // Used for Admins because they can see all events
         public CalendarData()
         {
-            dbConn = new SQLiteConnection("Data Source=C:\\Users\\Paul\\Documents\\Visual Studio 2015\\Projects\\RoboticsWebsite\\RoboticsWebsite\\Data\\RoboticsDb.sqlite;Version=3;", true);
+            dbConn = new SQLiteConnection(ConnectionManager.GetConnectionString(), true);
             Events = new List<EventModel>();
         }
 
@@ -133,11 +134,6 @@ namespace RoboticsWebsite.Data
                 Console.Write(ex.ToString());
                 dbConn.Close();
             }
-
-            // Keep these for reference
-            //query = "drop table events";
-            //query = "create table events (event_id integer(1), type varchar(20), title varchar(50), description varchar(500), start_time datetime, end_time datetime, day integer(1), primary key (event_id))";
-            //query = "insert into events values (" + newId + ", 'Competition', 'Robotics Comp', 'A comp for robotics', '2015-01-01 02:30:00', '2015-01-01 03:30:00', 6)";
         }
 
         /*
