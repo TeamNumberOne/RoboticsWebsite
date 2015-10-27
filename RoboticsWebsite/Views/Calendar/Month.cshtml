@@ -117,17 +117,17 @@
             }
             );
 
-        /*$(".pull-top-cell").click(function () {
+        $(".pull-top-cell").click(function () {
             //var day = this.val('id');
             //$('#selectedDay').val(day);
-            
-            if ($('#newEvent').hidden == false) {
+            $('#viewEvent').prop("hidden", false);
+
+            /*if (this.val('id') == 'newEvent') {
 
             }
             else {
-                $('#viewEvent').prop("hidden", false);
-            }
-        })*/
+                $('#viewEvent').prop("hidden", false);*/
+        });
 
         $('#cancel').click(function () {
             $('#newEvent').prop("hidden", true);

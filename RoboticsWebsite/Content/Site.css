@@ -124,8 +124,8 @@ textarea {
     width : 100%;
     
     font-size : 10px; 
-    border-top: 1px solid #bbb;
-    border-bottom: 1px solid #bbb;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 
 .calendar-table-events td {
@@ -156,4 +156,27 @@ textarea {
 	top:1px;
 }
 
-
+.myButton2 {
+	background-color:lightgray;
+	-moz-border-radius:42px;
+	-webkit-border-radius:42px;
+	border-radius:42px;
+	border:1px solid lightgray;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:10px;
+	padding:0px 4px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px lightgray;
+}
+/*
+.myButton2:hover {
+	background-color: lightgray;
+}
+.myButton2:active {
+	position:relative;
+	top:1px;
+}
+*/
