@@ -8,7 +8,7 @@
                 <div class="pull-right-top">@Model.CurrentDay</div>
                 <div class="pull-left-top">
                     @*<div class="myButton">+</div>*@
-                    @if (null != Session["UserType"] && !(bool)Session["UserType"])
+                    @if (null != Session["UserType"] && Session["UserType"].Equals(UserType.Admin.ToString()))                        
                     {
                         if (Model.CurrentDay >= DateTime.Now.Day && Model.CurrentMonthNum >= DateTime.Now.Month)
                         {

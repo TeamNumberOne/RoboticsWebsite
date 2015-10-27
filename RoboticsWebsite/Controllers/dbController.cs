@@ -40,7 +40,7 @@ namespace RoboticsWebsite.Controllers
                 // Use this query to add your info to the users table
                 //query = "insert into users values(1, 'Admin', 'bradley.paul@uwlax.edu', '" + Cryptography.Encrypt("password") + "', 'Approved')";
 
-                query = "";
+                query = "insert into users values(2, 'Admin', 'denk.luca@uwlax.edu', '" + Cryptography.Encrypt("password") + "', 'Approved')";
 
                 cmd = new SQLiteCommand(query, dbConn);
                 cmd.ExecuteNonQuery();
