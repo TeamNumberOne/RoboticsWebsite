@@ -38,12 +38,12 @@ namespace RoboticsWebsite.Controllers
                 //query = "alter table events add status varchar(20)";
 
                 // Update
-                //query = "update events set status = 'Approved' where status is null";
+                query = "update events set status = 'Approved' where status is null";
 
                 // Use this query to add your info to the users table
-                //query = "insert into users values(1, 'Admin', 'bradley.paul@uwlax.edu', '" + Cryptography.Encrypt("password") + "', 'Approved')";
+                //query = "insert into users values(2, 'Admin', 'luca.denk@uwlax.edu', '" + Cryptography.Encrypt("password") + "', 'Approved')";
 
-                query = "";
+                //query = "";
 
                 cmd = new SQLiteCommand(query, dbConn);
                 cmd.ExecuteNonQuery();
