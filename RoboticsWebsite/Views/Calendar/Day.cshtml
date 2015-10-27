@@ -8,10 +8,17 @@
                 <div class="pull-right-top">@Model.CurrentDay</div>
                 <div class="pull-left-top">
                     @*<div class="myButton">+</div>*@
-                        @if (null != Session["UserType"] && Session["UserType"].Equals(UserType.Admin.ToString()))
+                    @if (null != Session["UserType"] && !(bool)Session["UserType"])
+                    {
+                        if (Model.CurrentDay >= DateTime.Now.Day && Model.CurrentMonthNum >= DateTime.Now.Month)
                         {
                             <button class="myButton" id="@Model.CurrentDay" value="+" onclick="createEvent();">+</button>
-                        }                                 
+                        }
+                        else
+                        {
+                            <button class="myButton2" onclick="">+</button>
+                        }
+                    }                                
                 </div>
             </td>
         </tr>
