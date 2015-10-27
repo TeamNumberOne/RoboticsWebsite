@@ -35,7 +35,7 @@ namespace RoboticsWebsite.Models
         public EventModel(DataRow dataRow)
         {
             EventId = Convert.ToInt32(dataRow[(int)EventIndices.EventId].ToString());
-            Type = (EventType) Enum.Parse(typeof(EventType), dataRow[1].ToString());
+            Type = (EventType) Enum.Parse(typeof(EventType), dataRow[(int)EventIndices.Type].ToString());
             Title = dataRow[(int)EventIndices.Title].ToString();
             Description = dataRow[(int)EventIndices.Description].ToString();
             StartTime = Convert.ToDateTime(dataRow[(int)EventIndices.StartTime].ToString());

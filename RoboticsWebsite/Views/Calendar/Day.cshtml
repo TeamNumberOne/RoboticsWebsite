@@ -1,4 +1,5 @@
-﻿@model RoboticsWebsite.Models.CalendarViewModel
+﻿@using RoboticsWebsite.Enums
+@model RoboticsWebsite.Models.CalendarViewModel
 
 <div>
     <table class="calendar-table">
@@ -7,7 +8,7 @@
                 <div class="pull-right-top">@Model.CurrentDay</div>
                 <div class="pull-left-top">
                     @*<div class="myButton">+</div>*@
-                        @if (null != Session["IsGuest"] && !(bool)Session["IsGuest"])
+                        @if (null != Session["UserType"] && Session["UserType"].Equals(UserType.Admin.ToString()))
                         {
                             <button class="myButton" id="@Model.CurrentDay" value="+" onclick="createEvent();">+</button>
                         }                                 
