@@ -243,6 +243,7 @@
     <Content Include="Externals\test.exe.config" />
     <Content Include="Externals\testef6.exe.config" />
     <Content Include="Externals\testlinq.exe.config" />
+    <Content Include="ClassDiagram2.cd" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\custom-javascript.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
