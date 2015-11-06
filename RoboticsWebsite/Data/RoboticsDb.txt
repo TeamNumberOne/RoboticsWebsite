@@ -1,0 +1,20 @@
+﻿users:
+	user_id integer(1)
+	type varchar(?)
+	email varchar(?)
+	password varchar(?)
+	status varchar(?)
+
+user_event:
+	user_id integer(1)
+	event_id integer(1)
+
+events:
+	event_id integer(1)
+	type varchar(?)
+	title varchar(?)
+	description varchar(?)
+	start_time datetime
+	end_time datetime
+	day integer(1)
+	status varchar(20)
