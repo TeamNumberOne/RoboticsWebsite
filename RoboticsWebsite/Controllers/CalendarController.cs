@@ -53,6 +53,7 @@ namespace RoboticsWebsite.Controllers
         [HttpGet]
         public ActionResult NewEventDialog()
         {
+            /// PUT EVENTS FOR DAY SELECTED INTO CALVIEW MODEL
             return View();
         }
     }

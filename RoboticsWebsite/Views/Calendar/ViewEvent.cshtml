@@ -1,10 +1,13 @@
 ﻿@model RoboticsWebsite.Models.CalendarViewModel
 
 <div>
+    <div class="view-event-title">
+        <h3>@Model.CurrentMonth @Model.CurrentDay</h3>
+    </div>
     <table class="view-event-table">
+   
     @for(int i = 0; i < 24; i ++)
-    {
-       
+    {       
             string time;
             if(i == 0)
             {
@@ -28,5 +31,11 @@
             </td>
         </tr>
     }
+    <tr>
+        <td colspan="2">
+            <button type="button" class="btn btn-sm close-day-view" style="float: right">Cancel</button>
+        </td>   
+    </tr>
     </table>
+    
 </div>

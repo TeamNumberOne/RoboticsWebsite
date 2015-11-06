@@ -23,7 +23,7 @@
         <table class="form-table">
             <tr>
                 <td>Type: </td>
-                <td>@Html.DropDownListFor(x => x.NewEvent.Type, Model.EventTypeSelectList, new { @class = "form-control" } )</td>
+                <td>@Html.DropDownListFor(x => x.NewEvent.Type, Model.EventTypeSelectList, new { @class = "form-control" })</td>
             </tr>
             <tr>
                 <td>Description: </td>
@@ -60,7 +60,7 @@
 
 <h2>@Model.CurrentMonth</h2>
 
-<div id="newEvent">@Html.Partial("NewEventDialog")</div>
+@*<div id="newEvent">@Html.Partial("NewEventDialog")</div>*@
 
 <table class="table-days-header">
     <tr>
@@ -95,10 +95,10 @@
 
                 @Html.Partial("Day")
             </td>
-        }
+         }
     </tr>
 </table>
-<div id="selectedDay" value="" hidden></div>
+<div id="selectedDay" hidden></div>
 
 <script type='text/javascript'>
     $(document).ready(function () {
@@ -116,28 +116,26 @@
             }
             );
 
-        $(".pull-top-cell").click(function () {
-            //var day = this.val('id');
-            //$('#selectedDay').val(day);
+        //If a calendar item is clicked, shows all events for that day
+        $(".calendar-table-2").click(function () {
+            var cDay = this.id;
+            var cDayP = cDay.split("|");
+            $('#selectedDay').text(cDayP[0]);
             $('#viewEvent').prop("hidden", false);
-
-            /*if (this.val('id') == 'newEvent') {
-
-            }
-            else {
-                $('#viewEvent').prop("hidden", false);*/
         });
 
-        $('#cancel').click(function () {
-            $('#newEvent').prop("hidden", true);
+        $('.close-day-view').click(function () {
+            $('#viewEvent').prop("hidden", true);
         });
 
         $(".myButton").click(function () {
             var cDay = this.id;
             $('#formCurrentDay').val(cDay);
-            $('#viewEvent').prop("hidden", true);
             $('#newEvent').prop("hidden", false);
+        });
 
+        $('#cancel').click(function () {
+            $('#newEvent').prop("hidden", true);
         });
 
         $("#startTimeDate").val("b");

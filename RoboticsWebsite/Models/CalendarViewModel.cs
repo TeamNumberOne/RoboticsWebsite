@@ -21,9 +21,9 @@ namespace RoboticsWebsite.Models
                                          (x.EndTime <= new DateTime(2015, CurrentMonthNum, DateTime.DaysInMonth(2015, CurrentMonthNum), 23, 59, 59)))
                              .OrderBy(x => x.StartTime).ToList();
             }
-
             set { }
         }
+        
         public EventModel NewEvent { get; set; }
         
         public int CurrentMonthNum { get; set; }
