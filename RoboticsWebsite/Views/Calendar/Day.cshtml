@@ -8,9 +8,9 @@
                 <div class="pull-right-top">@Model.CurrentDay</div>
                 <div class="pull-left-top">
                     @*<div class="myButton">+</div>*@
-                    @if (null != Session["UserType"] && !(bool)Session["UserType"])
+                    @if (null != Session["UserType"] || (string)Session["UserType"] == "Admin")
                     {
-                        if (Model.CurrentDay >= DateTime.Now.Day && Model.CurrentMonthNum >= DateTime.Now.Month)
+                        if ((Model.CurrentDay >= DateTime.Now.Day && Model.CurrentMonthNum == DateTime.Now.Month) || Model.CurrentMonthNum > DateTime.Now.Month)
                         {
                             <button class="myButton" id="@Model.CurrentDay" value="+" onclick="createEvent();">+</button>
                         }
@@ -26,7 +26,7 @@
     <table class="calendar-table-2" id="@Model.CurrentDay |">
         @foreach (var e in Model.Events)
         {
-            var date = e.StartTime;
+            @*var date = e.StartTime;
             var day = date.Day;
             if (e.Day == Model.CurrentDay)
             {
@@ -35,7 +35,7 @@
                         @e.Title
                     </td>
                 </tr>
-            }
+            }*@
         }
 
     </table>

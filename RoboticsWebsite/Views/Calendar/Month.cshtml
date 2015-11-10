@@ -8,10 +8,10 @@
 
     if (null == Session["CurrentMonth"])
     {
-        Session["CurrentMonth"] = DateTime.Now.Month;
+        //Session["CurrentMonth"] = DateTime.Now.Month;
         //Model.CurrentMonthNum = DateTime.Now.Month;
     }
-    Model.CurrentMonthNum = (int)Session["CurrentMonth"];
+    //Model.CurrentMonthNum = (int)Session["CurrentMonth"];
 }
 
 @using (Html.BeginForm())
@@ -57,10 +57,18 @@
         </table>
     </div>
 }
-
-@*<button type="button" class="btn btn-sm" id="prev-month" onclick="prevMonth();">previous</button>
-<span></span>
-<button type="button" class="btn btn-sm" id="next-month" onclick="nextMonth();">next</button>*@
+<div>
+@using (Html.BeginForm("PrevMonth", "Calendar"))
+{
+    <input type="number" name="CurrentMonthNum" value="@Model.CurrentMonthNum" style="visibility:hidden" />
+    <input type="submit" class="btn btn-sm" id="prev-month" value="previous">
+}
+@using (Html.BeginForm("NextMonth", "Calendar"))
+{
+    <input type="number" name="CurrentMonthNum" value="@Model.CurrentMonthNum" style="visibility:hidden" />
+    <input type="submit" class="btn btn-sm pull-top-right" id="next-month" value="next">
+}
+</div>
 @for (int i = 1; i < 13; i++)
 {
     //<h5></h5>
@@ -108,7 +116,7 @@
 <div id="selectedDay" hidden></div>
 
 <script type='text/javascript'>
-    @*prevMonth = function () {
+    prevMonth = function () {
         @{
             //    if (Model.CurrentMonthNum == 1) {
             //        Session["CurrentMonth"] = 12;
@@ -120,9 +128,9 @@
             //    }
         }
         location.reload(true);
-    }*@
+    }
 
-    @*nextMonth = function () {
+    nextMonth = function () {
         @{
             //if (Model.CurrentMonthNum == 12) {
             //  Session["CurrentMonth"] = 1;
@@ -132,9 +140,9 @@
             Session["CurrentMonth"] = Model.CurrentMonthNum ++;
 
             }
-        }
+        
         location.reload(true);
-    }*@
+    }
 
     $(document).ready(function () {
 
@@ -167,14 +175,14 @@
             location.reload();
         });
 *@
-        $(".pull-top-cell").hover(
+        /*$(".pull-top-cell").hover(
             function () {
                 $(this).addClass("cell-hover");
             },
             function () {
                 $(this).removeClass("cell-hover");
             }
-            );
+            );*/
 
         //If a calendar item is clicked, shows all events for that day
         $(".calendar-table-2").click(function () {

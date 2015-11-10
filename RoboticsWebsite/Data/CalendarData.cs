@@ -21,44 +21,44 @@ namespace RoboticsWebsite.Data
             Events = new List<EventModel>();
         }
 
-        public List<EventModel> TestGetEvents(List<EventModel> eventList)
-        {
-            EventModel event1 = new EventModel();
-            event1.Type = EventType.Class;
-            event1.Title = "Robotics";
-            event1.Description = "Robotics Class";
-            event1.StartTime = new DateTime(2015, 10, 6, 7, 0, 0);
-            event1.EndTime = new DateTime(2015, 10, 6, 8, 0, 0);
-            event1.StartTimeString = "7:00";
-            event1.EndTimeString = "8:00";
-            event1.Day = 6;
-            eventList.Add(event1);
+        //public List<EventModel> TestGetEvents(List<EventModel> eventList)
+        //{
+        //    EventModel event1 = new EventModel();
+        //    event1.Type = EventType.Class;
+        //    event1.Title = "Robotics";
+        //    event1.Description = "Robotics Class";
+        //    event1.StartTime = new DateTime(2015, 10, 6, 7, 0, 0);
+        //    event1.EndTime = new DateTime(2015, 10, 6, 8, 0, 0);
+        //    event1.StartTimeString = "7:00";
+        //    event1.EndTimeString = "8:00";
+        //    event1.Day = 6;
+        //    eventList.Add(event1);
 
-            EventModel event2 = new EventModel();
-            event2.Type = EventType.Competition;
-            event2.Title = "Robotics2";
-            event2.Description = "Robotics Competition";
-            event2.StartTime = new DateTime(2015, 10, 7, 9, 0, 0);
-            event2.EndTime = new DateTime(2015, 10, 7, 10, 0, 0);
-            event2.StartTimeString = "9:00";
-            event2.EndTimeString = "10:00";
-            event2.Day = 7;
-            eventList.Add(event2);
+        //    EventModel event2 = new EventModel();
+        //    event2.Type = EventType.Competition;
+        //    event2.Title = "Robotics2";
+        //    event2.Description = "Robotics Competition";
+        //    event2.StartTime = new DateTime(2015, 10, 7, 9, 0, 0);
+        //    event2.EndTime = new DateTime(2015, 10, 7, 10, 0, 0);
+        //    event2.StartTimeString = "9:00";
+        //    event2.EndTimeString = "10:00";
+        //    event2.Day = 7;
+        //    eventList.Add(event2);
 
-            EventModel event3 = new EventModel();
-            event3.Type = EventType.Competition;
-            event3.Title = "Robotics3";
-            event3.Description = "Robotics Competition";
-            event3.StartTime = new DateTime(2015, 10, 8, 9, 0, 0);
-            event3.EndTime = new DateTime(2015, 10, 8, 10, 0, 0);
-            event3.StartTimeString = "9:00";
-            event3.EndTimeString = "10:00";
-            event3.Day = 8;
-            eventList.Add(event3);
+        //    EventModel event3 = new EventModel();
+        //    event3.Type = EventType.Competition;
+        //    event3.Title = "Robotics3";
+        //    event3.Description = "Robotics Competition";
+        //    event3.StartTime = new DateTime(2015, 10, 8, 9, 0, 0);
+        //    event3.EndTime = new DateTime(2015, 10, 8, 10, 0, 0);
+        //    event3.StartTimeString = "9:00";
+        //    event3.EndTimeString = "10:00";
+        //    event3.Day = 8;
+        //    eventList.Add(event3);
 
-            Events.AddRange(eventList);
-            return eventList;
-        }
+        //    Events.AddRange(eventList);
+        //    return eventList;
+        //}
 
         public List<EventModel> getEvents()
         {
@@ -119,10 +119,10 @@ namespace RoboticsWebsite.Data
                         calendarEvent.EventId = Convert.ToInt32(dt1.Rows[0].ItemArray[0].ToString()) + 1;
                     }
                 }
-
-                query = "insert into events values (" + calendarEvent.EventId + ", '" + calendarEvent.Type.ToString() + 
-                    "', '" + calendarEvent.Title + "', '" + calendarEvent.Description + "', '" + Convert.ToString(calendarEvent.StartTime) + 
-                    "', '" + Convert.ToString(calendarEvent.EndTime) + "', " + calendarEvent.Day + ")";
+                // MM/DD/YYYY 12:42
+                //query = "insert into events values (" + calendarEvent.EventId + ", '" + calendarEvent.Type.ToString() +
+                //    "', '" + calendarEvent.Title + "', '" + calendarEvent.Description + "', '" + Convert.ToString(calendarEvent.StartTime) +
+                //    "', to_date('" + calendarEvent.Month + "-" + calendarEvent.Day + "-" + calendarEvent.Year + "-" + "', " + calendarEvent.Day + ")";
 
                 cmd = new SQLiteCommand(query, dbConn);
                 cmd.ExecuteNonQuery();

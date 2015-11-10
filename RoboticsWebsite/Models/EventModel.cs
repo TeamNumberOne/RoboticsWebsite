@@ -15,21 +15,28 @@ namespace RoboticsWebsite.Models
         public EventType Type { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-        public string StartDayString { get; set; }
-        public string StartTimeString { get; set; }
-        public string EndDayString { get; set; }
-        public string EndTimeString { get; set; }
+        //public DateTime StartTime { get; set; }
+        //public DateTime EndTime { get; set; }
+        //public string StartDayString { get; set; }
+        //public string StartTimeString { get; set; }
+        //public string EndDayString { get; set; }
+        //public string EndTimeString { get; set; }
+        public int StartMin { get; set; }
+        public int StartHour { get; set; }
+        public int EndMin { get; set; }
+        public int EndHour { get; set; }
         public int Day { get; set; }
+        public int Month { get; set; }
+        public int Year { get; set; }
+        
 
         public EventModel()
         {
             Type = EventType.Initial;
             Title = "";
             Description = "";
-            StartTime = DateTime.MinValue;
-            EndTime = DateTime.MaxValue;
+            //StartTime = DateTime.MinValue;
+            //EndTime = DateTime.MaxValue;
         }
 
         public EventModel(DataRow dataRow)
@@ -38,8 +45,8 @@ namespace RoboticsWebsite.Models
             Type = (EventType) Enum.Parse(typeof(EventType), dataRow[(int)EventIndices.Type].ToString());
             Title = dataRow[(int)EventIndices.Title].ToString();
             Description = dataRow[(int)EventIndices.Description].ToString();
-            StartTime = Convert.ToDateTime(dataRow[(int)EventIndices.StartTime].ToString());
-            EndTime = Convert.ToDateTime(dataRow[(int)EventIndices.EndTime].ToString());
+            //StartTime = Convert.ToDateTime(dataRow[(int)EventIndices.StartTime].ToString());
+            //EndTime = Convert.ToDateTime(dataRow[(int)EventIndices.EndTime].ToString());
             Day = Convert.ToInt32(dataRow[(int)EventIndices.Day].ToString());
         }
 

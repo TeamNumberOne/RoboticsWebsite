@@ -17,9 +17,8 @@ namespace RoboticsWebsite.Models
         {
             get
             {
-                return Events.Where(x => (x.StartTime >= new DateTime(2015, CurrentMonthNum, 1, 0, 0, 0)) && 
-                                         (x.EndTime <= new DateTime(2015, CurrentMonthNum, DateTime.DaysInMonth(2015, CurrentMonthNum), 23, 59, 59)))
-                             .OrderBy(x => x.StartTime).ToList();
+                return Events.Where(x => x.Month == CurrentMonthNum)
+                             .OrderBy(x => x.Day).ThenBy(x => x.StartHour).ToList();
             }
             set { }
         }
@@ -62,7 +61,7 @@ namespace RoboticsWebsite.Models
             //CalendarData cd = new CalendarData();
             Events = cd.getEvents();
             //Events = cd.TestGetEvents(Events);
-            Events = Events.OrderBy(x => x.StartTime).ToList();
+            Events = Events.OrderBy(x => x.Year).ThenBy(x => x.Month).ThenBy(x => x.Day).ToList();
         }
 
         public void PopulateEventTypes()
@@ -79,16 +78,6 @@ namespace RoboticsWebsite.Models
             }
 
             EventTypeSelectList = new SelectList(eventTypeItems, "Value", "Text");
-        }
-
-        public void AddTestEvent()
-        {
-            DateTime start = new DateTime(2015, CurrentMonthNum, NewEvent.Day);
-            //Events.Add(NewEvent);
-            cd.addEvent(NewEvent);
-            Events = cd.getEvents();
-            Events = Events.OrderBy(x => x.StartTime).ToList();
-            NewEvent = new EventModel();
         }
     }
 }
