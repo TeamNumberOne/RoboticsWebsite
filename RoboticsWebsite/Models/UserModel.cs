@@ -16,21 +16,27 @@ namespace RoboticsWebsite.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public UserStatus Status { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
 
         public UserModel()
         {
-            Type = UserType.Unknown;
+            Type = UserType.Admin;
             Email = "";
             Password = "";
             Status = UserStatus.Pending;
+            FirstName = "";
+            LastName = "";
         }
 
-        public UserModel(string email, string password)
+        public UserModel(RegisterViewModel rvModel)
         {
-            Type = UserType.Unknown;
-            Email = email;
-            Password = Cryptography.Encrypt(password);
+            Type = rvModel.UserType;
+            Email = rvModel.Email;
+            Password = Cryptography.Encrypt(rvModel.Password);
             Status = UserStatus.Pending;
+            FirstName = rvModel.FirstName;
+            LastName = rvModel.LastName;
         }
 
         public UserModel(DataRow dataRow)
@@ -40,6 +46,8 @@ namespace RoboticsWebsite.Models
             Email = dataRow[(int)UserIndices.Email].ToString();
             Password = dataRow[(int)UserIndices.Password].ToString();
             Status = (UserStatus) Enum.Parse(typeof(UserStatus), dataRow[(int)UserIndices.Status].ToString());
+            FirstName = dataRow[(int)UserIndices.FirstName].ToString();
+            LastName = dataRow[(int)UserIndices.LastName].ToString();
         }
 
         public string AddUser()

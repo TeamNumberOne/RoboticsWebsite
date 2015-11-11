@@ -6,9 +6,13 @@
         Type,
         Title,
         Description,
-        StartTime,
-        EndTime,
-        Day
+        Month,
+        Day,
+        Year,
+        StartHour,
+        StartMin,
+        EndHour,
+        EndMin
     }
 
     public enum UserIndices
@@ -17,7 +21,9 @@
         Type,
         Email,
         Password,
-        Status
+        Status,
+        FirstName,
+        LastName
     }
 
     public enum EventType
@@ -33,16 +39,14 @@
         Admin,
         Student,
         Volunteer,
-        Sponsor,
-        Pending, // Used if user exists but hasn't been approved yet
-        Rejected,
-        Unknown  // Used to determine if the user is in the db or not
+        Sponsor
     }
 
     public enum UserStatus
     {
         Pending,
         Approved,
-        Rejected
+        Rejected,
+        Unknown
     }
 }

@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.SQLite;
 using RoboticsWebsite.Utilities;
+using System.Data;
+using RoboticsWebsite.Models;
 
 namespace RoboticsWebsite.Controllers
 {
@@ -15,6 +17,7 @@ namespace RoboticsWebsite.Controllers
         public string Index()
         {
             string query;
+            string result = "";
             string countBefore, countAfter;
             SQLiteCommand cmd;
             //SQLiteConnection dbConn = new SQLiteConnection("Data Source=C:\\Users\\Paul\\Documents\\Visual Studio 2015\\Projects\\RoboticsWebsite\\RoboticsWebsite\\Data\\RoboticsDb.sqlite;Version=3;", true);
@@ -24,24 +27,55 @@ namespace RoboticsWebsite.Controllers
             {
                 dbConn.Open();
 
+                UserModel userModel;
+                query = "select * from users";
+                //query = "SELECT sql FROM (SELECT * FROM sqlite_master UNION ALL SELECT * FROM sqlite_temp_master) WHERE type!= 'meta' ORDER BY tbl_name, type DESC, name";
+                //DataTable dt = new DataTable();
+                //using (cmd = new SQLiteCommand(query, dbConn))
+                //{
+                //    using (SQLiteDataReader dr = cmd.ExecuteReader())
+                //    {
+                //        // Load the reader data into the DataTable
+                //        dt.Load(dr);
+
+                //        //for (int i=0; i < dt.Rows.Count; i++)
+                //        //{
+                //        //    result = result + "<br />" + dt.Rows[i][0];
+                //        //}
+                //        // While there are rows in the returned data create EventModels and add them to the EventModel list
+                //        for (int i = 0; i < dt.Rows.Count; i++)
+                //        {
+                //            userModel = new UserModel(dt.Rows[i]);
+                //            result = result + "<br />" + userModel.UserId + " " + userModel.FirstName + " " + userModel.LastName + " " + userModel.Email + " " + userModel.Password + " " + userModel.Type.ToString() + " " + userModel.Status.ToString();
+                //        }
+                //    }
+                //}
+
+                //dbConn.Close();
+
+                /****** non queries */
+               
                 // Keep these for reference
                 // Delete table
                 //query = "drop table events";
 
                 // Create table
-                //query = "create table events (event_id integer(1), type varchar(20), title varchar(50), description varchar(500), start_time datetime, end_time datetime, day integer(1), primary key (event_id))";
+                query = "create table events (event_id integer(1), type varchar(20), title varchar(50), description varchar(500), month integer(1), day integer(1), year integer(1), start_hour integer(1), start_min integer(1), end_hour integer(1), end_min integer(1), created_by_id integer(1), primary key (event_id))";
 
                 // Insert values
                 //query = "insert into events values (" + newId + ", 'Competition', 'Robotics Comp', 'A comp for robotics', '2015-01-01 02:30:00', '2015-01-01 03:30:00', 6)";
 
                 // Add column
                 //query = "alter table events add status varchar(20)";
+                //query = "alter table users add last_name varchar(50)";
 
                 // Update
-                query = "update events set status = 'Approved' where status is null";
+                //query = "update events set status = 'Approved' where status is null";
 
                 // Use this query to add your info to the users table
                 //query = "insert into users values(2, 'Admin', 'luca.denk@uwlax.edu', '" + Cryptography.Encrypt("password") + "', 'Approved')";
+
+                //query = "drop table events";
 
                 //query = "";
 
@@ -58,7 +92,7 @@ namespace RoboticsWebsite.Controllers
                 return "failed<br />" + ex.ToString() + "<br /> <br />" + dataSource + "lk";
             }
 
-            return "success";
+            return "success " + result;
         }
     }
 }

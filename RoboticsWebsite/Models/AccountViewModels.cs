@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using RoboticsWebsite.Enums;
+using System.Web.Mvc;
+using System;
+using System.Linq;
 
 namespace RoboticsWebsite.Models
 {
@@ -77,8 +81,43 @@ namespace RoboticsWebsite.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "User Type")]
+        public UserType UserType { get; set; }
+
+        public SelectList UserTypeSelectList { get; set; }
+
+        public RegisterViewModel()
+        {
+            PopulateUserTypes();
+        }
+
+        public void PopulateUserTypes()
+        {
+            IEnumerable<UserType> userTypeIEnumerable;
+            List<SelectListItem> userTypeItems = new List<SelectListItem>();
+            // Get the event types into the SelectList
+            userTypeIEnumerable = Enum.GetValues(typeof(UserType)).Cast<UserType>();
+
+            // For each event type create a new select list item and add it to the List of SelectListItems
+            foreach (UserType userType in userTypeIEnumerable)
+            {
+                userTypeItems.Add(new SelectListItem() { Value = userType.ToString(), Text = userType.ToString() });
+            }
+
+            UserTypeSelectList = new SelectList(userTypeItems, "Value", "Text");
+        }
     }
 
     public class ResetPasswordViewModel
@@ -96,7 +135,7 @@ namespace RoboticsWebsite.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

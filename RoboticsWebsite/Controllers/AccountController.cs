@@ -89,19 +89,21 @@ namespace RoboticsWebsite.Controllers
                 return View("~/Views/Home/Index.cshtml");
             }
 
-            // Get userType from db
-            UserType userType = new UserData().VerifyUser(model.Email, model.Password);
-            if (userType == UserType.Unknown)
+            // Get userType/Status from db
+            UserType userType = UserType.Admin;
+            int userId = 0;
+            UserStatus userStatus = new UserData().VerifyUser(model.Email, model.Password, ref userType, ref userId);
+            if (userStatus == UserStatus.Unknown)
             {
                 ViewData["ErrorMessage"] = "Invalid Email or Password";
                 return View();
             }
-            else if (userType == UserType.Pending)
+            else if (userStatus == UserStatus.Pending)
             {
                 ViewData["ErrorMessage"] = "Account has yet to be approved by an administrator";
                 return View();
             }
-            else if (userType == UserType.Rejected)
+            else if (userStatus == UserStatus.Rejected)
             {
                 ViewData["ErrorMessage"] = "Account has been rejected by an administrator";
                 return View();
@@ -109,7 +111,9 @@ namespace RoboticsWebsite.Controllers
             else
             {
                 // Set the Session variable UserType to the userType returned and return to the homepage
+                // These session variables are used throughout the application
                 Session["Valid"] = true;
+                Session["UserId"] = userId;
                 Session["UserType"] = userType.ToString();
                 return View("~/Views/Home/Index.cshtml");
             }
@@ -181,8 +185,9 @@ namespace RoboticsWebsite.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            RegisterViewModel model = new RegisterViewModel();
             ViewData["StatusMessage"] = "";
-            return View();
+            return View(model);
         }
 
         //
@@ -190,40 +195,41 @@ namespace RoboticsWebsite.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public ActionResult Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            UserModel userModel = new UserModel(model.Email, model.Password);
+            UserModel userModel = new UserModel(model);
             string status = userModel.AddUser();
             ViewData["StatusMessage"] = status;
+            model.PopulateUserTypes();
 
-            return View();
-
-            if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
-                }
-                AddErrors(result);
-            }
-
-            // If we got this far, something failed, redisplay form
             return View(model);
+
+            //if (ModelState.IsValid)
+            //{
+            //    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+            //    var result = await UserManager.CreateAsync(user, model.Password);
+            //    if (result.Succeeded)
+            //    {
+            //        await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    
+            //        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+            //        // Send an email with this link
+            //        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+            //        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+            //        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+            //        return RedirectToAction("Index", "Home");
+            //    }
+            //    AddErrors(result);
+            //}
+
+            //// If we got this far, something failed, redisplay form
+            //return View(model);
         }
 
         //
@@ -445,6 +451,7 @@ namespace RoboticsWebsite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            Session.Clear();
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }

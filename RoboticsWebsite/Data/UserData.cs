@@ -24,7 +24,7 @@ namespace RoboticsWebsite.Data
         public string AddUser(UserModel user)
         {
             string status = "";
-            string query = "select max(user_id) from events";
+            string query = "select max(user_id) from users";
             DataTable dt1 = new DataTable();
             SQLiteCommand cmd;
 
@@ -45,7 +45,7 @@ namespace RoboticsWebsite.Data
                     }
                 
                     query = "insert into users values (" + user.UserId + ", '" + user.Type.ToString() +
-                        "', '" + user.Email + "', '" + user.Password + "', '" + user.Status.ToString() + "')";
+                        "', '" + user.Email + "', '" + user.Password + "', '" + user.Status.ToString() + "', '" + user.FirstName + "', '" + user.LastName + "')";
 
                     cmd = new SQLiteCommand(query, dbConn);
                     cmd.ExecuteNonQuery();
@@ -86,9 +86,9 @@ namespace RoboticsWebsite.Data
             }
         }
 
-        public UserType VerifyUser(string email, string password)
+        public UserStatus VerifyUser(string email, string password, ref UserType userType, ref int userId)
         {
-            UserType userType = UserType.Unknown;
+            UserStatus userStatus = UserStatus.Unknown;
             string query;
             SQLiteCommand cmd;
 
@@ -110,17 +110,19 @@ namespace RoboticsWebsite.Data
                         // No user with email and password combo
                         if (dt.Rows.Count == 0)
                         {
-                            userType = UserType.Unknown;
+                            userStatus = UserStatus.Unknown;
                         }
                         // User account is in a pending status
-                        else if (dt.Rows[0][(int)UserIndices.Status].Equals(UserType.Pending.ToString()))
+                        else if (dt.Rows[0][(int)UserIndices.Status].Equals(UserStatus.Pending.ToString()))
                         {
-                            userType = UserType.Pending;
+                            userStatus = UserStatus.Pending;
                         }
                         // User was found, get the type of the user
                         else
                         {
+                            userId = Convert.ToInt32(dt.Rows[0][(int)UserIndices.UserId].ToString());
                             userType = (UserType) Enum.Parse(typeof(UserType), dt.Rows[0][(int)UserIndices.Type].ToString());
+                            userStatus = UserStatus.Approved;
                         }
                     }
                 }
@@ -133,7 +135,151 @@ namespace RoboticsWebsite.Data
                 dbConn.Close();
             }
 
-            return userType;
+            return userStatus;
+        }
+
+        public List<EventModel> GetEventsByUserId(int userId)
+        {
+            string query;
+            SQLiteCommand cmd;
+            EventModel eventModel;
+            List<EventModel> Events = new List<EventModel>();
+
+            try
+            {
+                dbConn.Open();
+
+                query = "select E.* from events E, user_event UE where UE.user_id = " + userId + "' and UE.event_id = E.event_id";
+                DataTable dt = new DataTable();
+                using (cmd = new SQLiteCommand(query, dbConn))
+                {
+                    using (SQLiteDataReader dr = cmd.ExecuteReader())
+                    {
+                        // Load the reader data into the DataTable
+                        dt.Load(dr);
+
+                        // While there are rows in the returned data create EventModels and add them to the EventModel list
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            eventModel = new EventModel(dt.Rows[i]);
+                            Events.Add(eventModel);
+                        }
+                    }
+                }
+
+                dbConn.Close();
+            }
+            catch (SQLiteException ex)
+            {
+                Console.Write(ex.ToString());
+                dbConn.Close();
+            }
+
+            return Events;
+        }
+
+        public string RemoveEventFromUser(int userId, int eventIdToRemove)
+        {
+            string query, errorMessage = "";
+            SQLiteCommand cmd, cmd2;
+            int created_by_user_id = 0;
+
+            try
+            {
+                dbConn.Open();
+
+                query = "select created_by_id from events where event_id = " + eventIdToRemove;
+                DataTable dt = new DataTable();
+                using (cmd = new SQLiteCommand(query, dbConn))
+                {
+                    using (SQLiteDataReader dr = cmd.ExecuteReader())
+                    {
+                        // Load the reader data into the DataTable
+                        dt.Load(dr);
+
+                        // This user created the event, so we need to delete all references with the event
+                        if (Convert.ToInt32(dt.Rows[0][0].ToString()) == userId)
+                        {
+                            query = "delete from user_event where event_id = " + eventIdToRemove;
+                            cmd2 = new SQLiteCommand(query, dbConn);
+                            cmd2.ExecuteNonQuery();
+
+                            query = "delete from events where event_id = " + eventIdToRemove;
+                            cmd2 = new SQLiteCommand(query, dbConn);
+                            cmd2.ExecuteNonQuery();
+                        }
+                        // User didn't create the event so just remove the entry in the user_event table
+                        else
+                        {
+                            query = "delete from user_event where event_id = " + eventIdToRemove + " and user_id = " + userId;
+                            cmd2 = new SQLiteCommand(query, dbConn);
+                            cmd2.ExecuteNonQuery();
+                        }
+                    }
+                }
+
+                dbConn.Close();
+            }
+            catch (SQLiteException ex)
+            {
+                //Console.Write(ex.ToString());
+                errorMessage = ex.ToString();
+                dbConn.Close();
+            }
+
+            return errorMessage;
+        }
+
+        public string AddUserToEvent(int userId, int eventId)
+        {
+            string query, errorMessage = "";
+            SQLiteCommand cmd, cmd2;
+
+            try
+            {
+                dbConn.Open();
+
+                query = "with event as (select month, day, year, start_hour, start_min, end_hour, end_min from events where event_id = " + eventId + ") "
+                        + "select count(*) from events where event_id != " + eventId + " and month = event.month and day = event.day and year = event.year "
+                        + "and ((start_hour < event.start_hour and end_hour > event.end_hour) or "
+                        + "(start_hour < event.start_hour and end_hour = event.end_hour and end_min > event.end_min) or "
+                        + "(start_hour = event.start_hour and end_hour > event.end_hour and start_min < event.start_min) or"
+                        + "(start_hour = event.start_hour and end_hour = event.end_hour and (start_min between event.start_min and event.end_min or end_min between event.start_min and event.end_min)) or "
+                        + "(start_hour = event.start_hour and end_hour = event.end_hour and start_min < event.start_min and end_min > event.end_min))";
+                   // insert into user_event values (" + userId + ", " + eventId;
+                DataTable dt = new DataTable();
+                using (cmd = new SQLiteCommand(query, dbConn))
+                {
+                    using (SQLiteDataReader dr = cmd.ExecuteReader())
+                    {
+                        // Load the reader data into the DataTable
+                        dt.Load(dr);
+
+                        // There is no event overlap for the user
+                        if (Convert.ToInt32(dt.Rows[0][0].ToString()) == 0)
+                        {
+                            query = "insert into user_event values (" + userId + ", " + eventId;
+                            cmd2 = new SQLiteCommand(query, dbConn);
+                            cmd2.ExecuteNonQuery();
+                        }
+                        // There is event overlap for the user
+                        else
+                        {
+                            errorMessage = "You are already enrolled in a class during this time period";
+                        }
+                    }
+                }
+
+                dbConn.Close();
+            }
+            catch (SQLiteException ex)
+            {
+                //Console.Write(ex.ToString());
+                errorMessage = ex.ToString();
+                dbConn.Close();
+            }
+
+            return errorMessage;
         }
     }
 }

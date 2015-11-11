@@ -4,6 +4,8 @@
 	email varchar(?)
 	password varchar(?)
 	status varchar(?)
+	first_name varchar(50)
+	last_name varchar(50)
 
 user_event:
 	user_id integer(1)
@@ -11,10 +13,14 @@ user_event:
 
 events:
 	event_id integer(1)
-	type varchar(?)
-	title varchar(?)
-	description varchar(?)
-	start_time datetime
-	end_time datetime
+	type varchar(20)
+	title varchar(50)
+	description varchar(500)
+	month integer(1)
 	day integer(1)
-	status varchar(20)
+	year integer(1)
+	start_hour integer(1)
+	start_min integer(1)
+	end_hour integer(1)
+	end_min integer(1)
+	created_by_id integer(1)

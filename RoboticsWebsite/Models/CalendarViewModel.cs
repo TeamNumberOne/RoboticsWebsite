@@ -10,6 +10,8 @@ namespace RoboticsWebsite.Models
 {
     public class CalendarViewModel
     {
+        public Boolean IsNewEvent { get; set; }
+        public int EventIdToAddForUser { get; set; }
         public SelectList EventTypeSelectList { get; set; }
         public CalendarData cd;
         public List<EventModel> Events { get; set; }
@@ -64,17 +66,22 @@ namespace RoboticsWebsite.Models
             Events = Events.OrderBy(x => x.Year).ThenBy(x => x.Month).ThenBy(x => x.Day).ToList();
         }
 
-        public void PopulateEventTypes()
+        public void PopulateEventTypes(string userType)
         {
             IEnumerable<EventType> eventTypeIEnumerable;
             List<SelectListItem> eventTypeItems = new List<SelectListItem>();
             // Get the event types into the SelectList
             eventTypeIEnumerable = Enum.GetValues(typeof(EventType)).Cast<EventType>();
 
-            // For each event type create a new select list item and add it to the List of SelectListItems
-            foreach(EventType eventType in eventTypeIEnumerable)
+            if (userType != null)
             {
-                eventTypeItems.Add(new SelectListItem() { Value = eventType.ToString(), Text = eventType.ToString() });
+                // For each event type create a new select list item and add it to the List of SelectListItems
+                foreach (EventType eventType in eventTypeIEnumerable)
+                {
+                    // If statement to prevent sponsors from creating classes and volunteers from creating competitions
+                    if (!(userType.Equals(UserType.Sponsor) && eventType == EventType.Class) && !(userType.Equals(UserType.Volunteer) && eventType == EventType.Competition))
+                        eventTypeItems.Add(new SelectListItem() { Value = eventType.ToString(), Text = eventType.ToString() });
+                }
             }
 
             EventTypeSelectList = new SelectList(eventTypeItems, "Value", "Text");

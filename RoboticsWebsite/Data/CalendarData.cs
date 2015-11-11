@@ -116,13 +116,16 @@ namespace RoboticsWebsite.Data
                     {
                         dt1.Load(dr);
                         // Calculate new event_id
-                        calendarEvent.EventId = Convert.ToInt32(dt1.Rows[0].ItemArray[0].ToString()) + 1;
+                        if (dt1.Rows.Count != 0)
+                            calendarEvent.EventId = Convert.ToInt32(dt1.Rows[0].ItemArray[0].ToString()) + 1;
+                        else
+                            calendarEvent.EventId = 1;
                     }
                 }
-                // MM/DD/YYYY 12:42
-                //query = "insert into events values (" + calendarEvent.EventId + ", '" + calendarEvent.Type.ToString() +
-                //    "', '" + calendarEvent.Title + "', '" + calendarEvent.Description + "', '" + Convert.ToString(calendarEvent.StartTime) +
-                //    "', to_date('" + calendarEvent.Month + "-" + calendarEvent.Day + "-" + calendarEvent.Year + "-" + "', " + calendarEvent.Day + ")";
+                
+                query = "insert into events values (" + calendarEvent.EventId + ", '" + calendarEvent.Type.ToString() +
+                    "', '" + calendarEvent.Title + "', '" + calendarEvent.Description + "', " + calendarEvent.Month + ", " + calendarEvent.Day + ", " + calendarEvent.Year +
+                    ", " + calendarEvent.StartHour + ", " + calendarEvent.StartMin + ", " + calendarEvent.EndHour + ", " + calendarEvent.EndMin + ", " + calendarEvent.CreatedById + ")";
 
                 cmd = new SQLiteCommand(query, dbConn);
                 cmd.ExecuteNonQuery();

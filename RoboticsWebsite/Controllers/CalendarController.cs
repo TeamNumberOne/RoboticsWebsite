@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using RoboticsWebsite.Models;
 using RoboticsWebsite.Enums;
+using RoboticsWebsite.Data;
 
 namespace RoboticsWebsite.Controllers
 {
@@ -16,9 +17,44 @@ namespace RoboticsWebsite.Controllers
         {
             CalendarViewModel calViewModel = new CalendarViewModel();
             calViewModel.GetEvents();
-            calViewModel.PopulateEventTypes();
+            calViewModel.PopulateEventTypes((string)Session["UserType"]);
             calViewModel.CurrentMonthNum = DateTime.Now.Month;
 
+            return View(calViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Month(CalendarViewModel calViewModel)
+        {
+            if (calViewModel.IsNewEvent)
+            {
+                calViewModel.NewEvent.CreatedById = (int)Session["UserId"];
+                calViewModel.NewEvent.AddEvent();
+            }
+            else
+            {
+                UserData ud = new UserData();
+                ViewData["ErrorMessge"] = ud.AddUserToEvent((int)Session["UserId"], calViewModel.EventIdToAddForUser);
+            }
+
+            calViewModel.GetEvents();
+            calViewModel.PopulateEventTypes((string)Session["UserType"]);
+
+            // Reset the values of NewEvent so they aren't used to populate the new event form elements
+            calViewModel.NewEvent.Type = EventType.Initial;
+            calViewModel.NewEvent.Title = "";
+            calViewModel.NewEvent.Description = "";
+            calViewModel.NewEvent.Month = 0;
+            calViewModel.NewEvent.Day = 0;
+            calViewModel.NewEvent.Year = 0;
+            calViewModel.NewEvent.StartHour = 0;
+            calViewModel.NewEvent.StartMin = 0;
+            calViewModel.NewEvent.EndHour = 0;
+            calViewModel.NewEvent.EndMin = 0;
+
+            // We shouldn't need this call anymore
+            //calViewModel.AddTestEvent();
+            
             return View(calViewModel);
         }
 
@@ -31,10 +67,10 @@ namespace RoboticsWebsite.Controllers
             }
             else
             {
-                calViewModel.CurrentMonthNum --;
+                calViewModel.CurrentMonthNum--;
             }
             calViewModel.GetEvents();
-            calViewModel.PopulateEventTypes();
+            calViewModel.PopulateEventTypes((string)Session["UserType"]);
 
             return View("Month", calViewModel);
         }
@@ -47,33 +83,12 @@ namespace RoboticsWebsite.Controllers
             }
             else
             {
-                calViewModel.CurrentMonthNum ++;
+                calViewModel.CurrentMonthNum++;
             }
             calViewModel.GetEvents();
-            calViewModel.PopulateEventTypes();
+            calViewModel.PopulateEventTypes((string)Session["UserType"]);
 
             return View("Month", calViewModel);
-        }
-        [HttpPost]
-        public ActionResult Month(CalendarViewModel calViewModel)
-        {
-            //calViewModel.NewEvent.AddEvent();
-
-            calViewModel.GetEvents();
-            calViewModel.PopulateEventTypes();
-
-            // Reset the values of NewEvent so they aren't used to populate the new event form elements
-            calViewModel.NewEvent.Type = EventType.Initial;
-            calViewModel.NewEvent.Title = "";
-            calViewModel.NewEvent.Description = "";
-            //calViewModel.NewEvent.StartTime = DateTime.MinValue;
-            //calViewModel.NewEvent.EndTime = DateTime.MaxValue;
-            calViewModel.NewEvent.Day = 0;
-
-            // We shouldn't need this call anymore
-            //calViewModel.AddTestEvent();
-            
-            return View(calViewModel);
         }
 
         [HttpPost]
