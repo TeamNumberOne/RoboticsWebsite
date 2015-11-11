@@ -14,11 +14,12 @@
     //Model.CurrentMonthNum = (int)Session["CurrentMonth"];
 }
 
+<div class="view-event-container" id="viewEvent">
+    @Html.Partial("ViewEvent")
+</div>
+
 @using (Html.BeginForm())
 {
-    <div class="view-event-container" id="viewEvent">
-        @Html.Partial("ViewEvent")
-    </div>
     <div class="form-container" id="newEvent">
         <h5 class="form-header">Create New Event</h5>
         <table class="form-table">
@@ -28,24 +29,228 @@
             </tr>
             <tr>
                 <td>Description: </td>
-                <td><input type="text" name="NewEvent.Description" class="form-control" value=""/> </td>
+                <td><input type="text" name="NewEvent.Description" class="form-control" value="" /> </td>
             </tr>
             <tr>
                 <td>Title: </td>
-                <td><input type = "text" name = "NewEvent.Title" id="NewEvent.Title" class="form-control" value = "" /></td>
+                <td><input type="text" name="NewEvent.Title" id="NewEvent.Title" class="form-control" value="" /></td>
             </tr>
             <tr>
                 <td>Start Time: </td>
-                <td><input type="text" name="NewEvent.StartTimeString" class="form-control" /></td>
+                <td>
+                    
+                    <select name="StartTime" class="form-control">
+                        <option value="5:00 AM">5:00 AM</option>
+                        <option value="5:15 AM">5:15 AM</option>
+                        <option value="5:30 AM">5:30 AM</option>
+                        <option value="5:45 AM">5:45 AM</option>
+
+                        <option value="6:00 AM">6:00 AM</option>
+                        <option value="6:15 AM">6:15 AM</option>
+                        <option value="6:30 AM">6:30 AM</option>
+                        <option value="6:45 AM">6:45 AM</option>
+
+                        <option value="7:00 AM">7:00 AM</option>
+                        <option value="7:15 AM">7:15 AM</option>
+                        <option value="7:30 AM">7:30 AM</option>
+                        <option value="7:45 AM">7:45 AM</option>
+
+                        <option value="8:00 AM">8:00 AM</option>
+                        <option value="8:15 AM">8:15 AM</option>
+                        <option value="8:30 AM">8:30 AM</option>
+                        <option value="8:45 AM">8:45 AM</option>
+
+                        <option value="9:00 AM">9:00 AM</option>
+                        <option value="9:15 AM">9:15 AM</option>
+                        <option value="9:30 AM">9:30 AM</option>
+                        <option value="9:45 AM">9:45 AM</option>
+
+                        <option value="10:00 AM">10:00 AM</option>
+                        <option value="10:15 AM">10:15 AM</option>
+                        <option value="10:30 AM">10:30 AM</option>
+                        <option value="10:45 AM">10:45 AM</option>
+
+                        <option value="11:00 AM">11:00 AM</option>
+                        <option value="11:15 AM">11:15 AM</option>
+                        <option value="11:30 AM">11:30 AM</option>
+                        <option value="11:45 AM">11:45 AM</option>
+
+                        <option value="12:00 PM">12:00 PM</option>
+                        <option value="12:15 PM">12:15 PM</option>
+                        <option value="12:30 PM">12:30 PM</option>
+                        <option value="12:45 PM">12:45 PM</option>
+
+                        <option value="1:00 PM">1:00 PM</option>
+                        <option value="1:15 PM">1:15 PM</option>
+                        <option value="1:30 PM">1:30 PM</option>
+                        <option value="1:45 PM">1:45 PM</option>
+
+                        <option value="2:00 PM">2:00 PM</option>
+                        <option value="2:15 PM">2:15 PM</option>
+                        <option value="2:30 PM">2:30 PM</option>
+                        <option value="2:45 PM">2:45 PM</option>
+
+                        <option value="3:00 PM">3:00 PM</option>
+                        <option value="3:15 PM">3:15 PM</option>
+                        <option value="3:30 PM">3:30 PM</option>
+                        <option value="3:45 PM">3:45 PM</option>
+
+                        <option value="4:00 PM">4:00 PM</option>
+                        <option value="4:15 PM">4:15 PM</option>
+                        <option value="4:30 PM">4:30 PM</option>
+                        <option value="4:45 PM">4:45 PM</option>
+
+                        <option value="5:00 PM">5:00 PM</option>
+                        <option value="5:15 PM">5:15 PM</option>
+                        <option value="5:30 PM">5:30 PM</option>
+                        <option value="5:45 PM">5:45 PM</option>
+
+                        <option value="6:00 PM">6:00 PM</option>
+                        <option value="6:15 PM">6:15 PM</option>
+                        <option value="6:30 PM">6:30 PM</option>
+                        <option value="6:45 PM">6:45 PM</option>
+
+                        <option value="7:00 PM">7:00 PM</option>
+                        <option value="7:15 PM">7:15 PM</option>
+                        <option value="7:30 PM">7:30 PM</option>
+                        <option value="7:45 PM">7:45 PM</option>
+
+                        <option value="8:00 PM">8:00 PM</option>
+                        <option value="8:15 PM">8:15 PM</option>
+                        <option value="8:30 PM">8:30 PM</option>
+                        <option value="8:45 PM">8:45 PM</option>
+
+                        <option value="9:00 PM">9:00 PM</option>
+                        <option value="9:15 PM">9:15 PM</option>
+                        <option value="9:30 PM">9:30 PM</option>
+                        <option value="9:45 PM">9:45 PM</option>
+
+                        <option value="10:00 PM">10:00 PM</option>
+                        <option value="10:15 PM">10:15 PM</option>
+                        <option value="10:30 PM">10:30 PM</option>
+                        <option value="10:45 PM">10:45 PM</option>
+
+                        <option value="11:00 PM">11:00 PM</option>
+                        <option value="11:15 PM">11:15 PM</option>
+                        <option value="11:30 PM">11:30 PM</option>
+                        <option value="11:45 PM">11:45 PM</option>
+                    </select>
+                </td>
+                @*<td><input type="" name="StartTime" class="form-control" /></td>*@
             </tr>
             <tr>
                 <td>End Time: </td>
-                <td><input type="text" name="NewEvent.EndTimeString" class="form-control" /></td>
+                <td>
+                    @*<input type="time" name="EndTime" class="form-control" />*@
+                    <select name="EndTime" class="form-control">
+                        <option value="5:00 AM">5:00 AM</option>
+                        <option value="5:15 AM">5:15 AM</option>
+                        <option value="5:30 AM">5:30 AM</option>
+                        <option value="5:45 AM">5:45 AM</option>
+
+                        <option value="6:00 AM">6:00 AM</option>
+                        <option value="6:15 AM">6:15 AM</option>
+                        <option value="6:30 AM">6:30 AM</option>
+                        <option value="6:45 AM">6:45 AM</option>
+
+                        <option value="7:00 AM">7:00 AM</option>
+                        <option value="7:15 AM">7:15 AM</option>
+                        <option value="7:30 AM">7:30 AM</option>
+                        <option value="7:45 AM">7:45 AM</option>
+
+                        <option value="8:00 AM">8:00 AM</option>
+                        <option value="8:15 AM">8:15 AM</option>
+                        <option value="8:30 AM">8:30 AM</option>
+                        <option value="8:45 AM">8:45 AM</option>
+
+                        <option value="9:00 AM">9:00 AM</option>
+                        <option value="9:15 AM">9:15 AM</option>
+                        <option value="9:30 AM">9:30 AM</option>
+                        <option value="9:45 AM">9:45 AM</option>
+
+                        <option value="10:00 AM">10:00 AM</option>
+                        <option value="10:15 AM">10:15 AM</option>
+                        <option value="10:30 AM">10:30 AM</option>
+                        <option value="10:45 AM">10:45 AM</option>
+
+                        <option value="11:00 AM">11:00 AM</option>
+                        <option value="11:15 AM">11:15 AM</option>
+                        <option value="11:30 AM">11:30 AM</option>
+                        <option value="11:45 AM">11:45 AM</option>
+
+                        <option value="12:00 PM">12:00 PM</option>
+                        <option value="12:15 PM">12:15 PM</option>
+                        <option value="12:30 PM">12:30 PM</option>
+                        <option value="12:45 PM">12:45 PM</option>
+
+                        <option value="1:00 PM">1:00 PM</option>
+                        <option value="1:15 PM">1:15 PM</option>
+                        <option value="1:30 PM">1:30 PM</option>
+                        <option value="1:45 PM">1:45 PM</option>
+
+                        <option value="2:00 PM">2:00 PM</option>
+                        <option value="2:15 PM">2:15 PM</option>
+                        <option value="2:30 PM">2:30 PM</option>
+                        <option value="2:45 PM">2:45 PM</option>
+
+                        <option value="3:00 PM">3:00 PM</option>
+                        <option value="3:15 PM">3:15 PM</option>
+                        <option value="3:30 PM">3:30 PM</option>
+                        <option value="3:45 PM">3:45 PM</option>
+
+                        <option value="4:00 PM">4:00 PM</option>
+                        <option value="4:15 PM">4:15 PM</option>
+                        <option value="4:30 PM">4:30 PM</option>
+                        <option value="4:45 PM">4:45 PM</option>
+
+                        <option value="5:00 PM">5:00 PM</option>
+                        <option value="5:15 PM">5:15 PM</option>
+                        <option value="5:30 PM">5:30 PM</option>
+                        <option value="5:45 PM">5:45 PM</option>
+
+                        <option value="6:00 PM">6:00 PM</option>
+                        <option value="6:15 PM">6:15 PM</option>
+                        <option value="6:30 PM">6:30 PM</option>
+                        <option value="6:45 PM">6:45 PM</option>
+
+                        <option value="7:00 PM">7:00 PM</option>
+                        <option value="7:15 PM">7:15 PM</option>
+                        <option value="7:30 PM">7:30 PM</option>
+                        <option value="7:45 PM">7:45 PM</option>
+
+                        <option value="8:00 PM">8:00 PM</option>
+                        <option value="8:15 PM">8:15 PM</option>
+                        <option value="8:30 PM">8:30 PM</option>
+                        <option value="8:45 PM">8:45 PM</option>
+
+                        <option value="9:00 PM">9:00 PM</option>
+                        <option value="9:15 PM">9:15 PM</option>
+                        <option value="9:30 PM">9:30 PM</option>
+                        <option value="9:45 PM">9:45 PM</option>
+
+                        <option value="10:00 PM">10:00 PM</option>
+                        <option value="10:15 PM">10:15 PM</option>
+                        <option value="10:30 PM">10:30 PM</option>
+                        <option value="10:45 PM">10:45 PM</option>
+
+                        <option value="11:00 PM">11:00 PM</option>
+                        <option value="11:15 PM">11:15 PM</option>
+                        <option value="11:30 PM">11:30 PM</option>
+                        <option value="11:45 PM">11:45 PM</option>
+                    </select>
+                </td>
             </tr>
-            <tr>
+            @*<tr>
+                <!--Is given a value via javascript when add event is selected, so that the day selected is put in here as value-->
                 <td><input type="hidden" name="NewEvent.Day" id="formCurrentDay" /></td>
+                <td><input type="number" name="NewEvent.Month" value="@Model.CurrentMonthNum" hidden /></td>
+                <td><input type="number" name="NewEvent.Year" value="@Model.CurrentYear" hidden /></td>
+                <td><input type="number" name="NewEvent.StartMin" value="@Model.StartMin" hidden /></td>
+                <td><input type="number" name="NewEvent.StartHour" value="@Model.StartHour" hidden /></td>
+                <td><input type="number" name="NewEvent.EndMin" value="@Model.EndMin" hidden /></td>
+                <td><input type="number" name="NewEvent.EndHour" value="@Model.EndHour" hidden /></td>
                 <td><input type="number" name="CurrentMonthNum" value="@Model.CurrentMonthNum" hidden /></td>
-            </tr>
+            </tr>*@
             <tr>
                 <td>
                     <input type="submit" id="submit" value="Submit" class="btn btn-sm" />
@@ -55,19 +260,28 @@
                 </td>
             </tr>
         </table>
+        <input type="hidden" name="NewEvent.Day" id="formCurrentDay" />
+        <input type="number" name="NewEvent.Month" value="@Model.CurrentMonthNum" hidden />
+        <input type="number" name="NewEvent.Year" value="@Model.CurrentYear" hidden />
+        <input type="number" name="NewEvent.StartMin" value="@Model.StartMin" hidden />
+        <input type="number" name="NewEvent.StartHour" value="@Model.StartHour" hidden />
+        <input type="number" name="NewEvent.EndMin" value="@Model.EndMin" hidden />
+        <input type="number" name="NewEvent.EndHour" value="@Model.EndHour" hidden />
+        <input type="number" name="CurrentMonthNum" value="@Model.CurrentMonthNum" hidden />
+        <input type="hidden" name="IsNewEvent" value="true"/>
     </div>
 }
 <div>
-@using (Html.BeginForm("PrevMonth", "Calendar"))
-{
-    <input type="number" name="CurrentMonthNum" value="@Model.CurrentMonthNum" style="visibility:hidden" />
-    <input type="submit" class="btn btn-sm" id="prev-month" value="previous">
-}
-@using (Html.BeginForm("NextMonth", "Calendar"))
-{
-    <input type="number" name="CurrentMonthNum" value="@Model.CurrentMonthNum" style="visibility:hidden" />
-    <input type="submit" class="btn btn-sm pull-top-right" id="next-month" value="next">
-}
+    @using (Html.BeginForm("PrevMonth", "Calendar"))
+    {
+        <input type="number" name="CurrentMonthNum" value="@Model.CurrentMonthNum" style="visibility:hidden" />
+        <input type="submit" class="btn btn-sm" id="prev-month" value="previous">
+    }
+    @using (Html.BeginForm("NextMonth", "Calendar"))
+    {
+        <input type="number" name="CurrentMonthNum" value="@Model.CurrentMonthNum" style="visibility:hidden" />
+        <input type="submit" class="btn btn-sm pull-top-right" id="next-month" value="next">
+    }
 </div>
 @for (int i = 1; i < 13; i++)
 {
@@ -116,65 +330,14 @@
 <div id="selectedDay" hidden></div>
 
 <script type='text/javascript'>
-    prevMonth = function () {
-        @{
-            //    if (Model.CurrentMonthNum == 1) {
-            //        Session["CurrentMonth"] = 12;
-            //    }
-            //    else {
-            Model.CurrentMonthNum--;
-            //Session["CurrentMonth"] = Model.CurrentMonthNum --;
-
-            //    }
-        }
-        location.reload(true);
-    }
-
-    nextMonth = function () {
-        @{
-            //if (Model.CurrentMonthNum == 12) {
-            //  Session["CurrentMonth"] = 1;
-            //}
-            //else {
-            //Model.CurrentMonthNum++;
-            Session["CurrentMonth"] = Model.CurrentMonthNum ++;
-
-            }
-        
-        location.reload(true);
-    }
+    
 
     $(document).ready(function () {
 
         $('#newEvent').prop("hidden", true);
 
         $('#viewEvent').prop("hidden", true);
-
-        @*
-        $('#prev-month').click(function () {
-            @{
-                    if (Model.CurrentMonthNum == 1) {
-                        Session["CurrentMonth"] = 12;
-                    }
-                    else {
-                        Session["CurrentMonth"] = Model.CurrentMonthNum --;
-                    }
-            }
-            location.reload();
-        });
-
-        $('#next-month').click(function () {
-            @{
-                    if (Model.CurrentMonthNum == 12) {
-                        Session["CurrentMonth"] = 1;
-                    }
-                    else {
-                        Session["CurrentMonth"] = Model.CurrentMonthNum ++;
-                    }
-            }
-            location.reload();
-        });
-*@
+        
         /*$(".pull-top-cell").hover(
             function () {
                 $(this).addClass("cell-hover");

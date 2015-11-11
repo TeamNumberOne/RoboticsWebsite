@@ -14,7 +14,10 @@ namespace RoboticsWebsite.Models
         public int EventIdToAddForUser { get; set; }
         public SelectList EventTypeSelectList { get; set; }
         public CalendarData cd;
+
         public List<EventModel> Events { get; set; }
+        public EventModel NewEvent { get; set; }
+
         public List<EventModel> CurrentMonthEvents
         {
             get
@@ -24,9 +27,16 @@ namespace RoboticsWebsite.Models
             }
             set { }
         }
-        
-        public EventModel NewEvent { get; set; }
-        
+
+        public string StartTime { get; set; }
+        public int StartMin { get; set; }
+        public int StartHour { get; set; }
+
+        public string EndTime { get; set; }
+        public int EndMin { get; set; }
+        public int EndHour { get; set; }
+               
+        public int CurrentYear { get; set; }
         public int CurrentMonthNum { get; set; }
         public int CurrentDay { get; set; }
 

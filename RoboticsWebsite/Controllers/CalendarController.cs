@@ -19,6 +19,7 @@ namespace RoboticsWebsite.Controllers
             calViewModel.GetEvents();
             calViewModel.PopulateEventTypes((string)Session["UserType"]);
             calViewModel.CurrentMonthNum = DateTime.Now.Month;
+            calViewModel.CurrentYear = DateTime.Now.Year;
 
             return View(calViewModel);
         }
@@ -63,6 +64,7 @@ namespace RoboticsWebsite.Controllers
         {
             if (calViewModel.CurrentMonthNum == 1)
             {
+                calViewModel.CurrentYear --;
                 calViewModel.CurrentMonthNum = 12;
             }
             else
@@ -79,6 +81,7 @@ namespace RoboticsWebsite.Controllers
         {
             if (calViewModel.CurrentMonthNum == 12)
             {
+                calViewModel.CurrentYear ++;
                 calViewModel.CurrentMonthNum = 1;
             }
             else

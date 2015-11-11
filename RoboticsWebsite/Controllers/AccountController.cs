@@ -71,6 +71,8 @@ namespace RoboticsWebsite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            int userId = 0;
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -79,19 +81,20 @@ namespace RoboticsWebsite.Controllers
             if (model.Email.Equals("test@gmail.com") && model.Password.Equals("test"))
             {
                 Session["Valid"] = true;
+                Session["UserId"] = userId;
                 Session["UserType"] = UserType.Admin.ToString();
                 return View("~/Views/Home/Index.cshtml");
             }
             else if (model.Email.Equals("guest@guest.guest") && model.Password.Equals("guest"))
             {
                 Session["Valid"] = true;
+                Session["UserId"] = userId;
                 Session["IsGuest"] = true;
                 return View("~/Views/Home/Index.cshtml");
             }
 
             // Get userType/Status from db
             UserType userType = UserType.Admin;
-            int userId = 0;
             UserStatus userStatus = new UserData().VerifyUser(model.Email, model.Password, ref userType, ref userId);
             if (userStatus == UserStatus.Unknown)
             {
