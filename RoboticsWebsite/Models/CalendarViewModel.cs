@@ -27,15 +27,82 @@ namespace RoboticsWebsite.Models
             }
             set { }
         }
-
         public string StartTime { get; set; }
-        public int StartMin { get; set; }
-        public int StartHour { get; set; }
-
         public string EndTime { get; set; }
-        public int EndMin { get; set; }
-        public int EndHour { get; set; }
-               
+        /*public string StartTime
+        {
+            get {
+                if (null == StartTime)                
+                    return "00:00 AM";                
+                else
+                    return StartTime;
+            }
+            set { }
+        }
+        public int StartMin {
+            get {
+                    string[] split = StartTime.Split(new char[] { ':', ' '});
+                    return Int32.Parse(split[1]);
+                }
+            set { }
+        }
+        public int StartHour {
+            get
+            {
+                string[] split = StartTime.Split(new char[] { ':', ' ' });
+                int hour = 0;
+                if (split[2].Equals("PM"))
+                {
+                    hour = Int32.Parse(split[0]) + 12;
+                }
+                else
+                {
+                    hour = Int32.Parse(split[0]);
+                }
+                return hour;
+            }
+            set { }
+        }
+
+        public string EndTime
+        {
+            get
+            {
+                if (null == EndTime)
+                    return "00:00 AM";
+                else
+                    return EndTime;
+            }
+            set { }
+        }
+        public int EndMin
+        {
+            get
+            {
+                string[] split = EndTime.Split(new char[] { ':', ' ' });
+                return Int32.Parse(split[1]);
+            }
+            set { }
+        }
+        public int EndHour
+        {
+            get
+            {
+                string[] split = EndTime.Split(new char[] { ':', ' ' });
+                int hour = 0;
+                if (split[2].Equals("PM"))
+                {
+                    hour = Int32.Parse(split[0]) + 12;
+                }
+                else
+                {
+                    hour = Int32.Parse(split[0]);
+                }
+                return hour;
+            }
+            set { }
+        }*/
+
         public int CurrentYear { get; set; }
         public int CurrentMonthNum { get; set; }
         public int CurrentDay { get; set; }

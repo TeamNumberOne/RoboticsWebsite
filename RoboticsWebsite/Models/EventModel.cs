@@ -18,10 +18,13 @@ namespace RoboticsWebsite.Models
         public int Day { get; set; }
         public int Month { get; set; }
         public int Year { get; set; }
+        //public string StartTime { get; set; }
         public int StartMin { get; set; }
         public int StartHour { get; set; }
-        public int EndMin { get; set; }
-        public int EndHour { get; set; }
+        
+        //public string EndTime { get; set; }
+        public int EndMin { get; set; }        
+        public int EndHour { get; set; }        
         public int CreatedById { get; set; }
 
 
@@ -33,8 +36,10 @@ namespace RoboticsWebsite.Models
             Day = 0;
             Month = 0;
             Year = 0000;
+            //StartTime = "00:00 AM";
             StartHour = 0;
             StartMin = 0;
+            //EndTime = "00:00 AM";
             EndHour = 0;
             EndMin = 0;
         }

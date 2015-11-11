@@ -14,9 +14,11 @@
     //Model.CurrentMonthNum = (int)Session["CurrentMonth"];
 }
 
-<div class="view-event-container" id="viewEvent">
-    @Html.Partial("ViewEvent")
-</div>
+
+<div class="container">
+    <div class="view-event-container" id="viewEvent">
+        @Html.Partial("ViewEvent")
+    </div>
 
 @using (Html.BeginForm())
 {
@@ -38,7 +40,11 @@
             <tr>
                 <td>Start Time: </td>
                 <td>
-                    
+                    @*<input type="number" name="NewEvent.StartHour" min="1" max="12" />
+                    <input type="number" name="NewEvent.StartMin" min="1" max="59" />
+                    <select name="NewEvent.AMPM" class="form-control">
+
+                    </select>*@
                     <select name="StartTime" class="form-control">
                         <option value="5:00 AM">5:00 AM</option>
                         <option value="5:15 AM">5:15 AM</option>
@@ -142,7 +148,7 @@
                 <td>End Time: </td>
                 <td>
                     @*<input type="time" name="EndTime" class="form-control" />*@
-                    <select name="EndTime" class="form-control">
+                    <select name="EndTime" class="form-control" id="EndTime">
                         <option value="5:00 AM">5:00 AM</option>
                         <option value="5:15 AM">5:15 AM</option>
                         <option value="5:30 AM">5:30 AM</option>
@@ -263,10 +269,10 @@
         <input type="hidden" name="NewEvent.Day" id="formCurrentDay" />
         <input type="number" name="NewEvent.Month" value="@Model.CurrentMonthNum" hidden />
         <input type="number" name="NewEvent.Year" value="@Model.CurrentYear" hidden />
-        <input type="number" name="NewEvent.StartMin" value="@Model.StartMin" hidden />
+        @*<input type="number" name="NewEvent.StartMin" value="@Model.StartMin" hidden />
         <input type="number" name="NewEvent.StartHour" value="@Model.StartHour" hidden />
         <input type="number" name="NewEvent.EndMin" value="@Model.EndMin" hidden />
-        <input type="number" name="NewEvent.EndHour" value="@Model.EndHour" hidden />
+        <input type="number" name="NewEvent.EndHour" value="@Model.EndHour" hidden />*@
         <input type="number" name="CurrentMonthNum" value="@Model.CurrentMonthNum" hidden />
         <input type="hidden" name="IsNewEvent" value="true"/>
     </div>
@@ -283,10 +289,7 @@
         <input type="submit" class="btn btn-sm pull-top-right" id="next-month" value="next">
     }
 </div>
-@for (int i = 1; i < 13; i++)
-{
-    //<h5></h5>
-}
+
 <h2>@Model.CurrentMonth</h2>
 
 @*<div id="newEvent">@Html.Partial("NewEventDialog")</div>*@
@@ -324,11 +327,11 @@
 
                 @Html.Partial("Day")
             </td>
-                    }
+         }
     </tr>
 </table>
 <div id="selectedDay" hidden></div>
-
+</div>
 <script type='text/javascript'>
     
 
@@ -351,6 +354,7 @@
         $(".calendar-table-2").click(function () {
             var cDay = this.id;
             var cDayP = cDay.split("|");
+            //Model.CurrentDay = cDayP;
             $('#selectedDay').text(cDayP[0]);
             $('#viewEvent').prop("hidden", false);
         });

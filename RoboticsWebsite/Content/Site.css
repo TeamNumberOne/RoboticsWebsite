@@ -3,6 +3,11 @@
     padding-bottom: 20px;
 }
 
+.container {
+    width : inherit;
+    height: auto;
+}
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -31,6 +36,7 @@ textarea {
 
 .table-size-row-1 {
     height : 100px;
+    width : 100%;
 }
 .pull-top-cell {
     vertical-align: top;
@@ -92,7 +98,7 @@ textarea {
     background-color: #222222;
     border-color: #080808;
     height : auto;
-    width : 75%;
+    width : 50%;
     margin-left : auto;
     margin-right : auto;
     margin-top : 0;
@@ -103,7 +109,7 @@ textarea {
 .view-event-table td {
     padding : 10px;
     border-top : 1px solid;
-    width: 99%;
+    
 }
 
 .close-day-view {
@@ -116,6 +122,7 @@ textarea {
 }
 .calendar-table-2 {
     width : 100%;
+    height: inherit;
     color : #666666;
 }
 

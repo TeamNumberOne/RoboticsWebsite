@@ -20,15 +20,32 @@ namespace RoboticsWebsite.Controllers
             calViewModel.PopulateEventTypes((string)Session["UserType"]);
             calViewModel.CurrentMonthNum = DateTime.Now.Month;
             calViewModel.CurrentYear = DateTime.Now.Year;
-
-            return View(calViewModel);
+            //calViewModel.StartTime = "00:00 AM";
+            //calViewModel.EndTime = "00:00 AM";
+           return View(calViewModel);
         }
 
         [HttpPost]
         public ActionResult Month(CalendarViewModel calViewModel)
         {
+            int startMin;
+            int startHour;
+            int endMin;
+            int endHour;
+
             if (calViewModel.IsNewEvent)
             {
+                string[] split = calViewModel.StartTime.Split(new char[] { ':', ' ' });
+                startMin = Int32.Parse(split[1]);
+
+                if (split[2].Equals("PM"))
+                {
+                    startHour = Int32.Parse(split[0]) + 12;
+                }
+                else
+                {
+                    startHour = Int32.Parse(split[0]);
+                }
                 calViewModel.NewEvent.CreatedById = (int)Session["UserId"];
                 calViewModel.NewEvent.AddEvent();
             }
@@ -48,8 +65,10 @@ namespace RoboticsWebsite.Controllers
             calViewModel.NewEvent.Month = 0;
             calViewModel.NewEvent.Day = 0;
             calViewModel.NewEvent.Year = 0;
+            //calViewModel.NewEvent.StartTime = "00:00 AM";
             calViewModel.NewEvent.StartHour = 0;
             calViewModel.NewEvent.StartMin = 0;
+            //calViewModel.NewEvent.EndTime = "00:00 AM";
             calViewModel.NewEvent.EndHour = 0;
             calViewModel.NewEvent.EndMin = 0;
 

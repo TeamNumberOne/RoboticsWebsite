@@ -24,18 +24,17 @@
         </tr>
     </table>
     <table class="calendar-table-2" id="@Model.CurrentDay |">
-        @foreach (var e in Model.Events)
+        @foreach (var e in Model.CurrentMonthEvents)
         {
-            @*var date = e.StartTime;
-            var day = date.Day;
+            var day = e.Day;
             if (e.Day == Model.CurrentDay)
             {
                 <tr class="calendar-table-events">
-                    <td title="@e.StartTimeString - @e.EndTimeString">
+                    <td title="@e.StartHour : @e.StartMin - @e.EndHour : @e.EndMin">
                         @e.Title
                     </td>
                 </tr>
-            }*@
+            }
         }
 
     </table>
