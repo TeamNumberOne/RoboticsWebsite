@@ -188,7 +188,7 @@ namespace RoboticsWebsite.Data
             try
             {
                 dbConn.Open();
-
+                // Something wrong with this query
                 query = "select E.* from events E, user_event UE where UE.user_id = " + userId + "' and UE.event_id = E.event_id";
                 DataTable dt = new DataTable();
                 using (cmd = new SQLiteCommand(query, dbConn))
@@ -278,7 +278,7 @@ namespace RoboticsWebsite.Data
             try
             {
                 dbConn.Open();
-
+                
                 query = "with event as (select month, day, year, start_hour, start_min, end_hour, end_min from events where event_id = " + eventId + ") "
                         + "select count(*) from events where event_id != " + eventId + " and month = event.month and day = event.day and year = event.year "
                         + "and ((start_hour < event.start_hour and end_hour > event.end_hour) or "
@@ -290,6 +290,7 @@ namespace RoboticsWebsite.Data
                 DataTable dt = new DataTable();
                 using (cmd = new SQLiteCommand(query, dbConn))
                 {
+                    //doesn't execute
                     using (SQLiteDataReader dr = cmd.ExecuteReader())
                     {
                         // Load the reader data into the DataTable

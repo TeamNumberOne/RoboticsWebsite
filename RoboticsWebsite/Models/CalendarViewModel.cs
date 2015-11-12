@@ -107,6 +107,7 @@ namespace RoboticsWebsite.Models
         public int CurrentMonthNum { get; set; }
         public int CurrentDay { get; set; }
 
+        public int ViewDay { get; set; }
         public DayOfWeek StartDay
         {
             get { return new DateTime(2015, CurrentMonthNum, 1).DayOfWeek; }

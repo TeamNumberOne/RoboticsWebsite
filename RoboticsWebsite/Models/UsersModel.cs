@@ -12,6 +12,7 @@ namespace RoboticsWebsite.Models
         public List<UserModel> Users { get; set; }
         public int UserIdToModify { get; set; }
         public UserStatus NewUserStatus { get; set; }
+        public Boolean Approved { get; set; }
 
         public UsersModel()
         {
@@ -29,6 +30,14 @@ namespace RoboticsWebsite.Models
         public string UpdateUser()
         {
             UserData ud = new UserData();
+            if (Approved)
+            {
+                NewUserStatus = UserStatus.Approved;
+            }
+            else
+            {
+                NewUserStatus = UserStatus.Rejected;
+            }
             string result = ud.UpdateUser(UserIdToModify, NewUserStatus);
 
             return result;

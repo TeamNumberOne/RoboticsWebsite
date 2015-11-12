@@ -67,5 +67,23 @@ namespace RoboticsWebsite.Controllers
             else
                 return Redirect("~/Account/Login");
         }
+
+        [HttpGet]
+        public ActionResult ModifyUser()
+        {
+            UsersModel usersModel = new UsersModel();
+            usersModel.GetUsers();
+            return View("ModifyUsers", usersModel);
+        }
+
+        [HttpPost]
+        public ActionResult ModifyUser(UsersModel usersModel)
+        {
+            
+            //usersModel.GetUsers();
+            usersModel.UpdateUser();
+            usersModel.GetUsers();
+            return View("ModifyUsers", usersModel);
+        }
     }
 }

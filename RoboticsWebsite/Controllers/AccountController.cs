@@ -54,7 +54,7 @@ namespace RoboticsWebsite.Controllers
             }
         }
 
-        [HttpGet]
+        /*[HttpGet]
         public ActionResult ModifyUser()
         {
             UsersModel usersModel = new UsersModel();
@@ -69,7 +69,7 @@ namespace RoboticsWebsite.Controllers
             usersModel.GetUsers();
 
             return View("ModifyUsers", usersModel);
-        }
+        }*/
 
         //
         // GET: /Account/Login

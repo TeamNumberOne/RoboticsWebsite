@@ -289,7 +289,7 @@
     <Content Include="Views\Calendar\ViewEvent.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Home\UserEvents.cshtml" />
-    <Content Include="Views\Account\ModifyUsers.cshtml" />
+    <Content Include="Views\Home\ModifyUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -28,7 +28,7 @@
                     <li>@Html.ActionLink("Events", "UserEvents", "Home")</li>
                     @if (null != Session["UserType"] &&((string)Session["UserType"]).ToString().Equals("Admin"))
                     {
-                        <li>@Html.ActionLink("Approve Users", "ModifyUser", "Account")</li>
+                        <li>@Html.ActionLink("Approve Users", "ModifyUser", "Home")</li>
                     }
                 </ul>
                 <ul class="nav navbar-nav pull-right">

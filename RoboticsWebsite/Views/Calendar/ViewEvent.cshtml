@@ -1,52 +1,114 @@
 ﻿@model RoboticsWebsite.Models.CalendarViewModel
+@{ 
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-<div>
     <div class="view-event-title">
-        <h3>@Model.CurrentMonth</h3><h3 id="selectedDay"></h3>
+        <h3>@Model.CurrentMonth @Model.ViewDay</h3>
     </div>
     <table class="view-event-table">
-   
-    @*@for(int i = 0; i < 24; i ++)
-    {       
-            @*string time;
-            if(i == 0)
+        <tr>
+            <td>Time</td>
+            <td>Type</td>
+            <td>Title</td>
+            <td>Description</td>
+            <td></td>
+        </tr>
+    @foreach (var e in Model.CurrentMonthEvents)
+    {
+        if (e.Day == Model.ViewDay)
+        {
+            string startTime, endTime;
+            if (e.StartHour == 24)
             {
-                time = "12:00 AM";
+                startTime = "12:" + e.StartMin + " AM";
+                if (e.StartMin == 0)
+                {
+                    startTime = "12:" + e.StartMin + "0 AM";
+                }
             }
-            else if(i < 13)
+            else if (e.StartHour == 12)
             {
-                time = i + ":00 AM";
+                startTime = "12:" + e.StartMin + " PM";
+                if (e.StartMin == 0)
+                {
+                    startTime = "12:" + e.StartMin + "0 PM";
+                }
+            }
+            else if (e.StartHour > 12)
+            {
+                startTime = e.StartHour - 12 + ":" + e.StartMin + " PM";
+                if (e.StartMin == 0)
+                {
+                    startTime = e.StartHour + ":" + e.StartMin + "0 PM";
+                }
             }
             else
             {
-                time = (i - 12) + ":00 PM";
-            }*@
-        
-@*        <tr>
-            @*<td>
-                @time
-            </td>*
-            <td>
-
-                @foreach(var e in Model.CurrentMonthEvents)
+                startTime = e.StartHour + ":" + e.StartMin + " AM";
+                if (e.StartMin == 0)
                 {
-
+                    startTime = e.StartHour + ":" + e.StartMin + "0 AM";
                 }
-            </td>
-        </tr>
-    }*@
-    <tr>
-        <td colspan="2">
-            <button type="button" class="btn btn-sm close-day-view" style="float: right">Cancel</button>
-        </td>   
-    </tr>
+            }
+
+            if (e.EndHour == 24)
+            {
+                endTime = "12" + e.EndMin + " AM";
+                if (e.EndMin == 0)
+                {
+                    endTime = "12:" + e.EndMin + "0 AM";
+                }
+            }
+            else if (e.EndHour == 12)
+            {
+                endTime = "12:" + e.EndMin + " PM";
+                if (e.EndMin == 0)
+                {
+                    endTime = "12:" + e.EndMin + "0 PM";
+                }
+            }
+            else if (e.EndHour > 12)
+            {
+                endTime = e.EndHour - 12 + ":" + e.EndMin + " PM";
+                if (e.EndMin == 0)
+                {
+                    endTime = e.EndHour + ":" + e.EndMin + "0 PM";
+                }
+            }
+            else
+            {
+                endTime = e.EndHour + ":" + e.EndMin + " AM";
+                if (e.EndMin == 0)
+                {
+                    endTime = e.EndHour + ":" + e.EndMin + "0 AM";
+                }
+            }
+            <tr>
+                <td>@startTime - @endTime</td>
+                <td>@e.Type.ToString()</td>
+                <td>@e.Title</td>
+                <td>@e.Description</td>
+                <td>
+                    @using(Html.BeginForm("Month", "Calendar"))
+                    {
+                        <input type="hidden" name="IsNewEvent" value="false" />
+                        <input type="hidden" name="EventIdToAddForUser" value="@e.EventId" />
+                        <input type="hidden" name="CurrentMonthNum" value="@Model.CurrentMonthNum" />
+                        <input type="submit" class="btn btn-sml" value="Join" />
+                    }
+                </td>
+            </tr>
+
+        }
+    }
     </table>
-    
-</div>
+
 
 <script type="text/javascript">
-    
-    $(document).ready(function () {
+    var day = document.getElementById('selectedDay').textContent;
+    @Model.ViewDay = day;
+    @*$(document).ready(function () {
         @foreach (var e in Model.CurrentMonthEvents)
         {
             <text>
@@ -57,7 +119,7 @@
                 }
             </text>
         }
-    });
+    });*@
     @*foreach(var e in Model.CurrentMonthEvents)
     {
         //<text>

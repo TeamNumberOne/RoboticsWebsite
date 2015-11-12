@@ -138,9 +138,16 @@ namespace RoboticsWebsite.Controllers
         }
 
         [HttpPost]
+        public ActionResult ViewEvent(CalendarViewModel calViewModel)
+        {
+            calViewModel.GetEvents();
+            calViewModel.PopulateEventTypes((string)Session["UserType"]);
+            return View("ViewEvent", calViewModel);
+        }
+
+        [HttpPost]
         public ActionResult AddEvent()
         {
-
             return View();
         }
 
