@@ -1,0 +1,32 @@
+﻿@using RoboticsWebsite.Enums;
+
+@model RoboticsWebsite.Models.UsersModel
+
+@{
+    ViewBag.Title = "ModifyUsers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="modify-users-container">
+    <h2>ModifyUsers</h2>
+
+    <table class="modify-users-table">
+        @using (Html.BeginForm("ModifyUser", "Account"))
+        {
+            @foreach(var e in Model.Users)
+            {
+                if(e.Status == UserStatus.Pending)
+                {
+                    <tr>
+                        <td>@e.Email</td>
+                        <td>@e.Type.ToString()</td>
+                        <td><input type="radio" name="status" value="approve" checked> Approve </td>
+                        <td><input type="radio" name="status" value="reject"> Reject</td>
+                        <td><input type="submit" value="Submit" id="submit" class="btn btn-sml"/></td>
+                    </tr>
+                }
+            }
+        }
+    </table>
+</div>
+

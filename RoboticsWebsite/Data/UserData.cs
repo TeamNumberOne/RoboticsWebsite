@@ -21,6 +21,46 @@ namespace RoboticsWebsite.Data
             Users = new List<UserModel>();
         }
 
+        public List<UserModel> GetUsers()
+        {
+            string query;
+            SQLiteCommand cmd;
+            UserModel userModel;
+            List<UserModel> Users = new List<UserModel>();
+
+            try
+            {
+                dbConn.Open();
+
+                query = "select * from users";
+                DataTable dt = new DataTable();
+                using (cmd = new SQLiteCommand(query, dbConn))
+                {
+                    using (SQLiteDataReader dr = cmd.ExecuteReader())
+                    {
+                        // Load the reader data into the DataTable
+                        dt.Load(dr);
+
+                        // While there are rows in the returned data create EventModels and add them to the EventModel list
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            userModel = new UserModel(dt.Rows[i]);
+                            Users.Add(userModel);
+                        }
+                    }
+                }
+
+                dbConn.Close();
+            }
+            catch (SQLiteException ex)
+            {
+                Console.Write(ex.ToString());
+                dbConn.Close();
+            }
+
+            return Users;
+        }
+
         public string AddUser(UserModel user)
         {
             string status = "";
@@ -276,6 +316,27 @@ namespace RoboticsWebsite.Data
             {
                 //Console.Write(ex.ToString());
                 errorMessage = ex.ToString();
+                dbConn.Close();
+            }
+
+            return errorMessage;
+        }
+
+        public string UpdateUser(int userId, UserStatus newStatus)
+        {
+            string query, errorMessage = "Update Successful";
+            SQLiteCommand cmd;
+
+            query = "update users set status = '" + newStatus.ToString() + "' where user_id = " + userId;
+            try
+            {
+                dbConn.Open();
+                cmd = new SQLiteCommand(query, dbConn);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                errorMessage = e.ToString();
                 dbConn.Close();
             }
 

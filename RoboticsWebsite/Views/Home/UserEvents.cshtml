@@ -1,0 +1,105 @@
+﻿@model RoboticsWebsite.Models.UserViewModel
+
+@{
+    ViewBag.Title = "UserEvents";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="user-events-container">
+    <h2>Your Events</h2>
+
+    @using (Html.BeginForm("UserEvents", "Home"))
+    {
+        <table class="user-events-table">
+            <tr>
+                <td>Day</td>
+                <td>Time</td>
+                <td>Type</td>
+                <td>Title</td>
+                <td>Description</td>
+                <td></td>
+            </tr>
+            @foreach (var e in Model.Events)
+            {
+
+                string startTime, endTime;
+                if (e.StartHour == 24)
+                {
+                    startTime = "12:" + e.StartMin + " AM";
+                    if (e.StartMin == 0)
+                    {
+                        startTime = "12:" + e.StartMin + "0 AM";
+                    }
+                }
+                else if (e.StartHour == 12)
+                {
+                    startTime = "12:" + e.StartMin + " PM";
+                    if (e.StartMin == 0)
+                    {
+                        startTime = "12:" + e.StartMin + "0 PM";
+                    }
+                }
+                else if (e.StartHour > 12)
+                {
+                    startTime = e.StartHour - 12 + ":" + e.StartMin + " PM";
+                    if (e.StartMin == 0)
+                    {
+                        startTime = "12:" + e.StartMin + "0 PM";
+                    }
+                }
+                else
+                {
+                    startTime = e.StartHour + ":" + e.StartMin + " AM";
+                    if (e.StartMin == 0)
+                    {
+                        startTime = "12:" + e.StartMin + "0 AM";
+                    }
+                }
+
+                if (e.EndHour == 24)
+                {
+                    endTime = "12" + e.EndMin + " AM";
+                    if (e.EndMin == 0)
+                    {
+                        endTime = "12:" + e.EndMin + "0 AM";
+                    }
+                }
+                else if (e.EndHour == 12)
+                {
+                    endTime = "12:" + e.EndMin + " PM";
+                    if (e.EndMin == 0)
+                    {
+                        endTime = "12:" + e.EndMin + "0 PM";
+                    }
+                }
+                else if (e.EndHour > 12)
+                {
+                    endTime = e.EndHour - 12 + ":" + e.EndMin + " PM";
+                    if (e.EndMin == 0)
+                    {
+                        endTime = "12:" + e.EndMin + "0 PM";
+                    }
+                }
+                else
+                {
+                    endTime = e.EndHour + ":" + e.EndMin + " AM";
+                    if (e.EndMin == 0)
+                    {
+                        endTime = "12:" + e.EndMin + "0 AM";
+                    }
+                }
+
+                <tr>
+                    <td>@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(e.Month) @e.Day</td>
+                    <td>@startTime - @endTime</td>
+                    <td>@e.Type.ToString()</td>
+                    <td>@e.Title</td>
+                    <td>@e.Description</td>
+                    <td>
+                        <input type="number" value="@e.EventId" name="@Model.EventIdToRemove" hidden />
+                        <input type="submit" value="Delete" id="submit" class="btn btn-sm" /></td>
+                </tr>
+            }
+        </table>
+    }
+</div>
+

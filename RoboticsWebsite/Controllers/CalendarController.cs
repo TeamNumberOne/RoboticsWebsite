@@ -38,14 +38,38 @@ namespace RoboticsWebsite.Controllers
                 string[] split = calViewModel.StartTime.Split(new char[] { ':', ' ' });
                 startMin = Int32.Parse(split[1]);
 
-                if (split[2].Equals("PM"))
+                if (split[2].Equals("PM") & !split[2].Equals("12"))
                 {
                     startHour = Int32.Parse(split[0]) + 12;
+                }
+                else if (split[2].Equals("AM") && split[2].Equals("12"))
+                {
+                    startHour = 24;
                 }
                 else
                 {
                     startHour = Int32.Parse(split[0]);
                 }
+
+                string[] split2 = calViewModel.EndTime.Split(new char[] { ':', ' ' });
+                endMin = Int32.Parse(split2[1]);
+
+                if (split2[2].Equals("PM") &! split2[2].Equals("12"))
+                {
+                    endHour = Int32.Parse(split2[0]) + 12;
+                }
+                else if(split2[2].Equals("AM") && split2[2].Equals("12"))
+                {
+                    endHour = 24;
+                }
+                else
+                {
+                    endHour = Int32.Parse(split2[0]);
+                }
+                calViewModel.NewEvent.StartMin  = startMin;
+                calViewModel.NewEvent.StartHour = startHour;
+                calViewModel.NewEvent.EndMin    = endMin;
+                calViewModel.NewEvent.EndHour   = endHour;
                 calViewModel.NewEvent.CreatedById = (int)Session["UserId"];
                 calViewModel.NewEvent.AddEvent();
             }

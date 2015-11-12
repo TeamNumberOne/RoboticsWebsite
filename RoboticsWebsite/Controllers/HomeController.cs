@@ -30,7 +30,7 @@ namespace RoboticsWebsite.Controllers
             UserViewModel uvModel = new UserViewModel();
             uvModel.GetEventsByUserId((int)Session["UserId"]);
 
-            return View(uvModel);
+            return View("UserEvents", uvModel);
         }
 
         [HttpPost]
@@ -45,7 +45,7 @@ namespace RoboticsWebsite.Controllers
             // Otherwise the event will disappear from the list
             ViewData["ErrorMessage"] = errorMessage;
 
-            return View(uvModel);
+            return View("UserEvents", uvModel);
         }
 
         public ActionResult About()

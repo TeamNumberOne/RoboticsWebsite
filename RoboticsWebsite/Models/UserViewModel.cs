@@ -16,6 +16,7 @@ namespace RoboticsWebsite.Models
         public void GetEventsByUserId(int userId)
         {
             UserData ud = new UserData();
+            //int userId = (int)Session["userId"];
             Events = ud.GetEventsByUserId(userId);
         }
     }

@@ -10,7 +10,8 @@
                     @*<div class="myButton">+</div>*@
                     @if (null != Session["UserType"] || (string)Session["UserType"] == "Admin")
                     {
-                        if ((Model.CurrentDay >= DateTime.Now.Day && Model.CurrentMonthNum == DateTime.Now.Month) || Model.CurrentMonthNum > DateTime.Now.Month)
+                        if ((Model.CurrentDay >= DateTime.Now.Day && Model.CurrentMonthNum == DateTime.Now.Month) 
+                            || Model.CurrentMonthNum > DateTime.Now.Month || Model.CurrentYear > DateTime.Now.Year)
                         {
                             <button class="myButton" id="@Model.CurrentDay" value="+" onclick="createEvent();">+</button>
                         }
@@ -29,8 +30,75 @@
             var day = e.Day;
             if (e.Day == Model.CurrentDay)
             {
-                <tr class="calendar-table-events">
-                    <td title="@e.StartHour : @e.StartMin - @e.EndHour : @e.EndMin">
+                <tr class="calendar-table-events"> 
+                    @{ 
+                        string startTime, endTime;
+                        if (e.StartHour == 24) {
+                            startTime = "12:" + e.StartMin + " AM";
+                            if(e.StartMin == 0)
+                            {
+                                startTime = "12:" + e.StartMin + "0 AM";
+                            }
+                        }
+                        else if (e.StartHour == 12)
+                        {
+                            startTime = "12:" + e.StartMin + " PM";
+                            if (e.StartMin == 0)
+                            {
+                                startTime = "12:" + e.StartMin + "0 PM";
+                            }
+                        }
+                        else if (e.StartHour > 12)
+                        {
+                            startTime = e.StartHour - 12 + ":" + e.StartMin + " PM";
+                            if (e.StartMin == 0)
+                            {
+                                startTime = "12:" + e.StartMin + "0 PM";
+                            }
+                        }
+                        else
+                        {
+                            startTime = e.StartHour + ":" + e.StartMin + " AM";
+                            if (e.StartMin == 0)
+                            {
+                                startTime = "12:" + e.StartMin + "0 AM";
+                            }
+                        }
+
+                        if (e.EndHour == 24)
+                        {
+                            endTime = "12" + e.EndMin + " AM";
+                            if (e.EndMin == 0)
+                            {
+                                endTime = "12:" + e.EndMin + "0 AM";
+                            }
+                        }
+                        else if (e.EndHour == 12)
+                        {
+                            endTime = "12:" + e.EndMin + " PM";
+                            if (e.EndMin == 0)
+                            {
+                                endTime = "12:" + e.EndMin + "0 PM";
+                            }
+                        }
+                        else if (e.EndHour > 12)
+                        {
+                            endTime = e.EndHour - 12 + ":" + e.EndMin + " PM";
+                            if (e.EndMin == 0)
+                            {
+                                endTime = "12:" + e.EndMin + "0 PM";
+                            }
+                        }
+                        else
+                        {
+                            endTime = e.EndHour + ":" + e.EndMin + " AM";
+                            if (e.EndMin == 0)
+                            {
+                                endTime = "12:" + e.EndMin + "0 AM";
+                            }
+                        }
+                    }
+                    <td title="@startTime - @endTime">
                         @e.Title
                     </td>
                 </tr>

@@ -54,6 +54,23 @@ namespace RoboticsWebsite.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult ModifyUser()
+        {
+            UsersModel usersModel = new UsersModel();
+            usersModel.GetUsers();
+            return View("ModifyUsers", usersModel);
+        }
+
+        [HttpPost]
+        public ActionResult ModifyUser(UsersModel usersModel)
+        {
+            usersModel.UpdateUser();
+            usersModel.GetUsers();
+
+            return View("ModifyUsers", usersModel);
+        }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -81,7 +98,7 @@ namespace RoboticsWebsite.Controllers
             if (model.Email.Equals("test@gmail.com") && model.Password.Equals("test"))
             {
                 Session["Valid"] = true;
-                Session["UserId"] = userId;
+                Session["UserId"] = 1;
                 Session["UserType"] = UserType.Admin.ToString();
                 return View("~/Views/Home/Index.cshtml");
             }

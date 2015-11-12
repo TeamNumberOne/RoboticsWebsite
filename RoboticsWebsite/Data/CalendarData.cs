@@ -116,7 +116,7 @@ namespace RoboticsWebsite.Data
                     {
                         dt1.Load(dr);
                         // Calculate new event_id
-                        if (dt1.Rows.Count > 1) //EDIT: CHANGED THIS TO > 1 BECAUSE I THINK ROWS MIGHT START AT 1?  SO WAS GIVING INVALID CAST EXCEPTION FROM DBNull TO OTHER TYPES
+                        if (dt1.Rows.Count > 0) //EDIT: CHANGED THIS TO > 1 BECAUSE I THINK ROWS MIGHT START AT 1?  SO WAS GIVING INVALID CAST EXCEPTION FROM DBNull TO OTHER TYPES
                             calendarEvent.EventId = Convert.ToInt32(dt1.Rows[0].ItemArray[0].ToString()) + 1;
                         else
                             calendarEvent.EventId = 1;

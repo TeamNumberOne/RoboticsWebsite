@@ -2,13 +2,13 @@
 
 <div>
     <div class="view-event-title">
-        <h3>@Model.CurrentMonth @Model.CurrentDay</h3>
+        <h3>@Model.CurrentMonth</h3><h3 id="selectedDay"></h3>
     </div>
     <table class="view-event-table">
    
-    @for(int i = 0; i < 24; i ++)
+    @*@for(int i = 0; i < 24; i ++)
     {       
-            string time;
+            @*string time;
             if(i == 0)
             {
                 time = "12:00 AM";
@@ -20,20 +20,21 @@
             else
             {
                 time = (i - 12) + ":00 PM";
-            }
+            }*@
         
-        <tr>
-            <td>
+@*        <tr>
+            @*<td>
                 @time
-            </td>
+            </td>*
             <td>
-                @foreach(var e in Model.Events)
+
+                @foreach(var e in Model.CurrentMonthEvents)
                 {
 
                 }
             </td>
         </tr>
-    }
+    }*@
     <tr>
         <td colspan="2">
             <button type="button" class="btn btn-sm close-day-view" style="float: right">Cancel</button>
@@ -42,3 +43,28 @@
     </table>
     
 </div>
+
+<script type="text/javascript">
+    
+    $(document).ready(function () {
+        @foreach (var e in Model.CurrentMonthEvents)
+        {
+            <text>
+                var day = document.getElementById('selectedDay').textContent;
+                
+                if(day == @e.Day){
+                    $('#view-event-table').after('<tr><td>@e.Title </td></tr>');
+                }
+            </text>
+        }
+    });
+    @*foreach(var e in Model.CurrentMonthEvents)
+    {
+        //<text>
+            var day = document.getElementById('selectedDay').textContent;
+            if(day == @{ e.Day + ""}){
+                var table = document.getElementById('view-event-table');
+            }
+        //</text>
+    }*@
+</script>
