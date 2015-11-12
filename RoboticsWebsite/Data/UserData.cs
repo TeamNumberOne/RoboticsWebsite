@@ -189,7 +189,7 @@ namespace RoboticsWebsite.Data
             {
                 dbConn.Open();
                 // Something wrong with this query
-                query = "select E.* from events E, user_event UE where UE.user_id = " + userId + "' and UE.event_id = E.event_id";
+                query = "select E.* from events E, user_event UE where UE.user_id = '" + userId + "' and UE.event_id = E.event_id";
                 DataTable dt = new DataTable();
                 using (cmd = new SQLiteCommand(query, dbConn))
                 {
@@ -274,18 +274,21 @@ namespace RoboticsWebsite.Data
         {
             string query, errorMessage = "";
             SQLiteCommand cmd, cmd2;
+            EventModel eventModel;
+            List<EventModel> Events = new List<EventModel>();
 
             try
             {
                 dbConn.Open();
-                
-                query = "with event as (select month, day, year, start_hour, start_min, end_hour, end_min from events where event_id = " + eventId + ") "
-                        + "select count(*) from events where event_id != " + eventId + " and month = event.month and day = event.day and year = event.year "
-                        + "and ((start_hour < event.start_hour and end_hour > event.end_hour) or "
-                        + "(start_hour < event.start_hour and end_hour = event.end_hour and end_min > event.end_min) or "
-                        + "(start_hour = event.start_hour and end_hour > event.end_hour and start_min < event.start_min) or"
-                        + "(start_hour = event.start_hour and end_hour = event.end_hour and (start_min between event.start_min and event.end_min or end_min between event.start_min and event.end_min)) or "
-                        + "(start_hour = event.start_hour and end_hour = event.end_hour and start_min < event.start_min and end_min > event.end_min))";
+
+                //query = "with recursive event(month, day, year, start_hour, start_min, end_hour, end_min) as (select month, day, year, start_hour, start_min, end_hour, end_min from events where event_id = " + eventId + ") "
+                //        + "select count(*) from events where event_id != " + eventId + " and month = event.month and day = event.day and year = event.year "
+                //        + "and ((start_hour < event.start_hour and end_hour > event.end_hour) or "
+                //        + "(start_hour < event.start_hour and end_hour = event.end_hour and end_min > event.end_min) or "
+                //        + "(start_hour = event.start_hour and end_hour > event.end_hour and start_min < event.start_min) or"
+                //        + "(start_hour = event.start_hour and end_hour = event.end_hour and (start_min between event.start_min and event.end_min or end_min between event.start_min and event.end_min)) or "
+                //        + "(start_hour = event.start_hour and end_hour = event.end_hour and start_min < event.start_min and end_min > event.end_min))";
+                query = "select E.* from events E, user_event UE where UE.user_id = " + userId + " and UE.event_id = E.event_id";
                    // insert into user_event values (" + userId + ", " + eventId;
                 DataTable dt = new DataTable();
                 using (cmd = new SQLiteCommand(query, dbConn))
@@ -296,18 +299,44 @@ namespace RoboticsWebsite.Data
                         // Load the reader data into the DataTable
                         dt.Load(dr);
 
-                        // There is no event overlap for the user
-                        if (Convert.ToInt32(dt.Rows[0][0].ToString()) == 0)
+
+                        // While there are rows in the returned data create EventModels and add them to the EventModel list
+                        for (int i = 0; i < dt.Rows.Count; i++)
                         {
-                            query = "insert into user_event values (" + userId + ", " + eventId;
-                            cmd2 = new SQLiteCommand(query, dbConn);
-                            cmd2.ExecuteNonQuery();
+                            eventModel = new EventModel(dt.Rows[i]);
+                            Events.Add(eventModel);
                         }
-                        // There is event overlap for the user
-                        else
+
+                        query = "select * from events where event_id = " + eventId;
+                        DataTable dt2 = new DataTable();
+                        using (cmd2 = new SQLiteCommand(query, dbConn))
                         {
-                            errorMessage = "You are already enrolled in a class during this time period";
+                            using (SQLiteDataReader dr2 = cmd2.ExecuteReader())
+                            {
+                                dt2.Load(dr2);
+                                eventModel = new EventModel(dt2.Rows[0]);
+
+                                Events = Events.Where(x => x.Month == eventModel.Month && x.Day == eventModel.Day && x.Year == eventModel.Year && 
+                                                           (x.StartHour < eventModel.StartHour && x.EndHour > eventModel.EndHour) ||
+                                                           (x.StartHour < eventModel.StartHour && x.EndHour == eventModel.EndHour && x.EndMin > eventModel.EndMin) ||
+                                                           (x.StartHour == eventModel.StartHour && x.EndHour > eventModel.EndHour && x.StartMin < eventModel.StartMin) ||
+                                                           (x.StartHour == eventModel.StartHour && x.EndHour == eventModel.EndHour && (x.StartMin >= eventModel.StartMin && x.StartMin <= eventModel.EndMin) || (x.EndMin >= eventModel.StartMin && x.EndMin <= eventModel.EndMin)) ||
+                                                           (x.StartHour == eventModel.StartHour && x.EndHour == eventModel.EndHour && x.StartMin < eventModel.StartMin && x.EndMin > eventModel.EndMin)).ToList();
+                                // There is no event overlap for the user
+                                if (Events.Count == 0)
+                                {
+                                    query = "insert into user_event values (" + userId + ", " + eventId + ")";
+                                    cmd2 = new SQLiteCommand(query, dbConn);
+                                    cmd2.ExecuteNonQuery();
+                                }
+                                // There is event overlap for the user
+                                else
+                                {
+                                    errorMessage = "You are already enrolled in a class during this time period";
+                                }
+                            }
                         }
+
                     }
                 }
 
