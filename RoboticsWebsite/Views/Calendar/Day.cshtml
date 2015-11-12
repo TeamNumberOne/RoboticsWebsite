@@ -11,9 +11,10 @@
                     @*<div class="myButton">+</div>*@
                     @if (null != Session["UserType"] || (string)Session["UserType"] == "Admin")
                     {
-                        if ((Model.CurrentDay >= DateTime.Now.Day && Model.CurrentMonthNum == DateTime.Now.Month) 
-                            || Model.CurrentMonthNum > DateTime.Now.Month || Model.CurrentYear > DateTime.Now.Year)
-                        {
+                        if ((@Model.CurrentDay >= DateTime.Now.Day && @Model.CurrentMonthNum == DateTime.Now.Month) ||
+                            (@Model.CurrentMonthNum > DateTime.Now.Month && @Model.CurrentYear >= DateTime.Now.Year) ||
+                            (@Model.CurrentYear > DateTime.Now.Year))
+                        { 
                             <button class="myButton" id="@Model.CurrentDay" value="+" onclick="createEvent();">+</button>
                         }
                         else

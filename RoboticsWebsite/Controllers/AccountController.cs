@@ -100,6 +100,7 @@ namespace RoboticsWebsite.Controllers
                 Session["Valid"] = true;
                 Session["UserId"] = 1;
                 Session["UserType"] = UserType.Admin.ToString();
+                Session["UserName"] = "Test";
                 return View("~/Views/Home/Index.cshtml");
             }
             else if (model.Email.Equals("guest@guest.guest") && model.Password.Equals("guest"))
@@ -107,6 +108,7 @@ namespace RoboticsWebsite.Controllers
                 Session["Valid"] = true;
                 Session["UserId"] = userId;
                 Session["IsGuest"] = true;
+                Session["UserName"] = "Guest";
                 return View("~/Views/Home/Index.cshtml");
             }
 
@@ -135,6 +137,7 @@ namespace RoboticsWebsite.Controllers
                 Session["Valid"] = true;
                 Session["UserId"] = userId;
                 Session["UserType"] = userType.ToString();
+                Session["UserName"] = 
                 return View("~/Views/Home/Index.cshtml");
             }
 
@@ -467,13 +470,16 @@ namespace RoboticsWebsite.Controllers
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpGet]
+        [AllowAnonymous]
         public ActionResult LogOff()
         {
+            Session["Valid"] = false;
+            Session["UserId"] = 0;
+            Session["UserType"] = Enums.UserType.Guest.ToString();
             Session.Clear();
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //

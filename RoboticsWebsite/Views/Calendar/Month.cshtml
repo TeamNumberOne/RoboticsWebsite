@@ -22,7 +22,7 @@
             <input type="hidden" id="view-day" name="ViewDay" />
         }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Month", "Calendar"))
 {
     <div class="form-container" id="newEvent">
         <h5 class="form-header">Create New Event</h5>
@@ -284,16 +284,20 @@
     @using (Html.BeginForm("PrevMonth", "Calendar"))
     {
         <input type="number" name="CurrentMonthNum" value="@Model.CurrentMonthNum" style="visibility:hidden" />
+        <input type="number" name="CurrentYear" value="@Model.CurrentYear" style="visibility:hidden" />
+
         <input type="submit" class="btn btn-sm" id="prev-month" value="previous">
     }
     @using (Html.BeginForm("NextMonth", "Calendar"))
     {
         <input type="number" name="CurrentMonthNum" value="@Model.CurrentMonthNum" style="visibility:hidden" />
+        <input type="number" name="CurrentYear" value="@Model.CurrentYear" style="visibility:hidden" />
+
         <input type="submit" class="btn btn-sm pull-top-right" id="next-month" value="next">
     }
 </div>
 
-<h2>@Model.CurrentMonth</h2>
+<h2>@Model.CurrentMonth @Model.CurrentYear</h2>
 
 @*<div id="newEvent">@Html.Partial("NewEventDialog")</div>*@
 

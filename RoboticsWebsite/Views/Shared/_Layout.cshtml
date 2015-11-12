@@ -25,16 +25,27 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     @*<li>@Html.ActionLink("About", "About", "Home")</li>*@
                     <li>@Html.ActionLink("Calendar", "Month", "Calendar")</li>
-                    <li>@Html.ActionLink("Events", "UserEvents", "Home")</li>
-                    @if (null != Session["UserType"] &&((string)Session["UserType"]).ToString().Equals("Admin"))
+                    @if (null != Session["UserType"] && (string)Session["UserType"] != "Guest")
+                    {
+                        <li>@Html.ActionLink("Events", "UserEvents", "Home")</li>
+                    }
+                    @if (null != Session["UserType"] && ((string)Session["UserType"]).ToString().Equals("Admin"))
                     {
                         <li>@Html.ActionLink("Approve Users", "ModifyUser", "Home")</li>
                     }
                 </ul>
                 <ul class="nav navbar-nav pull-right">
-                    <li>@Html.Partial("_LoginPartial")</li>
+                    
                     <li>@Html.ActionLink("Register", "Register", "Account")</li>
+                    @if (null == Session["UserType"] || ((string)Session["UserType"]).ToString().Equals("Guest"))
+                    {
+                        <li>@Html.Partial("_LoginPartial")</li>
+                    }
+                    else 
+                    {
                     <li>@Html.ActionLink("Log Off", "LogOff", "Account")</li>
+
+                    }
                 </ul>
             </div>
         </div>

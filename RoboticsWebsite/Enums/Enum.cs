@@ -39,7 +39,8 @@
         Admin,
         Student,
         Volunteer,
-        Sponsor
+        Sponsor,
+        Guest
     }
 
     public enum UserStatus
