@@ -237,21 +237,21 @@ namespace RoboticsWebsite.Data
                         // Load the reader data into the DataTable
                         dt.Load(dr);
 
-                        // This user created the event, so we need to delete all references with the event
+                        // This user created the event, so we need to set all references to the event to Cancelled
                         if (Convert.ToInt32(dt.Rows[0][0].ToString()) == userId)
                         {
-                            query = "delete from user_event where event_id = " + eventIdToRemove;
+                            query = "update user_event set status = '" + EventStatus.Cancelled.ToString() + "' where event_id = " + eventIdToRemove;
                             cmd2 = new SQLiteCommand(query, dbConn);
                             cmd2.ExecuteNonQuery();
 
-                            query = "delete from events where event_id = " + eventIdToRemove;
+                            query = "update events set status = '" + EventStatus.Cancelled.ToString() + "' where event_id = " + eventIdToRemove;
                             cmd2 = new SQLiteCommand(query, dbConn);
                             cmd2.ExecuteNonQuery();
                         }
-                        // User didn't create the event so just remove the entry in the user_event table
+                        // User didn't create the event so set the entry's status to Removed in the user_event table
                         else
                         {
-                            query = "delete from user_event where event_id = " + eventIdToRemove + " and user_id = " + userId;
+                            query = "update user_event set status = '" + EventStatus.Removed.ToString() + "' where event_id = " + eventIdToRemove + " and user_id = " + userId;
                             cmd2 = new SQLiteCommand(query, dbConn);
                             cmd2.ExecuteNonQuery();
                         }
@@ -325,7 +325,7 @@ namespace RoboticsWebsite.Data
                                 // There is no event overlap for the user
                                 if (Events.Count == 0)
                                 {
-                                    query = "insert into user_event values (" + userId + ", " + eventId + ")";
+                                    query = "insert into user_event values (" + userId + ", " + eventId + ", '" + EventStatus.Current.ToString() + "')";
                                     cmd2 = new SQLiteCommand(query, dbConn);
                                     cmd2.ExecuteNonQuery();
                                 }

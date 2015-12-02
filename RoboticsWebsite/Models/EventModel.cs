@@ -26,6 +26,7 @@ namespace RoboticsWebsite.Models
         public int EndMin { get; set; }        
         public int EndHour { get; set; }        
         public int CreatedById { get; set; }
+        public EventStatus Status { get; set; }
 
 
         public EventModel()
@@ -57,6 +58,8 @@ namespace RoboticsWebsite.Models
             StartMin = Convert.ToInt32(dataRow[(int)EventIndices.StartMin].ToString());
             EndHour = Convert.ToInt32(dataRow[(int)EventIndices.EndHour].ToString());
             EndMin = Convert.ToInt32(dataRow[(int)EventIndices.EndMin].ToString());
+            CreatedById = Convert.ToInt32(dataRow[(int)EventIndices.CreatedById].ToString());
+            Status = (EventStatus)Enum.Parse(typeof(EventStatus), dataRow[(int)EventIndices.Status].ToString());
         }
 
         public void AddEvent()

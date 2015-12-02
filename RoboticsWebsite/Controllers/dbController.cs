@@ -54,19 +54,20 @@ namespace RoboticsWebsite.Controllers
                 //dbConn.Close();
 
                 /****** non queries */
-               
+
                 // Keep these for reference
                 // Delete table
                 //query = "drop table events";
 
                 // Create table
-                query = "create table events (event_id integer(1), type varchar(20), title varchar(50), description varchar(500), month integer(1), day integer(1), year integer(1), start_hour integer(1), start_min integer(1), end_hour integer(1), end_min integer(1), created_by_id integer(1), primary key (event_id))";
+                //query = "create table events (event_id integer(1), type varchar(20), title varchar(50), description varchar(500), month integer(1), day integer(1), year integer(1), start_hour integer(1), start_min integer(1), end_hour integer(1), end_min integer(1), created_by_id integer(1), status varchar(20), primary key (event_id))";
+                query = "create table news_feed (user_id integer(1), first_name varchar(50), last_name varchar(50), comment varchar(500), month integer(1), day integer(1), year integer(1), hour integer(1), minute integer(1))";
 
                 // Insert values
                 //query = "insert into events values (" + newId + ", 'Competition', 'Robotics Comp', 'A comp for robotics', '2015-01-01 02:30:00', '2015-01-01 03:30:00', 6)";
 
                 // Add column
-                //query = "alter table events add status varchar(20)";
+                //query = "alter table user_event add status varchar(20)";
                 //query = "alter table users add last_name varchar(50)";
 
                 // Update

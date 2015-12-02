@@ -19,6 +19,25 @@ namespace RoboticsWebsite.Controllers
         }
 
         [HttpGet]
+        public ActionResult NewsFeed()
+        {
+            NewsFeedViewModel nfViewModel = new NewsFeedViewModel();
+            nfViewModel.PopulateNewsFeed();
+
+            return View(nfViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult NewsFeed(NewsFeedViewModel nfViewModel)
+        {
+            string status = nfViewModel.CommentToAdd.AddComment();
+            ViewData["StatusMessage"] = status;
+            nfViewModel.PopulateNewsFeed();
+
+            return View(nfViewModel);
+        }
+
+        [HttpGet]
         public ActionResult UserEvents()
         {
             if (Session["UserId"] == null || (int) Session["UserId"] == 0)

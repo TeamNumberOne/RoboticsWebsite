@@ -137,7 +137,7 @@ namespace RoboticsWebsite.Controllers
                 Session["Valid"] = true;
                 Session["UserId"] = userId;
                 Session["UserType"] = userType.ToString();
-                Session["UserName"] = 
+                //Session["UserName"] = 
                 return View("~/Views/Home/Index.cshtml");
             }
 

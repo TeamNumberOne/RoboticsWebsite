@@ -123,9 +123,9 @@ namespace RoboticsWebsite.Data
                     }
                 }
                 
-                query = "insert into events values (" + calendarEvent.EventId + ", '" + calendarEvent.Type.ToString() +
-                    "', '" + calendarEvent.Title + "', '" + calendarEvent.Description + "', " + calendarEvent.Month + ", " + calendarEvent.Day + ", " + calendarEvent.Year +
-                    ", " + calendarEvent.StartHour + ", " + calendarEvent.StartMin + ", " + calendarEvent.EndHour + ", " + calendarEvent.EndMin + ", " + calendarEvent.CreatedById + ")";
+                query = "insert into events values (" + calendarEvent.EventId + ", '" + calendarEvent.Type.ToString() + "', '" + calendarEvent.Title + 
+                    "', '" + calendarEvent.Description + "', " + calendarEvent.Month + ", " + calendarEvent.Day + ", " + calendarEvent.Year + ", " + calendarEvent.StartHour + 
+                    ", " + calendarEvent.StartMin + ", " + calendarEvent.EndHour + ", " + calendarEvent.EndMin + ", " + calendarEvent.CreatedById + ", '" + EventStatus.Current.ToString() + "')";
 
                 cmd = new SQLiteCommand(query, dbConn);
                 cmd.ExecuteNonQuery();
