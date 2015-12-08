@@ -70,7 +70,7 @@ namespace RoboticsWebsite.Models
         public void AddEvent()
         {
             CalendarData cd = new CalendarData();
-            DataRow name = cd.AddEvent(this);
+            string[] name = cd.AddEvent(this);
 
             // Add a comment in the news feed for this event
             string firstName = name[0].ToString();

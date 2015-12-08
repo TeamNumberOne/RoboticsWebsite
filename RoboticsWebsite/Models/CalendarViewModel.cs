@@ -139,7 +139,7 @@ namespace RoboticsWebsite.Models
         public void GetEvents()
         {
             //CalendarData cd = new CalendarData();
-            Events = cd.getEvents();
+            Events = cd.GetEvents();
             //Events = cd.TestGetEvents(Events);
             Events = Events.OrderBy(x => x.Year).ThenBy(x => x.Month).ThenBy(x => x.Day).ToList();
         }
