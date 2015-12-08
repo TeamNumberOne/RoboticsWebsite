@@ -10,7 +10,11 @@ namespace RoboticsWebsite.Utilities
     {
         public static string Encrypt(string password)
         {
-            return password;
+            byte[] data = System.Text.Encoding.ASCII.GetBytes(password);
+            data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
+            string hash = System.Text.Encoding.ASCII.GetString(data);
+
+            return hash;
         }
     }
 }

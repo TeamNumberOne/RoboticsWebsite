@@ -188,8 +188,10 @@ namespace RoboticsWebsite.Data
             try
             {
                 dbConn.Open();
-                // Something wrong with this query
-                query = "select E.* from events E, user_event UE where UE.user_id = '" + userId + "' and UE.event_id = E.event_id";
+                // Get the event info and the donation amount if it isn't null
+                // This will set the donation amount to 0 if there is no donation amount associated with the user/event
+                query = "select E.*, nvl(amount, 0) from events E, user_event UE, pledges P " +
+                        "where UE.user_id = '" + userId + "' and UE.event_id = E.event_id and UE.user_id = P.user_id and UE.event_id = P.event_id";
                 DataTable dt = new DataTable();
                 using (cmd = new SQLiteCommand(query, dbConn))
                 {
@@ -371,6 +373,54 @@ namespace RoboticsWebsite.Data
             }
 
             return errorMessage;
+        }
+
+        public string AddPledge(int userId, int eventId, int amount)
+        {
+            string status = "";
+            string query = "select * from pledges where user_id = " + userId  + " and event_id = " + eventId;
+            DataTable dt = new DataTable();
+            SQLiteCommand cmd;
+
+            try
+            {
+                dbConn.Open();
+
+                using (cmd = new SQLiteCommand(query, dbConn))
+                {
+                    using (SQLiteDataReader dr = cmd.ExecuteReader())
+                    {
+                        dt.Load(dr);
+                            
+                        // If the user id and event id already have an entry in the database
+                        if (dt.Rows.Count == 1)
+                        {
+                            query = "update pledges set amount = " + (amount + Convert.ToInt32(dt.Rows[(int)PledgeIndices.Amount].ToString())) + 
+                                    " where user_id = " + userId  + " and event_id = " + eventId;
+                        }
+                        // If this is a new pledge for the user id/event id combination
+                        else
+                        {
+                            query = "insert into pledges values (" + userId + ", " + eventId + ", " + amount + ")";
+                        }
+                    }
+                }
+
+                cmd = new SQLiteCommand(query, dbConn);
+                cmd.ExecuteNonQuery();
+
+                status = "Update successful";
+
+                dbConn.Close();
+            }
+            catch (SQLiteException ex)
+            {
+                Console.Write(ex.ToString());
+                status = ex.ToString();
+                dbConn.Close();
+            }
+
+            return status;
         }
     }
 }

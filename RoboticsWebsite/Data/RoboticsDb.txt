@@ -37,3 +37,8 @@ news_feed:
 	year integer(1)
 	hour integer(1)
 	minute integer(1)
+
+pledge
+	user_id integer(1)
+	event_id integer(1)
+	amount integer(1)

@@ -67,6 +67,19 @@ namespace RoboticsWebsite.Controllers
             return View("UserEvents", uvModel);
         }
 
+        [HttpPost]
+        public ActionResult AddPledge(UserViewModel uvModel)
+        {
+            UserData ud = new UserData();
+            string errorMessage = ud.AddPledge((int)Session["UserId"], uvModel.EventIdForPledge, uvModel.AmountToPledge);
+
+            uvModel.GetEventsByUserId((int)Session["UserId"]);
+
+            ViewData["ErrorMessage"] = errorMessage;
+
+            return View("UserEvents", uvModel);
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

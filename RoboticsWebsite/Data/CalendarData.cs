@@ -60,7 +60,7 @@ namespace RoboticsWebsite.Data
         //    return eventList;
         //}
 
-        public List<EventModel> getEvents()
+        public List<EventModel> GetEvents()
         {
             //SQLiteConnection.CreateFile("../../../Users/Paul/Documents/Visual Studio 2015/Projects/RoboticsWebsite/RoboticsWebsite/Data/RoboticsDb.sqlite");
 
@@ -101,11 +101,12 @@ namespace RoboticsWebsite.Data
             return Events;
         }
 
-        public void addEvent(EventModel calendarEvent)
+        public DataRow AddEvent(EventModel calendarEvent)
         {
             string query = "select max(event_id) from events";
-            DataTable dt1 = new DataTable();
+            DataTable dt = new DataTable();
             SQLiteCommand cmd;
+            DataRow name = new DataRow();
 
             try
             {
@@ -114,10 +115,10 @@ namespace RoboticsWebsite.Data
                 {
                     using (SQLiteDataReader dr = cmd.ExecuteReader())
                     {
-                        dt1.Load(dr);
+                        dt.Load(dr);
                         // Calculate new event_id
-                        if (dt1.Rows.Count > 0) //EDIT: CHANGED THIS TO > 1 BECAUSE I THINK ROWS MIGHT START AT 1?  SO WAS GIVING INVALID CAST EXCEPTION FROM DBNull TO OTHER TYPES
-                            calendarEvent.EventId = Convert.ToInt32(dt1.Rows[0].ItemArray[0].ToString()) + 1;
+                        if (dt.Rows.Count > 0) //EDIT: CHANGED THIS TO > 1 BECAUSE I THINK ROWS MIGHT START AT 1?  SO WAS GIVING INVALID CAST EXCEPTION FROM DBNull TO OTHER TYPES
+                            calendarEvent.EventId = Convert.ToInt32(dt.Rows[0].ItemArray[0].ToString()) + 1;
                         else
                             calendarEvent.EventId = 1;
                     }
@@ -130,6 +131,16 @@ namespace RoboticsWebsite.Data
                 cmd = new SQLiteCommand(query, dbConn);
                 cmd.ExecuteNonQuery();
 
+                query = "select first_name, last_name from users where user_id = " + calendarEvent.CreatedById;
+                using (cmd = new SQLiteCommand(query, dbConn))
+                {
+                    using (SQLiteDataReader dr = cmd.ExecuteReader())
+                    {
+                        dt.Load(dr);
+                        name = dt.Rows[0];
+                    }
+                }
+
                 dbConn.Close();
             }
             catch (SQLiteException ex)
@@ -137,6 +148,8 @@ namespace RoboticsWebsite.Data
                 Console.Write(ex.ToString());
                 dbConn.Close();
             }
+
+            return name;
         }
 
         /*

@@ -12,6 +12,8 @@ namespace RoboticsWebsite.Models
         // UserId isn't being used right now
         public int UserId { get; set; }
         public int EventIdToRemove { get; set; }
+        public int EventIdForPledge { get; set; }
+        public int AmountToPledge { get; set; }
 
         public void GetEventsByUserId(int userId)
         {

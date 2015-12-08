@@ -33,11 +33,19 @@
         UserId,
         FirstName,
         LastName,
+        Comment,
         Month,
         Day,
         Year,
         Hour,
         Minute
+    }
+
+    public enum PledgeIndices
+    {
+        UserId,
+        EventId,
+        Amount
     }
 
     public enum EventType
