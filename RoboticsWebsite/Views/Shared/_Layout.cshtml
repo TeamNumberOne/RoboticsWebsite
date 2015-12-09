@@ -35,7 +35,10 @@
                     }
                 </ul>
                 <ul class="nav navbar-nav pull-right">
-                    
+                    @if (null != Session["UserName"])
+                    {
+                        <li>@Html.ActionLink("Wecome " + Session["UserName"], "Index", "Home")</li>
+                    }
                     <li>@Html.ActionLink("Register", "Register", "Account")</li>
                     @if (null == Session["UserType"] || ((string)Session["UserType"]).ToString().Equals("Guest"))
                     {

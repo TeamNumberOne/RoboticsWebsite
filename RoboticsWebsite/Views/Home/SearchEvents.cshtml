@@ -1,0 +1,22 @@
+﻿@model RoboticsWebsite.Models.SearchEventsViewModel
+
+@{
+    ViewBag.Title = "SearchEvents";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>SearchEvents</h2>
+@using (Html.BeginForm("SearchEvents", "Home"))
+{
+    <input type="text" name="SearchString" />
+    <input type="submit" value="search" />
+}
+
+@if(Model.Events != null)
+{
+    foreach(var e in Model.Events)
+    {
+
+    }
+}
+

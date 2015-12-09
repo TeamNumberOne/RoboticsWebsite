@@ -60,7 +60,7 @@ namespace RoboticsWebsite.Data
         //    return eventList;
         //}
 
-        public List<EventModel> getEvents()
+        public List<EventModel> GetEvents()
         {
             //SQLiteConnection.CreateFile("../../../Users/Paul/Documents/Visual Studio 2015/Projects/RoboticsWebsite/RoboticsWebsite/Data/RoboticsDb.sqlite");
 
@@ -101,34 +101,65 @@ namespace RoboticsWebsite.Data
             return Events;
         }
 
-        public void addEvent(EventModel calendarEvent)
+        public string[] AddEvent(EventModel calendarEvent)
         {
             string query = "select max(event_id) from events";
-            DataTable dt1 = new DataTable();
+            DataTable dt = new DataTable();
             SQLiteCommand cmd;
+            DataRow nameRow;
+            string[] nameString = new string[2];
 
             try
             {
                 dbConn.Open();
+
+                // Get the next event id
                 using (cmd = new SQLiteCommand(query, dbConn))
                 {
                     using (SQLiteDataReader dr = cmd.ExecuteReader())
                     {
-                        dt1.Load(dr);
+                        dt.Load(dr);
                         // Calculate new event_id
-                        if (dt1.Rows.Count > 0) //EDIT: CHANGED THIS TO > 1 BECAUSE I THINK ROWS MIGHT START AT 1?  SO WAS GIVING INVALID CAST EXCEPTION FROM DBNull TO OTHER TYPES
-                            calendarEvent.EventId = Convert.ToInt32(dt1.Rows[0].ItemArray[0].ToString()) + 1;
+                        if (dt.Rows[0] != null) //EDIT: CHANGED THIS TO > 1 BECAUSE I THINK ROWS MIGHT START AT 1?  SO WAS GIVING INVALID CAST EXCEPTION FROM DBNull TO OTHER TYPES
+                            calendarEvent.EventId = Convert.ToInt32(dt.Rows[0].ItemArray[0].ToString()) + 1;
                         else
                             calendarEvent.EventId = 1;
                     }
                 }
-                
-                query = "insert into events values (" + calendarEvent.EventId + ", '" + calendarEvent.Type.ToString() +
-                    "', '" + calendarEvent.Title + "', '" + calendarEvent.Description + "', " + calendarEvent.Month + ", " + calendarEvent.Day + ", " + calendarEvent.Year +
-                    ", " + calendarEvent.StartHour + ", " + calendarEvent.StartMin + ", " + calendarEvent.EndHour + ", " + calendarEvent.EndMin + ", " + calendarEvent.CreatedById + ")";
+
+                // Insert the new row into the events table
+                query = "insert into events values (" + calendarEvent.EventId + ", '" + calendarEvent.Type.ToString() + "', '" + calendarEvent.Title + 
+                    "', '" + calendarEvent.Description + "', " + calendarEvent.Month + ", " + calendarEvent.Day + ", " + calendarEvent.Year + ", " + calendarEvent.StartHour + 
+                    ", " + calendarEvent.StartMin + ", " + calendarEvent.EndHour + ", " + calendarEvent.EndMin + ", " + calendarEvent.CreatedById + ", '" + EventStatus.Current.ToString() + "')";
 
                 cmd = new SQLiteCommand(query, dbConn);
                 cmd.ExecuteNonQuery();
+
+                UserData ud = new UserData();
+                string errorMessage = ud.AddUserToEvent(calendarEvent.CreatedById, calendarEvent.EventId);
+                if (errorMessage.Equals("You are already enrolled in an event during this time period"))
+                {
+                    string query2 = "delete from events where event_id = " + calendarEvent.EventId;
+                    cmd = new SQLiteCommand(query2, dbConn);
+                    cmd.ExecuteNonQuery();
+
+                    return new string[1];
+                }
+
+                // Get the first and last names of the user to be used when adding the comment for this new event
+                query = "select first_name, last_name from users where user_id = " + calendarEvent.CreatedById;
+                using (cmd = new SQLiteCommand(query, dbConn))
+                {
+                    using (SQLiteDataReader dr = cmd.ExecuteReader())
+                    {
+                        dt.Load(dr);
+                        nameRow = dt.Rows[0];
+
+                        // Populate the nameString variable with the first and last names
+                        nameString[0] = nameRow[0].ToString();
+                        nameString[1] = nameRow[1].ToString();
+                    }
+                }
 
                 dbConn.Close();
             }
@@ -137,6 +168,8 @@ namespace RoboticsWebsite.Data
                 Console.Write(ex.ToString());
                 dbConn.Close();
             }
+
+            return nameString;
         }
 
         /*

@@ -114,7 +114,8 @@ namespace RoboticsWebsite.Controllers
 
             // Get userType/Status from db
             UserType userType = UserType.Admin;
-            UserStatus userStatus = new UserData().VerifyUser(model.Email, model.Password, ref userType, ref userId);
+            string firstName = "";
+            UserStatus userStatus = new UserData().VerifyUser(model.Email, model.Password, ref userType, ref userId, ref firstName);
             if (userStatus == UserStatus.Unknown)
             {
                 ViewData["ErrorMessage"] = "Invalid Email or Password";
@@ -137,7 +138,7 @@ namespace RoboticsWebsite.Controllers
                 Session["Valid"] = true;
                 Session["UserId"] = userId;
                 Session["UserType"] = userType.ToString();
-                //Session["UserName"] =  
+                Session["UserName"] = firstName;  
                 return View("~/Views/Home/Index.cshtml");
             }
 

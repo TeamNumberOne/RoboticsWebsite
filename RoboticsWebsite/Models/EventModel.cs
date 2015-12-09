@@ -26,6 +26,8 @@ namespace RoboticsWebsite.Models
         public int EndMin { get; set; }        
         public int EndHour { get; set; }        
         public int CreatedById { get; set; }
+        public EventStatus Status { get; set; }
+        public int Pledge { get; set; }
 
 
         public EventModel()
@@ -42,6 +44,7 @@ namespace RoboticsWebsite.Models
             //EndTime = "00:00 AM";
             EndHour = 0;
             EndMin = 0;
+            Pledge = -1;
         }
 
         public EventModel(DataRow dataRow)
@@ -57,12 +60,32 @@ namespace RoboticsWebsite.Models
             StartMin = Convert.ToInt32(dataRow[(int)EventIndices.StartMin].ToString());
             EndHour = Convert.ToInt32(dataRow[(int)EventIndices.EndHour].ToString());
             EndMin = Convert.ToInt32(dataRow[(int)EventIndices.EndMin].ToString());
+            CreatedById = Convert.ToInt32(dataRow[(int)EventIndices.CreatedById].ToString());
+            Status = (EventStatus)Enum.Parse(typeof(EventStatus), dataRow[(int)EventIndices.Status].ToString());
+            if (dataRow.ItemArray.Length == 14 && dataRow[14] != null)
+                Pledge = Convert.ToInt32(dataRow[((int)EventIndices.Status) + 1].ToString());
+            else
+                Pledge = 0;
         }
+
+        
 
         public void AddEvent()
         {
             CalendarData cd = new CalendarData();
-            cd.addEvent(this);
+            string[] name = cd.AddEvent(this);
+
+            if (name[0] != null)
+            {
+                // Add a comment in the news feed for this event
+                string firstName = name[0].ToString();
+                string lastName = name[1].ToString();
+
+                string comment = firstName + " " + lastName + " added " + Type.ToString() + " " + Title + "!";
+                NewsFeedModel nm = new NewsFeedModel(CreatedById, name[0].ToString(), name[1].ToString(), comment);
+                NewsFeedData nd = new NewsFeedData();
+                nd.AddComment(nm);
+            }
         }
     }
 }

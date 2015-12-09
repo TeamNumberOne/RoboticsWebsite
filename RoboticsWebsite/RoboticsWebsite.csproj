@@ -189,6 +189,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Data\AdminData.cs" />
     <Compile Include="Data\CalendarData.cs" />
+    <Compile Include="Data\NewsFeedData.cs" />
     <Compile Include="Data\UserData.cs" />
     <Compile Include="Enums\Enum.cs" />
     <Compile Include="Global.asax.cs">
@@ -199,6 +200,9 @@
     <Compile Include="Models\EventModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\NewsFeedModel.cs" />
+    <Compile Include="Models\NewsFeedViewModel.cs" />
+    <Compile Include="Models\SearchEventsViewModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\UsersModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
@@ -290,6 +294,9 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Home\UserEvents.cshtml" />
     <Content Include="Views\Home\ModifyUsers.cshtml" />
+    <Content Include="Views\Home\SearchEvents.cshtml" />
+    <Content Include="Views\Home\Donate.cshtml" />
+    <Content Include="Views\Home\TotalDonations.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

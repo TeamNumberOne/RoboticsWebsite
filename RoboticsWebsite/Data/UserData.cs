@@ -79,7 +79,7 @@ namespace RoboticsWebsite.Data
                         using (SQLiteDataReader dr = cmd.ExecuteReader())
                         {
                             dt1.Load(dr);
-                            // Calculate new user_id
+                            // Calculate new user_id                            
                             user.UserId = Convert.ToInt32(dt1.Rows[0].ItemArray[0].ToString()) + 1;
                         }
                     }
@@ -126,7 +126,7 @@ namespace RoboticsWebsite.Data
             }
         }
 
-        public UserStatus VerifyUser(string email, string password, ref UserType userType, ref int userId)
+        public UserStatus VerifyUser(string email, string password, ref UserType userType, ref int userId, ref string firstName)
         {
             UserStatus userStatus = UserStatus.Unknown;
             string query;
@@ -162,6 +162,7 @@ namespace RoboticsWebsite.Data
                         {
                             userId = Convert.ToInt32(dt.Rows[0][(int)UserIndices.UserId].ToString());
                             userType = (UserType) Enum.Parse(typeof(UserType), dt.Rows[0][(int)UserIndices.Type].ToString());
+                            firstName = dt.Rows[0][(int)UserIndices.FirstName].ToString();
                             userStatus = UserStatus.Approved;
                         }
                     }
@@ -180,7 +181,7 @@ namespace RoboticsWebsite.Data
 
         public List<EventModel> GetEventsByUserId(int userId)
         {
-            string query;
+            string query, query2;
             SQLiteCommand cmd;
             EventModel eventModel;
             List<EventModel> Events = new List<EventModel>();
@@ -188,8 +189,10 @@ namespace RoboticsWebsite.Data
             try
             {
                 dbConn.Open();
-                // Something wrong with this query
-                query = "select E.* from events E, user_event UE where UE.user_id = '" + userId + "' and UE.event_id = E.event_id";
+                // Get the event info and the donation amount if it isn't null
+                // This will set the donation amount to 0 if there is no donation amount associated with the user/event
+                query = "select E.* from events E, user_event UE " +
+                        "where UE.user_id = '" + userId + "' and UE.event_id = E.event_id";
                 DataTable dt = new DataTable();
                 using (cmd = new SQLiteCommand(query, dbConn))
                 {
@@ -202,6 +205,20 @@ namespace RoboticsWebsite.Data
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
                             eventModel = new EventModel(dt.Rows[i]);
+                            query2 = "select amount from pledges where user_id = " + userId + " and event_id = " + eventModel.EventId;
+                            DataTable dt2 = new DataTable();
+                            using (cmd = new SQLiteCommand(query2, dbConn))
+                            {
+                                using (SQLiteDataReader dr2 = cmd.ExecuteReader())
+                                {
+                                    // Load the reader data into the DataTable
+                                    dt2.Load(dr2);
+                                    if (dt2.Rows.Count == 1)
+                                    {
+                                        eventModel.Pledge = Convert.ToInt32(dt2.Rows[0][0].ToString());
+                                    }
+                                }
+                            }
                             Events.Add(eventModel);
                         }
                     }
@@ -237,21 +254,21 @@ namespace RoboticsWebsite.Data
                         // Load the reader data into the DataTable
                         dt.Load(dr);
 
-                        // This user created the event, so we need to delete all references with the event
+                        // This user created the event, so we need to set all references to the event to Cancelled
                         if (Convert.ToInt32(dt.Rows[0][0].ToString()) == userId)
                         {
-                            query = "delete from user_event where event_id = " + eventIdToRemove;
+                            query = "update user_event set status = '" + EventStatus.Cancelled.ToString() + "' where event_id = " + eventIdToRemove;
                             cmd2 = new SQLiteCommand(query, dbConn);
                             cmd2.ExecuteNonQuery();
 
-                            query = "delete from events where event_id = " + eventIdToRemove;
+                            query = "update events set status = '" + EventStatus.Cancelled.ToString() + "' where event_id = " + eventIdToRemove;
                             cmd2 = new SQLiteCommand(query, dbConn);
                             cmd2.ExecuteNonQuery();
                         }
-                        // User didn't create the event so just remove the entry in the user_event table
+                        // User didn't create the event so set the entry's status to Removed in the user_event table
                         else
                         {
-                            query = "delete from user_event where event_id = " + eventIdToRemove + " and user_id = " + userId;
+                            query = "update user_event set status = '" + EventStatus.Removed.ToString() + "' where event_id = " + eventIdToRemove + " and user_id = " + userId;
                             cmd2 = new SQLiteCommand(query, dbConn);
                             cmd2.ExecuteNonQuery();
                         }
@@ -325,14 +342,14 @@ namespace RoboticsWebsite.Data
                                 // There is no event overlap for the user
                                 if (Events.Count == 0)
                                 {
-                                    query = "insert into user_event values (" + userId + ", " + eventId + ")";
+                                    query = "insert into user_event values (" + userId + ", " + eventId + ", '" + EventStatus.Current.ToString() + "')";
                                     cmd2 = new SQLiteCommand(query, dbConn);
                                     cmd2.ExecuteNonQuery();
                                 }
                                 // There is event overlap for the user
                                 else
                                 {
-                                    errorMessage = "You are already enrolled in a class during this time period";
+                                    errorMessage = "You are already enrolled in an event during this time period";
                                 }
                             }
                         }
@@ -371,6 +388,54 @@ namespace RoboticsWebsite.Data
             }
 
             return errorMessage;
+        }
+
+        public string AddPledge(int userId, int eventId, int amount)
+        {
+            string status = "";
+            string query = "select * from pledges where user_id = " + userId  + " and event_id = " + eventId;
+            DataTable dt = new DataTable();
+            SQLiteCommand cmd;
+
+            try
+            {
+                dbConn.Open();
+
+                using (cmd = new SQLiteCommand(query, dbConn))
+                {
+                    using (SQLiteDataReader dr = cmd.ExecuteReader())
+                    {
+                        dt.Load(dr);
+                            
+                        // If the user id and event id already have an entry in the database
+                        if (dt.Rows.Count == 1)
+                        {
+                            query = "update pledges set amount = " + (amount + Convert.ToInt32(dt.Rows[(int)PledgeIndices.Amount].ToString())) + 
+                                    " where user_id = " + userId  + " and event_id = " + eventId;
+                        }
+                        // If this is a new pledge for the user id/event id combination
+                        else
+                        {
+                            query = "insert into pledges values (" + userId + ", " + eventId + ", " + amount + ")";
+                        }
+                    }
+                }
+
+                cmd = new SQLiteCommand(query, dbConn);
+                cmd.ExecuteNonQuery();
+
+                status = "Update successful";
+
+                dbConn.Close();
+            }
+            catch (SQLiteException ex)
+            {
+                Console.Write(ex.ToString());
+                status = ex.ToString();
+                dbConn.Close();
+            }
+
+            return status;
         }
     }
 }

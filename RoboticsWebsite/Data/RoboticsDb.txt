@@ -1,15 +1,16 @@
 ﻿users:
 	user_id integer(1)
-	type varchar(?)
-	email varchar(?)
-	password varchar(?)
-	status varchar(?)
+	type varchar(20)
+	email varchar(50)
+	password varchar(50)
+	status varchar(20)
 	first_name varchar(50)
 	last_name varchar(50)
 
 user_event:
 	user_id integer(1)
 	event_id integer(1)
+	status varchar(20)
 
 events:
 	event_id integer(1)
@@ -24,3 +25,20 @@ events:
 	end_hour integer(1)
 	end_min integer(1)
 	created_by_id integer(1)
+	status varchar(20)
+
+news_feed:
+	user_id integer (1)
+	first_name varchar(50)
+	last_name varchar(50)
+	comment varchar(500)
+	month integer(1)
+	day integer(1)
+	year integer(1)
+	hour integer(1)
+	minute integer(1)
+
+pledge
+	user_id integer(1)
+	event_id integer(1)
+	amount integer(1)

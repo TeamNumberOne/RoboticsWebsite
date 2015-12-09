@@ -12,7 +12,9 @@
         StartHour,
         StartMin,
         EndHour,
-        EndMin
+        EndMin,
+        CreatedById,
+        Status
     }
 
     public enum UserIndices
@@ -24,6 +26,26 @@
         Status,
         FirstName,
         LastName
+    }
+
+    public enum NewsFeedIndices
+    {
+        UserId,
+        FirstName,
+        LastName,
+        Comment,
+        Month,
+        Day,
+        Year,
+        Hour,
+        Minute
+    }
+
+    public enum PledgeIndices
+    {
+        UserId,
+        EventId,
+        Amount
     }
 
     public enum EventType
@@ -49,5 +71,12 @@
         Approved,
         Rejected,
         Unknown
+    }
+
+    public enum EventStatus
+    {
+        Current,
+        Cancelled,
+        Removed
     }
 }

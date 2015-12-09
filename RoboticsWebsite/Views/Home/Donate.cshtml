@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "Donate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Donate</h2>
+
+Donation Amount 
+@Html.BeginForm("Donate", "Home")
+{
+    $ <input type="number" name="amount" />
+    <input type="submit" value="Donate" />
+}
