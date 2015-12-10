@@ -4,19 +4,117 @@
     ViewBag.Title = "SearchEvents";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>SearchEvents</h2>
-@using (Html.BeginForm("SearchEvents", "Home"))
-{
-    <input type="text" name="SearchString" />
-    <input type="submit" value="search" />
-}
-
-@if(Model.Events != null)
-{
-    foreach(var e in Model.Events)
+<div class="center-div">
+    <h2>Search Events</h2>
+    @using (Html.BeginForm("SearchEvents", "Home"))
     {
-
+        <input type="text" name="SearchString" />
+        <input type="submit" value="search" />
     }
-}
+</div>
+<br />
+<div class="user-events-container">
+    @if (null != Model.Events)
+    {
+        <h3>Events Created By @Model.SearchString</h3>
 
+        <table class="user-events-table">
+            <tr>
+                <td>Instructor</td>
+                <td>Time</td>
+                <td>Type</td>
+                <td>Title</td>
+                <td>Description</td>
+                <td></td>
+            </tr>
+            @foreach (var e in Model.Events)
+            {
+                if (e.Status == RoboticsWebsite.Enums.EventStatus.Current)
+                {
+                    string startTime, endTime;
+                    if (e.StartHour == 24)
+                    {
+                        startTime = "12:" + e.StartMin + " AM";
+                        if (e.StartMin == 0)
+                        {
+                            startTime = "12:" + e.StartMin + "0 AM";
+                        }
+                    }
+                    else if (e.StartHour == 12)
+                    {
+                        startTime = "12:" + e.StartMin + " PM";
+                        if (e.StartMin == 0)
+                        {
+                            startTime = "12:" + e.StartMin + "0 PM";
+                        }
+                    }
+                    else if (e.StartHour > 12)
+                    {
+                        startTime = e.StartHour - 12 + ":" + e.StartMin + " PM";
+                        if (e.StartMin == 0)
+                        {
+                            startTime = e.StartHour - 12 + ":" + e.StartMin + "0 PM";
+                        }
+                    }
+                    else
+                    {
+                        startTime = e.StartHour + ":" + e.StartMin + " AM";
+                        if (e.StartMin == 0)
+                        {
+                            startTime = e.StartHour + ":" + e.StartMin + "0 AM";
+                        }
+                    }
+
+                    if (e.EndHour == 24)
+                    {
+                        endTime = "12" + e.EndMin + " AM";
+                        if (e.EndMin == 0)
+                        {
+                            endTime = "12:" + e.EndMin + "0 AM";
+                        }
+                    }
+                    else if (e.EndHour == 12)
+                    {
+                        endTime = "12:" + e.EndMin + " PM";
+                        if (e.EndMin == 0)
+                        {
+                            endTime = "12:" + e.EndMin + "0 PM";
+                        }
+                    }
+                    else if (e.EndHour > 12)
+                    {
+                        endTime = e.EndHour - 12 + ":" + e.EndMin + " PM";
+                        if (e.EndMin == 0)
+                        {
+                            endTime = e.EndHour - 12 + ":" + e.EndMin + "0 PM";
+                        }
+                    }
+                    else
+                    {
+                        endTime = e.EndHour + ":" + e.EndMin + " AM";
+                        if (e.EndMin == 0)
+                        {
+                            endTime = e.EndHour + ":" + e.EndMin + "0 AM";
+                        }
+                    }
+                    <tr>
+                        <td>@e.CreatedBy</td>
+                        <td>@startTime - @endTime</td>
+                        <td>@e.Type.ToString()</td>
+                        <td>@e.Title</td>
+                        <td>@e.Description</td>
+                        <td>
+                            @using (Html.BeginForm("UserEvents", "Home"))
+                        {
+                                <input type="number" value="@e.EventId" name="EventIdToRemove" hidden />
+                                <input type="submit" value="Delete" id="submit" class="btn btn-sm" />
+                            }
+                        </td>
+                    </tr>
+
+                }
+            }
+
+        </table>
+    }
+</div>

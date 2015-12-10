@@ -1,8 +1,36 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using RoboticsWebsite.Models
+
+@model NewsFeedViewModel
+
+@{
+    ViewBag.Title = "News Feed";
 }
 
 <h2>@ViewBag.Title</h2>
 @Html.ActionLink("Search Events", "SearchEvents", "Home")
 @Html.ActionLink("Total Donations", "TotalDonations", "Home")
-@Html.ActionLink("Donate", "Donate", "Home");
+@Html.ActionLink("Donate", "Donate", "Home")
+
+@if (Session["LastName"] != null) {
+    using (Html.BeginForm("NewsFeed", "Home"))
+    {
+        <input type="text" name="CommentToAdd.Comment" value="" placeholder="Comment" style="height:35px;"/>
+        <input type="text" name="CommentToAdd.FirstName" value="@Session["UserName"]" hidden />
+        <input type="text" name="CommentToAdd.LastName" value="@Session["LastName"]" hidden />
+        <input type="number" name="CommentToAdd.Minute" value="@DateTime.Now.Minute" hidden />
+        <input type="number" name="CommentToAdd.Hour" value="@DateTime.Now.Hour" hidden />
+        <input type="number" name="CommentToAdd.Day" value="@DateTime.Now.Day" hidden />
+        <input type="number" name="CommentToAdd.Month" value="@DateTime.Now.Month" hidden />
+        <input type="number" name="CommentToAdd.Year" value="@DateTime.Now.Year" hidden />
+        <input type="submit" value="Post" class="btn btn-info"/>
+    }
+
+    //if (Session["NewsFeedPopulated"] != null)
+    //{
+        foreach (var post in Model.NewsFeed)
+        {
+            @Html.Partial("NewsFeedPartial", post)
+        }
+    //}
+}
+

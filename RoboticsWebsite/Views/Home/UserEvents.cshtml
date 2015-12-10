@@ -4,113 +4,157 @@
     ViewBag.Title = "UserEvents";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="user-events-container">
-    <h2>Your Events</h2>
+    <h2>Your Events</h2> 
+    @Html.ActionLink("Modify Events", "ModifyEvents", "Home")
+    @Html.ActionLink("All Events", "AllEvents", "Home")
 
+    <table class="user-events-table">
+        <tr>
+            <td>Instructor</td>
+            <td>Day</td>
+            <td>Time</td>
+            <td>Type</td>
+            <td>Title</td>
+            <td>Description</td>
+            <td></td>
+        </tr>
+    </table>
 
-        <table class="user-events-table">
-            <tr>
-                <td>Day</td>
-                <td>Time</td>
-                <td>Type</td>
-                <td>Title</td>
-                <td>Description</td>
-                <td></td>
-            </tr>
-            </table>
-            @foreach (var e in Model.Events)
+    @foreach (var e in Model.Events)
+    {
+        string startTime, endTime, status;
+        if (e.StartHour == 24)
+        {
+            startTime = "12:" + e.StartMin + " AM";
+            if (e.StartMin == 0)
             {
-
-                string startTime, endTime;
-                if (e.StartHour == 24)
-                {
-                    startTime = "12:" + e.StartMin + " AM";
-                    if (e.StartMin == 0)
-                    {
-                        startTime = "12:" + e.StartMin + "0 AM";
-                    }
-                }
-                else if (e.StartHour == 12)
-                {
-                    startTime = "12:" + e.StartMin + " PM";
-                    if (e.StartMin == 0)
-                    {
-                        startTime = "12:" + e.StartMin + "0 PM";
-                    }
-                }
-                else if (e.StartHour > 12)
-                {
-                    startTime = e.StartHour - 12 + ":" + e.StartMin + " PM";
-                    if (e.StartMin == 0)
-                    {
-                        startTime = e.StartHour + ":" + e.StartMin + "0 PM";
-                    }
-                }
-                else
-                {
-                    startTime = e.StartHour + ":" + e.StartMin + " AM";
-                    if (e.StartMin == 0)
-                    {
-                        startTime = e.StartHour + ":" + e.StartMin + "0 AM";
-                    }
-                }
-
-                if (e.EndHour == 24)
-                {
-                    endTime = "12" + e.EndMin + " AM";
-                    if (e.EndMin == 0)
-                    {
-                        endTime = "12:" + e.EndMin + "0 AM";
-                    }
-                }
-                else if (e.EndHour == 12)
-                {
-                    endTime = "12:" + e.EndMin + " PM";
-                    if (e.EndMin == 0)
-                    {
-                        endTime = "12:" + e.EndMin + "0 PM";
-                    }
-                }
-                else if (e.EndHour > 12)
-                {
-                    endTime = e.EndHour - 12 + ":" + e.EndMin + " PM";
-                    if (e.EndMin == 0)
-                    {
-                        endTime = e.EndHour + ":" + e.EndMin + "0 PM";
-                    }
-                }
-                else
-                {
-                    endTime = e.EndHour + ":" + e.EndMin + " AM";
-                    if (e.EndMin == 0)
-                    {
-                        endTime = e.EndHour + ":" + e.EndMin + "0 AM";
-                    }
-                }
-                <tr>
-                    <td>
-                        @using (Html.BeginForm("UserEvents", "Home"))
-                        {
-                            <table class="user-events-table">
-                                <tr>
-                                    <td>@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(e.Month) @e.Day</td>
-                                    <td>@startTime - @endTime</td>
-                                    <td>@e.Type.ToString()</td>
-                                    <td>@e.Title</td>
-                                    <td>@e.Description</td>
-                                    <td>
-                                        <input type="number" value="@e.EventId" name="EventIdToRemove" hidden />
-                                        <input type="submit" value="Delete" id="submit" class="btn btn-sm" />
-                                    </td>
-                                </tr>
-                            </table>
-                        }
-                    </td>
-
-                </tr>
+                startTime = "12:" + e.StartMin + "0 AM";
             }
+        }
+        else if (e.StartHour == 12)
+        {
+            startTime = "12:" + e.StartMin + " PM";
+            if (e.StartMin == 0)
+            {
+                startTime = "12:" + e.StartMin + "0 PM";
+            }
+        }
+        else if (e.StartHour > 12)
+        {
+            startTime = e.StartHour - 12 + ":" + e.StartMin + " PM";
+            if (e.StartMin == 0)
+            {
+                startTime = e.StartHour - 12 + ":" + e.StartMin + "0 PM";
+            }
+        }
+        else
+        {
+            startTime = e.StartHour + ":" + e.StartMin + " AM";
+            if (e.StartMin == 0)
+            {
+                startTime = e.StartHour + ":" + e.StartMin + "0 AM";
+            }
+        }
 
-     
-    
+        if (e.EndHour == 24)
+        {
+            endTime = "12" + e.EndMin + " AM";
+            if (e.EndMin == 0)
+            {
+                endTime = "12:" + e.EndMin + "0 AM";
+            }
+        }
+        else if (e.EndHour == 12)
+        {
+            endTime = "12:" + e.EndMin + " PM";
+            if (e.EndMin == 0)
+            {
+                endTime = "12:" + e.EndMin + "0 PM";
+            }
+        }
+        else if (e.EndHour > 12)
+        {
+            endTime = e.EndHour - 12 + ":" + e.EndMin + " PM";
+            if (e.EndMin == 0)
+            {
+                endTime = e.EndHour - 12 + ":" + e.EndMin + "0 PM";
+            }
+        }
+        else
+        {
+            endTime = e.EndHour + ":" + e.EndMin + " AM";
+            if (e.EndMin == 0)
+            {
+                endTime = e.EndHour + ":" + e.EndMin + "0 AM";
+            }
+        }
+
+        if (e.Status == RoboticsWebsite.Enums.EventStatus.Current)
+        {
+            status = "Current";
+        }
+        else if (e.Status == RoboticsWebsite.Enums.EventStatus.Cancelled)
+        {
+            status = "Canceled";
+        }
+        else
+        {
+            status = "Removed";
+        }
+
+        if (status.Equals("Current"))
+        {
+            using (Html.BeginForm("UserEvents", "Home"))
+            {
+                <table class="user-events-table">
+                    <tr>
+                        <td>@e.CreatedBy</td>
+                        <td>@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(e.Month) @e.Day</td>
+                        <td>@startTime - @endTime</td>
+                        <td>@e.Type.ToString()</td>
+                        <td>@e.Title</td>
+                        <td>@e.Description</td>
+                        <td>
+                            @if (e.CreatedById == (int)Session["UserId"] || ((string)Session["UserType"]).Equals("Admin"))
+                            {
+                                <input type="number" value="@e.EventId" name="EventIdToRemove" hidden />
+                                <input type="submit" value="Delete" id="submit" class="btn btn-sm" />
+                            }
+                            else
+                            {
+                                <input type="number" value="@e.EventId" name="EventIdToRemove" hidden />
+                                <input type="submit" value="Unenroll" id="submit" class="btn btn-sm" />
+                            }
+                        </td>
+                    </tr>
+                </table>
+            }
+        }
+        else
+        {
+            <table class="user-events-table">
+                <tr style="background-color:darkgray;">
+                    <td>@e.CreatedBy</td>
+                    <td>@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(e.Month) @e.Day</td>
+                    <td>@startTime - @endTime</td>
+                    <td>@e.Type.ToString()</td>
+                    <td>@e.Title</td>
+                    <td>@e.Description</td>
+                    <td>
+                        Canceled
+                    </td>
+                </tr>
+            </table>
+        }
+    }
+
 </div>
+
+
+
+
+
+
 

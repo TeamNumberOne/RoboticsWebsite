@@ -20,6 +20,19 @@ namespace RoboticsWebsite.Models
         public int Hour { get; set; }
         public int Minute { get; set; }
 
+        public NewsFeedModel()
+        {
+            UserId = 0;
+            FirstName = "";
+            LastName = "";
+            Comment = "";
+            Month = 0;
+            Day = 0;
+            Year = 0;
+            Hour = 0;
+            Minute = 0;
+        }
+
         public NewsFeedModel(DataRow dataRow)
         {
             UserId = Convert.ToInt32(dataRow[(int)NewsFeedIndices.UserId].ToString());

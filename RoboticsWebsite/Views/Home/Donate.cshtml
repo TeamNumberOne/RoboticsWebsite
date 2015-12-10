@@ -7,8 +7,8 @@
 <h2>Donate</h2>
 
 Donation Amount 
-@Html.BeginForm("Donate", "Home")
+@using (Html.BeginForm("Donate", "Home"))
 {
-    $ <input type="number" name="amount" />
+    <div>$</div><input type="number" name="Amount" />
     <input type="submit" value="Donate" />
 }

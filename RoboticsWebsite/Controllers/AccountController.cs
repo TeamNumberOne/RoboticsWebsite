@@ -89,6 +89,8 @@ namespace RoboticsWebsite.Controllers
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             int userId = 0;
+            string firstName = "";
+            string lastName = "";
 
             if (!ModelState.IsValid)
             {
@@ -98,7 +100,7 @@ namespace RoboticsWebsite.Controllers
             if (model.Email.Equals("test@gmail.com") && model.Password.Equals("test"))
             {
                 Session["Valid"] = true;
-                Session["UserId"] = 1;
+                Session["UserId"] = 0;
                 Session["UserType"] = UserType.Admin.ToString();
                 Session["UserName"] = "Test";
                 return View("~/Views/Home/Index.cshtml");
@@ -114,7 +116,7 @@ namespace RoboticsWebsite.Controllers
 
             // Get userType/Status from db
             UserType userType = UserType.Admin;
-            UserStatus userStatus = new UserData().VerifyUser(model.Email, model.Password, ref userType, ref userId);
+            UserStatus userStatus = new UserData().VerifyUser(model.Email, model.Password, ref userType, ref userId, ref firstName, ref lastName);
             if (userStatus == UserStatus.Unknown)
             {
                 ViewData["ErrorMessage"] = "Invalid Email or Password";
@@ -137,8 +139,9 @@ namespace RoboticsWebsite.Controllers
                 Session["Valid"] = true;
                 Session["UserId"] = userId;
                 Session["UserType"] = userType.ToString();
-                //Session["UserName"] = 
-                return View("~/Views/Home/Index.cshtml");
+                Session["UserName"] = firstName;
+                Session["LastName"] = lastName;
+                return Redirect("~/Home/Index");
             }
 
 

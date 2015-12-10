@@ -29,7 +29,7 @@ namespace RoboticsWebsite.Data
             {
                 dbConn.Open();
 
-                query = "insert into news_feed values (" + comment.UserId + ", '" + "', '" + comment.FirstName + "', '" + comment.LastName + "', " + comment.Month + 
+                query = "insert into news_feed values (" + comment.UserId + ", '" + comment.FirstName + "', '" + comment.LastName + "', '" + comment.Comment + "', "+ comment.Month + 
                         ", " + comment.Day + ", " + comment.Year + ", " + comment.Hour + ", " + comment.Minute + ")";
 
                 cmd = new SQLiteCommand(query, dbConn);

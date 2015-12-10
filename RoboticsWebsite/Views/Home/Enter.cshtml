@@ -1,0 +1,23 @@
+﻿@model RoboticsWebsite.Models.NewsFeedViewModel
+
+@{
+    ViewBag.Title = "Enter";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Enter</h2>
+
+@using (Html.BeginForm("NewsFeed", "Home", FormMethod.Post))
+{
+<input type="text" name="CommentToAdd.Comment" value="Welcome to the Robotics Club News Feed!" />
+<input type="text" name="CommentToAdd.FirstName" value="Test" hidden />
+<input type="text" name="CommentToAdd.LastName" value="Test" hidden />
+<input type="number" name="CommentToAdd.Minute" value="@DateTime.Now.Minute" hidden />
+<input type="number" name="CommentToAdd.Hour" value="@DateTime.Now.Hour" hidden />
+<input type="number" name="CommentToAdd.Day" value="@DateTime.Now.Day" hidden />
+<input type="number" name="CommentToAdd.Month" value="@DateTime.Now.Month" hidden />
+<input type="number" name="CommentToAdd.Year" value="@DateTime.Now.Year" hidden />
+<input type="number" name="CommentToAdd.UserId" value="1" hidden />
+
+<input type="submit" value="Post" />
+}

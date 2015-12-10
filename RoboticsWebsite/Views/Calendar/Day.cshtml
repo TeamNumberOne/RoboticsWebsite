@@ -9,7 +9,7 @@
                 <div class="pull-right-top">@Model.CurrentDay</div>
                 <div class="pull-left-top">
                     @*<div class="myButton">+</div>*@
-                    @if (null != Session["UserType"] || (string)Session["UserType"] == "Admin")
+                    @if (null != Session["UserType"] && ((string)Session["UserType"]).Equals("Admin") || ((string)Session["UserType"]).Equals("Volunteer"))
                     {
                         if ((@Model.CurrentDay >= DateTime.Now.Day && @Model.CurrentMonthNum == DateTime.Now.Month) ||
                             (@Model.CurrentMonthNum > DateTime.Now.Month && @Model.CurrentYear >= DateTime.Now.Year) ||
@@ -31,7 +31,7 @@
         @foreach (var e in Model.CurrentMonthEvents)
         {
             var day = e.Day;
-            if (e.Day == Model.CurrentDay)
+            if (e.Day == Model.CurrentDay && e.Status == EventStatus.Current)
             {
                 <tr class="calendar-table-events"> 
                     @{ 
@@ -57,7 +57,7 @@
                             startTime = e.StartHour - 12 + ":" + e.StartMin + " PM";
                             if (e.StartMin == 0)
                             {
-                                startTime = e.StartHour + ":" + e.StartMin + "0 PM";
+                                startTime = e.StartHour - 12 + ":" + e.StartMin + "0 PM";
                             }
                         }
                         else
@@ -90,7 +90,7 @@
                             endTime = e.EndHour - 12 + ":" + e.EndMin + " PM";
                             if (e.EndMin == 0)
                             {
-                                endTime = e.EndHour + ":" + e.EndMin + "0 PM";
+                                endTime = e.EndHour - 12 + ":" + e.EndMin + "0 PM";
                             }
                         }
                         else

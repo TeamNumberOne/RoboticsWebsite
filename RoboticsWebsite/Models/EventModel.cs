@@ -28,7 +28,10 @@ namespace RoboticsWebsite.Models
         public int CreatedById { get; set; }
         public EventStatus Status { get; set; }
         public int Pledge { get; set; }
-
+        public string CreatedBy
+        {
+            get { return getCreatedBy(); }
+        }
 
         public EventModel()
         {
@@ -86,6 +89,26 @@ namespace RoboticsWebsite.Models
                 NewsFeedData nd = new NewsFeedData();
                 nd.AddComment(nm);
             }
+        }
+
+        public void ChangeEventDetails(EventModel model)
+        {
+            UserData ud = new UserData();
+            ud.ChangeEventDetails(model);
+        }
+
+        public string getCreatedBy()
+        {
+            UserData ud = new UserData();
+            List<UserModel> users = ud.GetUsers();
+            foreach(var user in users)
+            {
+                if(user.UserId == CreatedById)
+                {
+                    return user.FirstName + " " + user.LastName;
+                }
+            }
+            return "";
         }
     }
 }

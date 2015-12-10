@@ -40,5 +40,4 @@ news_feed:
 
 pledge
 	user_id integer(1)
-	event_id integer(1)
 	amount integer(1)

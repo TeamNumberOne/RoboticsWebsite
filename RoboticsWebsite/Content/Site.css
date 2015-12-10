@@ -213,7 +213,12 @@ textarea {
 .user-events-table {
     height : auto;
     width  : 100%;
+    margin-top : 5px;
 }
+.user-events-table td {
+    padding : 10px;
+}
+
 .user-events-table td {
     width : 14.75%;
 }
@@ -225,4 +230,10 @@ textarea {
 .modify-users-table {
     height : auto;
     width  : 100%;
+}
+
+.center-div {
+    margin : auto;
+    width : 60%;
+    padding : 10px;
 }

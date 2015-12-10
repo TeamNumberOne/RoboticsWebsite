@@ -1,12 +1,16 @@
-﻿@model RoboticsWebsite.Models.CalendarViewModel
-@{ 
+﻿@model RoboticsWebsite.Models.EventsModel
+
+@{
+    ViewBag.Title = "AllEvents";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div class="view-event-title">
-        <h3>@Model.CurrentMonth @Model.ViewDay</h3>
-    </div>
-    <table class="view-event-table">
+<div class="user-events-container">
+    <h2>ModifyEvents</h2>
+    @Html.ActionLink("View Events", "UserEvents", "Home")
+    @Html.ActionLink("Modify Events", "ModifyEvents", "Home")
+
+    <table class="user-events-table">
         <tr>
             <td>Instructor</td>
             <td>Time</td>
@@ -15,11 +19,9 @@
             <td>Description</td>
             <td></td>
         </tr>
-    @foreach (var e in Model.CurrentMonthEvents)
-    {
-        if (e.Status == RoboticsWebsite.Enums.EventStatus.Current)
+        @foreach (var e in Model.AllEvents)
         {
-            if (e.Day == Model.ViewDay)
+            if (e.Status == RoboticsWebsite.Enums.EventStatus.Current)
             {
                 string startTime, endTime;
                 if (e.StartHour == 24)
@@ -87,50 +89,23 @@
                         endTime = e.EndHour + ":" + e.EndMin + "0 AM";
                     }
                 }
-            <tr>
-                <td>@e.CreatedBy</td>
-                <td>@startTime - @endTime</td>
-                <td>@e.Type.ToString()</td>
-                <td>@e.Title</td>
-                <td>@e.Description</td>
-                <td>
-                    @using (Html.BeginForm("Month", "Calendar"))
-                    {
-                        <input type="hidden" name="IsNewEvent" value="false" />
-                        <input type="hidden" name="EventIdToAddForUser" value="@e.EventId" />
-                        <input type="hidden" name="CurrentMonthNum" value="@Model.CurrentMonthNum" />
-                        <input type="submit" class="btn btn-sml" value="Join" />
-                    }
-                </td>
-            </tr>
+                <tr>
+                    <td>@e.CreatedBy</td>
+                    <td>@startTime - @endTime</td>
+                    <td>@e.Type.ToString()</td>
+                    <td>@e.Title</td>
+                    <td>@e.Description</td>
+                    <td>
+                        @using (Html.BeginForm("UserEvents", "Home"))
+                        {
+                            <input type="number" value="@e.EventId" name="EventIdToRemove" hidden />
+                            <input type="submit" value="Delete" id="submit" class="btn btn-sm" />
+                        }
+                    </td>
+                </tr>
+
             }
         }
-    }
     </table>
+</div>
 
-
-<script type="text/javascript">
-    var day = document.getElementById('selectedDay').textContent;
-    @Model.ViewDay = day;
-    @*$(document).ready(function () {
-        @foreach (var e in Model.CurrentMonthEvents)
-        {
-            <text>
-                var day = document.getElementById('selectedDay').textContent;
-                
-                if(day == @e.Day){
-                    $('#view-event-table').after('<tr><td>@e.Title </td></tr>');
-                }
-            </text>
-        }
-    });*@
-    @*foreach(var e in Model.CurrentMonthEvents)
-    {
-        //<text>
-            var day = document.getElementById('selectedDay').textContent;
-            if(day == @{ e.Day + ""}){
-                var table = document.getElementById('view-event-table');
-            }
-        //</text>
-    }*@
-</script>

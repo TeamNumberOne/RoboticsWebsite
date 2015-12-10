@@ -85,6 +85,10 @@ namespace RoboticsWebsite.Data
                         for (int i = 0; i < dt.Rows.Count; i ++)
                         {
                             eventModel = new EventModel(dt.Rows[i]);
+                            /*if (eventModel.Title.Equals("whatever"))
+                            {
+                                eventModel.Status = EventStatus.Cancelled;
+                            }*/
                             Events.Add(eventModel);
                         }
                     }
