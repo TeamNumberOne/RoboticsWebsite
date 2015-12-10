@@ -5,11 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="center-div">
-    <h2>Search Events</h2>
+    <h2>Search Events By Name</h2>
     @using (Html.BeginForm("SearchEvents", "Home"))
     {
-        <input type="text" name="SearchString" />
-        <input type="submit" value="search" />
+        <input type="text" name="SearchString" style="height: 30px;"/>
+        <input type="submit" value="search" class="btn btn-sml"/>
     }
 </div>
 <br />

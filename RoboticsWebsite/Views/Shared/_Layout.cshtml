@@ -25,7 +25,7 @@
                     <li>@Html.ActionLink("News Feed", "Index", "Home")</li>
                     @*<li>@Html.ActionLink("About", "About", "Home")</li>*@
                     <li>@Html.ActionLink("Calendar", "Month", "Calendar")</li>
-                    @if (null != Session["UserType"] && (string)Session["UserType"] != "Guest")
+                    @if (null != Session["UserType"] && (string)Session["UserType"] != "Guest" && (string)Session["UserType"] != "Sponsor")
                     {
                         <li>@Html.ActionLink("Events", "UserEvents", "Home")</li>
                     }

@@ -5,32 +5,51 @@
 @{
     ViewBag.Title = "News Feed";
 }
+<nav class="navbar navbar-default">
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            @if (((string)Session["UserType"]).Equals("Admin"))
+            {
+                <li>@Html.ActionLink("Search Events", "SearchEvents", "Home")</li>
+                <li>@Html.ActionLink("Total Donations", "TotalDonations", "Home")</li>
+            }
+            @if (((string)Session["UserType"]).Equals("Sponsor"))
+            {
+                <li>@Html.ActionLink("Donate", "Donate", "Home")</li>
+            }
+        </ul>
+    </div>
+</nav>
 
 <h2>@ViewBag.Title</h2>
-@Html.ActionLink("Search Events", "SearchEvents", "Home")
-@Html.ActionLink("Total Donations", "TotalDonations", "Home")
-@Html.ActionLink("Donate", "Donate", "Home")
 
-@if (Session["LastName"] != null) {
-    using (Html.BeginForm("NewsFeed", "Home"))
-    {
-        <input type="text" name="CommentToAdd.Comment" value="" placeholder="Comment" style="height:35px;"/>
-        <input type="text" name="CommentToAdd.FirstName" value="@Session["UserName"]" hidden />
-        <input type="text" name="CommentToAdd.LastName" value="@Session["LastName"]" hidden />
-        <input type="number" name="CommentToAdd.Minute" value="@DateTime.Now.Minute" hidden />
-        <input type="number" name="CommentToAdd.Hour" value="@DateTime.Now.Hour" hidden />
-        <input type="number" name="CommentToAdd.Day" value="@DateTime.Now.Day" hidden />
-        <input type="number" name="CommentToAdd.Month" value="@DateTime.Now.Month" hidden />
-        <input type="number" name="CommentToAdd.Year" value="@DateTime.Now.Year" hidden />
-        <input type="submit" value="Post" class="btn btn-info"/>
-    }
-
-    //if (Session["NewsFeedPopulated"] != null)
-    //{
-        foreach (var post in Model.NewsFeed)
+        @if (Session["LastName"] != null)
         {
-            @Html.Partial("NewsFeedPartial", post)
+            if (((string)Session["UserType"]) != "Sponsor")
+            {
+                using (Html.BeginForm("NewsFeed", "Home"))
+                {
+                <div class="comment-container">
+                    <input type="text" name="CommentToAdd.Comment" value="" placeholder="Comment" class="comment-box" />
+                    <input type="text" name="CommentToAdd.FirstName" value="@Session["UserName"]" hidden />
+                    <input type="text" name="CommentToAdd.LastName" value="@Session["LastName"]" hidden />
+                    <input type="number" name="CommentToAdd.Minute" value="@DateTime.Now.Minute" hidden />
+                    <input type="number" name="CommentToAdd.Hour" value="@DateTime.Now.Hour" hidden />
+                    <input type="number" name="CommentToAdd.Day" value="@DateTime.Now.Day" hidden />
+                    <input type="number" name="CommentToAdd.Month" value="@DateTime.Now.Month" hidden />
+                    <input type="number" name="CommentToAdd.Year" value="@DateTime.Now.Year" hidden />
+                </div>
+                    <input type="submit" value="Post" class="btn btn-info comment-btn" />
+
+                }
+            }
+            <table class="news-feed-table">
+                @foreach (var post in Model.NewsFeed)
+                {
+
+                    @Html.Partial("NewsFeedPartial", post)
+
+                }
+            </table>
         }
-    //}
-}
 

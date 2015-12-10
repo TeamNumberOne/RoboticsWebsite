@@ -1,8 +1,41 @@
 ﻿@model RoboticsWebsite.Models.NewsFeedModel
 
-<hr />
-    @Model.Month / @Model.Day / @Model.Year <br />
-    @Model.Hour : @Model.Minute 
-    @Model.FirstName @Model.LastName
-    @Model.Comment
-<hr />
+
+@if(Model.Comment.Length > 5 && Model.LastName != ""){
+    string startTime;
+    if (Model.Hour == 24)
+    {
+        startTime = "12:" + Model.Minute + " AM";
+        if (Model.Minute == 0)
+        {
+            startTime = "12:" + Model.Minute + "0 AM";
+        }
+    }
+    else if (Model.Hour == 12)
+    {
+        startTime = "12:" + Model.Minute + " PM";
+        if (Model.Minute == 0)
+        {
+            startTime = "12:" + Model.Minute + "0 PM";
+        }
+    }
+    else if (Model.Hour > 12)
+    {
+        startTime = Model.Hour - 12 + ":" + Model.Minute + " PM";
+        if (Model.Minute == 0)
+        {
+            startTime = Model.Hour - 12 + ":" + Model.Minute + "0 PM";
+        }
+    }
+    else
+    {
+        startTime = Model.Hour + ":" + Model.Minute + " AM";
+        if (Model.Minute == 0)
+        {
+            startTime = Model.Hour + ":" + Model.Minute + "0 AM";
+        }
+    }
+    <tr class="news-feed-row"><td class="news-feed-name">@Model.FirstName @Model.LastName</td></tr>
+    <tr class="news-feed-row"><td class="news-feed-comment">@Model.Comment</td></tr>
+    <tr class="news-feed-row"><td class="news-feed-time">@Model.Month / @Model.Day / @Model.Year at @startTime </td></tr>
+}

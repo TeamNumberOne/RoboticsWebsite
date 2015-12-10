@@ -5,10 +5,12 @@
 }
 
 <h2>Donate</h2>
-
-Donation Amount 
+<br />
+<h4>Donation Amount </h4>
 @using (Html.BeginForm("Donate", "Home"))
 {
-    <div>$</div><input type="number" name="Amount" />
-    <input type="submit" value="Donate" />
+    <div style="font-size: medium; font-weight: bold">
+        $ <input type="number" name="Amount" />
+        <input type="submit" value="Donate" />
+    </div>
 }

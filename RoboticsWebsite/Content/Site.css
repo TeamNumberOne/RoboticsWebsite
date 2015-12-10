@@ -233,7 +233,86 @@ textarea {
 }
 
 .center-div {
-    margin : auto;
-    width : 60%;
-    padding : 10px;
+    padding-left : 35%;
+}
+
+.center-div form{
+    padding-left : 40px;
+}
+
+.news-feed-table{
+    width : 100%;
+}
+
+.news-feed-row{
+
+}
+
+.news-feed-name{
+    width : 100%;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+    width : 100%;   
+    font-weight : bold; 
+}
+
+.news-feed-comment{
+    padding-top : 10px;
+    height : 100px;
+    vertical-align : top;
+    width : 100%
+}
+
+.news-feed-time{
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+    padding-left : 80%;
+    font-size : 12px;
+    vertical-align : bottom;
+}
+
+.comment-container{
+    border : 1px solid #ddd;
+    height : 100px;
+    width : 250px;
+    vertical-align : top;
+}
+
+.comment-container input {
+    padding-left : 10px;
+}
+
+.comment-btn{
+    margin-top : -60px;
+    margin-left : 255px;
+    /*margin-left: 150px;
+    vertical-align: bottom;*/
+}
+
+.comment-box{
+    width : 248px;
+    vertical-align : top;
+    height : 98px;
+    border : none;
+}
+
+.comment-box select{
+    border : none;
+}
+
+.view-donations {
+    font-size : large;
+    font-weight : 500;
+}
+
+.get-month{
+    width : 100%;
+}
+
+.next-month{
+    float : right;
+}
+
+.prev-month {
+    
 }

@@ -5,11 +5,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+<nav class="navbar navbar-default">
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            @if (((string)Session["UserType"]).Equals("Admin"))
+            {
+                <li>@Html.ActionLink("All Events", "AllEvents", "Home")</li>
+            }
+            <li>@Html.ActionLink("View Events", "UserEvents", "Home")</li>
+        </ul>
+    </div>
+</nav>
 <div class="user-events-container">
     <h2>ModifyEvents</h2> 
-    @Html.ActionLink("View Events", "UserEvents", "Home")
-    @Html.ActionLink("All Events", "AllEvents", "Home")
 
     <table class="user-events-table">
         <tr>
