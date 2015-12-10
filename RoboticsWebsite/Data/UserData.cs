@@ -257,7 +257,7 @@ namespace RoboticsWebsite.Data
                         // User didn't create the event so set the entry's status to Removed in the user_event table
                         else
                         {
-                            query = "update user_event set status = '" + EventStatus.Removed.ToString() + "' where event_id = " + eventIdToRemove + " and user_id = " + userId;
+                            query = "update user_event set status = '" + EventStatus.Cancelled.ToString() + "' where event_id = " + eventIdToRemove + " and user_id = " + userId;
                             cmd2 = new SQLiteCommand(query, dbConn);
                             cmd2.ExecuteNonQuery();
                         }
